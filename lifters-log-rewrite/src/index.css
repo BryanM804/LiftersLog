@@ -1,0 +1,178 @@
+:root {
+    font-family: Segoe UI;
+    font-size: 1.5rem;
+    color: white;
+    background-color: #222;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.navbar {
+    background-color: #333;
+    font-size: 1.5rem;
+    left: 0;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0rem;
+}
+
+nav {
+    margin: 0;
+    padding: 0;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+}
+
+.navlink {
+    text-decoration: none;
+    padding: 0.4rem 1.5rem;
+    display: flex;
+    color: inherit;
+    height: 100%;
+    align-items: center;
+}
+
+.active {
+    background-color: #555;
+}
+
+.navlink:hover {
+    background-color: #666;
+    transition: ease-in-out;
+    transition-duration: 200ms;
+}
+
+.mainContentPane {
+    margin-top: 10rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.warningText {
+    color: red;
+    font-weight: bold;
+}
+
+.plainLink {
+    padding: 0.2rem;
+    border-radius: 4px;
+    margin: 0;
+}
+.plainLink:hover {
+    background-color: #777;
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.floatingButton {
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin: 0;
+    margin-top: 1rem;
+    background-color: #555;
+    color: white;
+}
+.floatingButton:hover {
+    background-color: #777;
+    color: white;
+}
+.floatingButton:active {
+    background-color: #666;
+}
+
+.smallFloatingButton {
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    border: none;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+}
+.smallFloatingButton:hover {
+    background-color: #777;
+    color: aliceblue;
+}
+.smallFloatingButton:active {
+    background-color: #666;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.smallTextInput {
+    border-radius: 8px;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    margin-top: 0.5rem;
+}
+
+.longTextInput {
+    border-radius: 8px;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    min-width: 12rem;
+    margin: 0.5rem;
+}
+
+.historyMovement {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    :root {
+        font-size: 1rem;
+    }
+
+    .navbar {
+        bottom: 0;
+        top: auto;
+        left: 0;
+        right: 0;
+        position: fixed;
+        font-size: 1.3rem;
+        width: 100%;
+    }
+
+    .mainContentPane {
+        margin: 0.5rem;
+    }
+
+    .floatingButton {
+        padding: 0.75rem 1.25rem;
+    }
+    .smallFloatingButton {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .smallTextInput {
+        padding: 0.5rem 0.8rem;
+    }
+    .longTextInput {
+        padding: 0.5rem 0.8rem;
+    }
+}

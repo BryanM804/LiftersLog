@@ -1,0 +1,40 @@
+.historyRow {
+    list-style: none;
+    padding: 10px;
+    position: relative;
+    font-size: 0.8rem;
+}
+.historyTitle {
+    display: flex;
+    flex-direction: row;
+}
+.historyLabel {
+    margin: 0 1rem;
+    margin-top: 1rem;
+}
+
+.historyPane {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(40px, 275px));
+    grid-template-rows: repeat(auto-fill, 1fr);
+}
+.historyItemSpan {
+    text-align: center;
+    grid-column: span 4;
+}
+
+.undoButton {
+    position: absolute;
+    right: 0;
+}
+
+.historyList {
+    list-style: none;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .historyPane {
+        grid-template-columns: repeat(3, minmax(40px, 200px));
+    }
+}
