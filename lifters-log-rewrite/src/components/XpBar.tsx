@@ -7,7 +7,7 @@ interface XpBarProps {
 function XpBar({ value, max }: XpBarProps) {
     return (
         <>
-            {value}/{max}
+            XP: {value}/{max}
         </>
     )
 }

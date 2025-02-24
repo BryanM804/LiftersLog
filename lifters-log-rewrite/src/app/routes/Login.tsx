@@ -1,6 +1,6 @@
 import { SyntheticEvent, useState } from "react";
-import LoginForm from "../features/auth/components/LoginForm";
-import CreateAccountForm from "../features/auth/components/CreateAccountForm";
+import LoginForm from "../../features/auth/components/LoginForm";
+import CreateAccountForm from "../../features/auth/components/CreateAccountForm";
 
 function Login() {
 

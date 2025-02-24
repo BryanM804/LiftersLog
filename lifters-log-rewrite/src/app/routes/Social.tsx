@@ -1,9 +1,10 @@
+import AuthChecker from "../../components/AuthChecker";
 
 
 function Social() {
     return (
         <>
-        
+            <AuthChecker />
         </>
     )
 }

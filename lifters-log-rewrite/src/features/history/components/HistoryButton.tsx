@@ -6,8 +6,10 @@ type HistoryButtonProps = {
 
 function HistoryButton({ direction, onClick }: HistoryButtonProps) {
 
+    const extraClass = direction == "back" ? "leftHistoryButton" : "rightHistoryButton"
+
     return (
-        <button className="floatingButton" onClick={onClick}>
+        <button className={"floatingButton " + extraClass} onClick={onClick}>
             {
                 direction == "back" ?
                 "<"

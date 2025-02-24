@@ -1,12 +1,14 @@
+import useSignOut from "react-auth-kit/hooks/useSignOut";
 import { useNavigate } from "react-router-dom";
 
 
 function LogoutButton() {
 
     const navigate = useNavigate();
+    const signOut = useSignOut();
 
     function handleLogout() {
-        // PLACEHOLDER UNTIL AUTH SYSTEM IS MADE
+        signOut();
         navigate("/");
     }
 

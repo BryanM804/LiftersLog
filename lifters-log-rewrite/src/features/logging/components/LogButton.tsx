@@ -1,5 +1,7 @@
 import { SyntheticEvent } from "react";
 import { useMovement } from "../contexts/MovementContextProvider";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import addNewSet from "../api/addNewSet";
 
 type LogButtonProps = {
     reps: number;
@@ -12,6 +14,16 @@ function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
 
     const { movement } = useMovement();
 
+    const queryClient = useQueryClient();
+
+    const setMutation = useMutation({
+        mutationFn: addNewSet,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["history"], exact: false });
+            // Add some kind of confirmation animation later
+        }
+    });
+
     function handleLogSubmit(e: SyntheticEvent) {
         e.preventDefault();
 
@@ -19,7 +31,7 @@ function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
 
         console.log(`${movement}: ${reps} x ${weight}lbs`)
         console.log(`Subreps: ${subReps}, subweight: ${subWeight}`)
-        // Submit set to database
+        setMutation.mutate({movement: movement, weight: weight, reps: reps, subweight: subWeight, subreps: subReps});
     }
 
     return (

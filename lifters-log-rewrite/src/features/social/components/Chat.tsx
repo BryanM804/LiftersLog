@@ -1,10 +1,11 @@
 
 
 function Chat() {
+
     return (
-        <>
-        
-        </>
+        <div className="chatBox">
+            
+        </div>
     )
 }
 

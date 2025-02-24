@@ -1,9 +1,10 @@
 import { useState } from "react";
 import DeleteButton from "../../../components/DeleteButton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import removeSet from "../api/removeSet";
 
 type HistoryRowProps = {
     time: string;
-    movement: string;
     weight: number;
     reps: number;
     setid: number;
@@ -11,22 +12,28 @@ type HistoryRowProps = {
 }
 
 
-function HistoryRow({ time, movement, weight, reps, setid, split}: HistoryRowProps) {
+function HistoryRow({ time, weight, reps, setid, split}: HistoryRowProps) {
 
-    const [hovering, setHovering] = useState(false)
+    const [hovering, setHovering] = useState(false);
+
+    const queryClient = useQueryClient();
+    
+    const removeMutation = useMutation({
+        mutationFn: removeSet,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["history"], exact: false });
+        }
+    })
     
     function handleDelete() {
-
+        removeMutation.mutate(setid);
     }
 
     return (
-        <div className="historyRow" onPointerEnter={() => setHovering(true)} onPointerLeave={() => setHovering(false)}>
+        <li id={setid.toString()} className="historyItem" onPointerEnter={() => setHovering(true)} onPointerLeave={() => setHovering(false)}>
+            [{time}] {weight}lbs x {reps} reps
             <DeleteButton show={hovering} onDelete={handleDelete} />
-            <li id={setid.toString()}>
-                <div className="historyMovement">{movement}</div>
-                [{time}] {weight}lbs x {reps} reps
-            </li>
-        </div>
+        </li>
     )
 }
 

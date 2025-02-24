@@ -56,6 +56,47 @@
     border-radius: 8px;
 }
 
+.addNoteButton {
+    position: absolute;
+    right: 0;
+    background-color: transparent;
+    color: white;
+    border-style: none;
+    font-size: 1.8rem;
+}
+.addNoteButton:hover {
+    color: #999;
+}
+.addNoteButton:active {
+    color: #888;
+}
+
+.addNote {
+    background-color: #333;
+    border-radius: 8px;
+    position: absolute;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 33%;
+    z-index: 2;
+}
+
+.addNoteForm {
+    padding: 1rem;
+}
+
+.noteTextBox {
+    width: 16rem;
+    height: 6rem;
+    resize: none;
+}
+
+.stickyCheck {
+    background-color: transparent;
+    border: none;
+}
+
 @media (max-width: 768px) {
     .logGridContainer {
         font-size: 1.3rem;

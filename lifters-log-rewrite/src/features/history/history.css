@@ -1,26 +1,46 @@
-.historyRow {
+.historyGroup {
     list-style: none;
     padding: 10px;
-    position: relative;
     font-size: 0.8rem;
 }
 .historyTitle {
     display: flex;
     flex-direction: row;
+    position: relative;
+    width: 100%;
+    justify-content: center;
 }
 .historyLabel {
     margin: 0 1rem;
     margin-top: 1rem;
 }
 
-.historyPane {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(40px, 275px));
-    grid-template-rows: repeat(auto-fill, 1fr);
+.historyItem {
+    position: relative;
 }
+
+.historySubList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .historyItemSpan {
     text-align: center;
     grid-column: span 4;
+}
+
+.leftHistoryButton {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    margin-top: 0.5rem;
+}
+.rightHistoryButton {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    margin-top: 0.5rem;
 }
 
 .undoButton {
@@ -31,10 +51,13 @@
 .historyList {
     list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(40px, 275px));
+    grid-auto-rows: 1fr;
 }
 
 @media (max-width: 768px) {
-    .historyPane {
-        grid-template-columns: repeat(3, minmax(40px, 200px));
+    .historyList {
+        grid-template-columns: repeat(2, minmax(40px, 200px));
     }
 }

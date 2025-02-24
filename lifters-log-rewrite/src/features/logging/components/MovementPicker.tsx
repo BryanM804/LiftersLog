@@ -1,59 +1,77 @@
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent } from "react";
 import { useMovement } from "../contexts/MovementContextProvider";
+import { useQuery } from "@tanstack/react-query";
+import getMovements from "../api/getMovements";
+import getSplitMovements from "../api/getSplitMovements";
 
 type MovementPickerProps = {
-    changeSplit: (newBool: boolean) => void
+    changeSplit: (newBool: boolean) => void;
+    onClear: VoidFunction;
 }
 
+type Movement = { 
+    movement: string;
+    exerciseid: number;
+}
 
-function MovementPicker({ changeSplit }: MovementPickerProps) {
+function MovementPicker({ changeSplit, onClear }: MovementPickerProps) {
 
     const { movement, setMovement } = useMovement();
 
-    // const [movements, setMovements] = useState([{
-    //     "movement": "",
-    //     "id": 0
-    // }])
+    // Stale time is infinity because they will refetch on element reload anyway and there will rarely ever be a new movement
+    const { data: movements, error, isLoading } = useQuery({
+        queryKey: ["movements"],
+        queryFn: getMovements,
+        staleTime: Infinity
+    });
 
-    // Placeholder until the api is set up
-    const [movements, setMovements] = useState([{
-        "movement": "Barbell Bench Press",
-        "id": 1
-    },
-    {
-        "movement": "Lat Pulldown",
-        "id": 2
-    },
-    {
-        "movement": "Hammer Strength Machine High Row",
-        "id": 3
-    }]);
-    const [splitMovements, setSplitMovements] = useState(["Hammer Strength Machine High Row"])
+    const { data: splitMovements, error: splitError, isLoading: isSplitLoading } = useQuery({
+        queryKey: ["splitMovements"],
+        queryFn: getSplitMovements,
+        staleTime: Infinity
+    });
 
-    // Load movements from database
-    // useEffect
+    function isSplittableMovement(m: string) {
+        for (const s of splitMovements) {
+            if (s.movement == m)
+                return true;
+        }
+        return false;
+    }
 
     function handleMovementChange(e: ChangeEvent<HTMLInputElement>) {
         setMovement(e.target.value);
-        if (splitMovements.indexOf(e.target.value) != -1) {
+        if (isSplittableMovement(e.target.value)) {
             changeSplit(true)
         } else {
             changeSplit(false)
         }
     }
+    
     function clearText(e: SyntheticEvent) {
         // Not sure why you need to prevent default on a plain button
         e.preventDefault();
         setMovement("")
         changeSplit(false)
+        onClear();
+    }
+
+    if (error || splitError) {
+        return (
+            <>Server error occured</>
+        )
     }
 
     return (
         <>
             <datalist id="movementList">
-                {movements.map((movement) => 
-                    <option value={movement.movement} key={movement.id}/>
-                )}
+                { (isLoading || isSplitLoading) ?
+                    <option value={"Loading..."} />
+                    :
+                    movements.map((movement: Movement) => 
+                        <option value={movement.movement} key={movement.exerciseid}/>
+                    )
+                }
             </datalist>
             <label htmlFor="movement">Exercise</label>
             <br />
