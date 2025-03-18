@@ -29,6 +29,32 @@
     grid-column: span 3;
 }
 
+.movementPicker {
+    width: 90%;
+}
+
+input::-webkit-calendar-picker-indicator {
+    display: none;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.clearMovementButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.redButton {
+    background-color: rgb(150, 60, 60);
+}
+.redButton:hover {
+    background-color: rgb(150, 60, 60);
+}
+.redButton:active {
+    background-color: rgb(150, 60, 60);
+}
+
 .noteSection {
     padding: 0;
     margin: 0;
@@ -107,5 +133,12 @@
     }
     .noteSection {
         grid-template-columns: repeat(2, minmax(40px, 200px));
+    }
+
+    .movementPicker {
+        width: 75%;
+    }
+    .clearMovementButton {
+        right: 8%;
     }
 }

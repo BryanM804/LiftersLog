@@ -23,6 +23,10 @@ function Logging() {
         setSplitMovement(newSplit)
     }
 
+    function parseAndRound(s: string) {
+        return parseFloat(parseFloat(s).toFixed(2));
+    }
+
     function clearInputs() {
         setWeight(0.0);
         setReps(0);
@@ -56,12 +60,12 @@ function Logging() {
                         </div>
                     }
                     <div className="gridItem">
-                        <SetInput type="weight" onChange={(e: ChangeEvent<HTMLInputElement>) => setWeight(parseInt(e.target.value))} side={2} value={weight}/>
+                        <SetInput type="weight" onChange={(e: ChangeEvent<HTMLInputElement>) => setWeight(parseAndRound(e.target.value))} side={2} value={weight}/>
                     </div>
                     {
                         (splitMovement && userSplits) && 
                         <div className="gridItem">
-                            <SetInput type="weight" onChange={(e: ChangeEvent<HTMLInputElement>) => setSubWeight(parseInt(e.target.value))} side={2} value={subWeight}/>
+                            <SetInput type="weight" onChange={(e: ChangeEvent<HTMLInputElement>) => setSubWeight(parseAndRound(e.target.value))} side={2} value={subWeight}/>
                         </div>
                     }
                     <LogButton reps={reps} weight={weight} subReps={subReps} subWeight={subWeight} />

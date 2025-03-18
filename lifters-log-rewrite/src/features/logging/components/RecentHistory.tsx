@@ -9,7 +9,8 @@ function RecentHistory() {
                 <h3 style={{padding: "0", margin: "0"}}>Recent History</h3>
                 <hr />
             </div>
-                <HistoryList date={new Date().toDateString()} className={"recentHistoryList"} placeholder={"No recent activity for today."}/>
+                <HistoryList date={new Date().toDateString()} className={"recentHistoryList"} 
+                placeholder={"No recent activity for today."} placeholderClass="recentHistorySpan"/>
         </div>
     )
 }

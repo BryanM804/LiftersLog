@@ -32,7 +32,7 @@ function History() {
                 </div>
             </div>
             <div style={{marginTop: "1rem"}}>
-                <HistoryList date={currentDate} className={"historyList"} placeholder={"No history for this date."}/>
+                <HistoryList date={currentDate} className={"historyList"} placeholder={"No history for this date."} placeholderClass="historyItemSpan"/>
             </div>
         </div>
     )

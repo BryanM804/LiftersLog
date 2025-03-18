@@ -8,13 +8,14 @@ type HistoryListProps = {
     date: string;
     className?: string;
     placeholder: string;
+    placeholderClass?: string;
 }
 
 type HistoryGroup = {
     movement: string;
 }
 
-function HistoryList({ date, className, placeholder }: HistoryListProps) {
+function HistoryList({ date, className, placeholder, placeholderClass }: HistoryListProps) {
 
     const {data, error, isLoading} = useQuery({
         queryKey: ["history",  date],
@@ -32,7 +33,7 @@ function HistoryList({ date, className, placeholder }: HistoryListProps) {
                     <HistoryGroup movement={historyGroup.movement} date={date} key={historyGroup.movement}/>
                 )
                 :
-                <div className="darkFont">{placeholder}</div>
+                <div className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholder}</div>
             }
         </div>
     )

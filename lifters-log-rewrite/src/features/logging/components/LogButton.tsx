@@ -1,4 +1,4 @@
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useMovement } from "../contexts/MovementContextProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addNewSet from "../api/addNewSet";
@@ -13,6 +13,7 @@ type LogButtonProps = {
 function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
 
     const { movement } = useMovement();
+    const [invalidLog, setInvalidLog] = useState(false);
 
     const queryClient = useQueryClient();
 
@@ -27,7 +28,13 @@ function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
     function handleLogSubmit(e: SyntheticEvent) {
         e.preventDefault();
 
-        if (movement === "") return;
+        if (reps <= 0 || weight <= 0 || reps > 100 || weight > 1500 || movement === "") {
+            setInvalidLog(true);
+            setTimeout(() => {
+                setInvalidLog(false);
+            }, 100);
+            return;
+        }
 
         console.log(`${movement}: ${reps} x ${weight}lbs`)
         console.log(`Subreps: ${subReps}, subweight: ${subWeight}`)
@@ -36,7 +43,7 @@ function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
 
     return (
         <div style={{textAlign: "center"}} className="gridItemSpan">
-            <input type="submit" className="floatingButton" onClick={handleLogSubmit} value="Log" />
+            <input type="submit" className={invalidLog ? "floatingButton redButton" : "floatingButton"} onClick={handleLogSubmit} value="Log" style={{width: "75%"}}/>
         </div>
     )
 }

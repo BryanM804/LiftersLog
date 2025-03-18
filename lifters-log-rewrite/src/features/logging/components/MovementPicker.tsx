@@ -75,8 +75,10 @@ function MovementPicker({ changeSplit, onClear }: MovementPickerProps) {
             </datalist>
             <label htmlFor="movement">Exercise</label>
             <br />
-            <input type="text" className="longTextInput" id="movement" autoComplete="on" list="movementList" onChange={handleMovementChange} value={movement} />
-            <button className="smallFloatingButton" onClick={clearText}>❌</button>
+            <div style={{position: "relative", marginLeft: "2rem", marginRight: "2rem"}}>
+                <input type="text" className="longTextInput movementPicker" id="movement" autoComplete="on" list="movementList" onChange={handleMovementChange} value={movement} />
+                <button className="smallFloatingButton transparentButton clearMovementButton" onClick={clearText}>❌</button>
+            </div>
         </>
     )
 }

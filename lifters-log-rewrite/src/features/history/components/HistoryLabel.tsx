@@ -26,6 +26,7 @@ function HistoryLabel({ date }: HistoryLabelProps) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["label"] });
             setChangingLabel(false);
+            setNewLabel("")
         }
     });
 
@@ -54,21 +55,32 @@ function HistoryLabel({ date }: HistoryLabelProps) {
         setNewLabel(e.target.value);
     }
 
+    function handleChangeLabelClick() {
+        setChangingLabel(true)
+        setNewLabel(data.label)
+    }
+
+    function handleCancelLabelChange() {
+        setChangingLabel(false)
+        // Set new label to empty in case the user changes the date and changes the label on another date
+        setNewLabel("")
+    }
+
     return (
         <>
             {
                 changingLabel ? 
                 <form>
-                    <input type="text" className="smallTextInput" value={newLabel} onChange={handleTextChange}/>
+                    <input type="text" className="labelChangeInput" value={newLabel} onChange={handleTextChange}/>
                     <br />
-                    <input type="submit" className="smallFloatingButton" value="✅" onClick={handleLabelSubmit}/>
-                    <button onClick={() => setChangingLabel(false)} className="smallFloatingButton">Cancel</button>
+                    <input type="submit" className="smallFloatingButton" value="Save" onClick={handleLabelSubmit}/>
+                    <button onClick={handleCancelLabelChange} className="smallFloatingButton">Cancel</button>
                 </form>
                 :
                 <h3 id="currentLabel" 
                     className="historyLabel" 
                     data-tooltip-id="historyLabel" 
-                    onClick={() => setChangingLabel(true)}
+                    onClick={handleChangeLabelClick}
                     >
                     <Tooltip place="top" content="Tap here to create a custom label for the day." id="historyLabel"/>
                     {data == null || data.label == "None" ? date : data.label}

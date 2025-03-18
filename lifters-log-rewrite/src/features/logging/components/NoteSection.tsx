@@ -2,7 +2,7 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import Note from "./Note";
 import { useQuery } from "@tanstack/react-query";
 import getNotesForMovement from "../api/getNotesForMovement";
-import AddNoteButton from "./AddNote";
+import AddNoteButton from "./AddNoteButton";
 
 type Note = {
     text: string;

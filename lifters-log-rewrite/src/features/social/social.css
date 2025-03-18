@@ -1,0 +1,50 @@
+.chatBox {
+    background-color: #333;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #555;
+    width: 30rem;
+    min-height: 12rem;
+    max-height: 22rem;
+    margin: auto;
+    position: relative;
+}
+
+.chatRoomListContainer {
+    
+}
+
+.chatRoomList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chatRoomItem {
+    padding: 0 0.5rem;
+    background-color: #222;
+    border-radius: 8px;
+}
+.chatRoomItem:hover {
+    background-color: #555;
+    cursor: pointer;
+}
+
+.chatMessageList {
+    list-style: none;
+    margin: 0;
+    padding: 0.1rem;
+}
+
+.chatInputBar {
+    position: absolute;
+    bottom: 10%;
+}
+
+@media (max-width: 768px) {
+    .chatBox {
+        width: 75%;
+        max-width: 75%;
+        overflow-x: auto;
+    }
+}
