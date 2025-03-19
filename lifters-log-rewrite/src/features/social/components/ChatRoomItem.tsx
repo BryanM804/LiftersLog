@@ -10,7 +10,7 @@ function ChatRoomItem({ name, description, onClick }: ChatRoomItemProps) {
     return (
         <>
             <li onClick={onClick} className="chatRoomItem">
-                <h4>{name}</h4>
+                <h4 className="chatRoomName">{name}</h4>
                 {
                     description && 
                     <>

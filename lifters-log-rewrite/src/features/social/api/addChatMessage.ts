@@ -13,7 +13,11 @@ async function addChatMessage(newChatMessage: NewChatMessage) {
         body: JSON.stringify(newChatMessage)
     });
 
-    return response.json();
+    if (response.status == 200) {
+        return response.json()
+    } else {
+        throw new Error("Unable to send chat message.")
+    }
 }
 
 export default addChatMessage;

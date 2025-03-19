@@ -2,6 +2,7 @@ import { useState } from "react";
 import DeleteButton from "../../../components/DeleteButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import removeSet from "../api/removeSet";
+import TimeSubtext from "../../../components/TimeSubtext";
 
 type HistoryRowProps = {
     time: string;
@@ -31,7 +32,7 @@ function HistoryRow({ time, weight, reps, setid, split}: HistoryRowProps) {
 
     return (
         <li id={setid.toString()} className="historyItem" onPointerEnter={() => setHovering(true)} onPointerLeave={() => setHovering(false)}>
-            [{time}] {weight}lbs x {reps} reps
+            <TimeSubtext className="historyItemTime">{time}</TimeSubtext> {weight}lbs x {reps} reps
             <DeleteButton show={hovering} onDelete={handleDelete} />
         </li>
     )

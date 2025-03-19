@@ -20,6 +20,12 @@
 
 .historyItem {
     position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.historyItemTime {
+    position: absolute;
+    bottom: -0.5rem;
 }
 
 .historySubList {

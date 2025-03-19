@@ -80,6 +80,8 @@ input::-webkit-calendar-picker-indicator {
     background-color: #333;
     padding: 0.5rem;
     border-radius: 8px;
+    border: 2px solid #555;
+    z-index: 2;
 }
 
 .addNoteButton {

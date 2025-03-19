@@ -7,7 +7,11 @@ function Social() {
         <>
             <AuthChecker />
             <div className="mainContentPane">
-                <Chat />
+                <h3 style={{marginBottom: "0"}}>Chat</h3>
+                <div className="chatTopper">
+                    <hr />
+                    <Chat />
+                </div>
             </div>
         </>
     )

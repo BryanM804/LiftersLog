@@ -1,6 +1,6 @@
 .chatBox {
     background-color: #333;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 8px;
     border: 2px solid #555;
     width: 30rem;
@@ -8,43 +8,147 @@
     max-height: 22rem;
     margin: auto;
     position: relative;
+    scrollbar-color: #888 transparent;
+}
+
+.headerButtons {
+    position: absolute;
+    top: 0;
 }
 
 .chatRoomListContainer {
-    
+    overflow-y: auto;
+    max-height: 22rem;
 }
 
 .chatRoomList {
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-top: 2rem;
+    max-height: 18rem;
 }
 
 .chatRoomItem {
     padding: 0 0.5rem;
     background-color: #222;
     border-radius: 8px;
+    overflow-wrap: break-word;
 }
 .chatRoomItem:hover {
     background-color: #555;
     cursor: pointer;
 }
 
+.chatRoomName {
+    margin: 0;
+    margin-top: 0.5rem;
+}
 .chatMessageList {
     list-style: none;
     margin: 0;
-    padding: 0.1rem;
+    padding: 0.3rem;
+    max-height: 16rem;
+    margin-bottom: 3.5rem;
+    margin-top: 2rem;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    background-color: #222;
+    border-radius: 8px;
+}
+
+.chatMessage {
+    position: relative;
+    padding: 0.05rem;
+}
+
+.chatMessageTime {
+    position: absolute;
+    bottom: -0.5rem;
 }
 
 .chatInputBar {
     position: absolute;
-    bottom: 10%;
+    bottom: 5%;
+    width: 90%;
+}
+
+.chatSubmitButton {
+    position: absolute;
+    right: 2.5%;
+    bottom: 0;
+}
+
+.chatBar {
+    background-color:#555;
+    border-radius: 999px;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1rem;
+    width: 75%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.roomMenuTextArea {
+    resize: none;
+    width: 12rem;
+    height: 6rem;
+}
+
+.chatRoomMenu {
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(2);
+}
+
+.userList {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.chatUser {
+    border-bottom: 2px solid white;
+}
+
+.chatSubMenu {
+    background-color: #333;
+    border-radius: 8px;
+    border: 1px solid #555;
+    padding: 0.3rem;
+    position: absolute;
+    z-index: 2;
 }
 
 @media (max-width: 768px) {
+    .chatTopper {
+        width: 100%;
+    }
+    
     .chatBox {
         width: 75%;
         max-width: 75%;
+        max-height: 28rem;
         overflow-x: auto;
     }
+
+    .chatMessageList {
+        max-height: 20rem;
+        margin-bottom: 4rem;
+        margin-top: 2.5rem;
+    }
+
+    .chatRoomList {
+        margin-top: 2.5rem;
+        max-height: 28rem;
+    }
+
+    .chatBar {
+        font-size: 1.3rem;
+        width: 65%;
+    }
+    
 }
