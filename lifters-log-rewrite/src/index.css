@@ -12,6 +12,10 @@ body {
     width: 100%;
 }
 
+h3 {
+    margin-bottom: 0;
+}
+
 .darkFont {
     color: #999;
 }

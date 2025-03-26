@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 async function getHistoryForDate(date: string, movement: string) {
@@ -5,7 +6,8 @@ async function getHistoryForDate(date: string, movement: string) {
         method: "GET",
         credentials: "include"
     });
-    return response.json();
+    
+    return checkStatus(response);
 }
 
 export default getHistoryForDate;

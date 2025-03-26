@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 async function getChatMessages(roomid: number) {
@@ -6,7 +7,7 @@ async function getChatMessages(roomid: number) {
         credentials: "include"
     });
 
-    return response.json();
+    return checkStatus(response)
 }
 
 export default getChatMessages;

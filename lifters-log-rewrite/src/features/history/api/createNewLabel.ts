@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewLabel = {
@@ -13,7 +14,7 @@ async function createNewLabel(newLabel: NewLabel) {
         body: JSON.stringify(newLabel)
     });
 
-    return response.json();
+    return checkStatus(response);
 }
 
 export default createNewLabel;

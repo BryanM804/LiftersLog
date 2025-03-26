@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewSet = {
@@ -15,7 +16,8 @@ async function addNewSet(newSet: NewSet) {
         headers: {"Content-type": "application/json"},
         body: JSON.stringify(newSet)
     });
-    return response.json();
+    
+    return checkStatus(response);
 }
 
 export default addNewSet;

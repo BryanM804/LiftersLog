@@ -3,13 +3,10 @@ import { ChangeEvent, useState } from "react";
 import createChatRoom from "../api/createChatRoom";
 import deleteChatRoom from "../api/deleteChatRoom";
 import ChatRoom from "../types/ChatRoom";
-import DeleteButton from "../../../components/DeleteButton";
-import changeUserChatPermission from "../api/changeUserChatPermission";
 import getUsersWithAccess from "../api/getUsersWithAccess";
 import Loading from "../../../components/Loading";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import UserData from "../../../types/UserData";
-import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
+import ChatUser from "./ChatUser";
+import ServerError from "../../../components/ServerError";
 
 type ChatRoomMenuProps = {
     type: string;
@@ -84,10 +81,12 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
     return (
         <div className="chatRoomMenu">
             <div>
-                Room Name <br />
+                <button className="floatingButton" onClick={cancelFunction} style={{position: "absolute", top: "0", left: "5%"}}>Back</button>
+                <br /><br />
+                <label htmlFor="chatRoomName">Room Name</label><br />
                 <input id="chatRoomName" type="text" className="smallTextInput" value={roomName} onChange={handleTextChange} />
                 <br />
-                Description <br />
+                <label htmlFor="chatRoomDescription">Description</label><br />
                 <textarea id="chatRoomDescription" className="longTextInput roomMenuTextArea" value={roomDescription} onChange={handleDescChange} />
                 <br />
                 <div className={ showingError ? "warningText" : "hidden"}>
@@ -113,70 +112,28 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
                             <button className="smallFloatingButton" onClick={() => setIsDeleting(false)}>❌</button>
                         </div>
                     }
-                    <button className="floatingButton" onClick={cancelFunction}>Cancel</button>
                 </div>
             </div>
             {
-                (type === "edit" && room && !isLoading) ? 
+                (type === "edit" && isLoading) ? <Loading /> :
+                (type === "edit" && error) ? <ServerError /> :
+                (type === "edit" && room) &&
                 <div style={{gridColumn: "2"}}>
                     Users:
                     <ul className="userList">
                         {
                             (data && data.length > 0) ?
                             data.map((usr: {Account: {username: string}}) => 
-                                <ChatUser username={usr.Account.username} room={room} />
+                                <ChatUser key={usr.Account.username} username={usr.Account.username} room={room} />
                             )
                             :
                             <>Nobody else but you {":("}</>
                         }
                     </ul>
                 </div>
-                :
-                isLoading && <Loading />
             }
         </div>
     )
 }
 
 export default ChatRoomMenu;
-
-
-type ChatUserProps = {
-    username: string;
-    room: ChatRoom;
-}
-
-function ChatUser({ username, room }: ChatUserProps) {
-
-    const [hovering, setHovering] = useState(false)
-
-    const queryClient = useQueryClient();
-    const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
-
-    const removeUserMutation = useMutation({
-        mutationFn: changeUserChatPermission,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["chatUsers"] })
-        }
-    })
-
-    function handleDelete() {
-        // Make EXTRA sure the user cannot delete themself
-        if (username != authUser.username)
-            removeUserMutation.mutate({ username: username, chatPermission: false, roomid: room.roomid })
-    }
-
-    return (
-        <li className="chatUser"
-            style={{position: "relative"}} 
-            onPointerEnter={() => setHovering(true)} 
-            onPointerLeave={() => setHovering(false)}
-            >
-            {username}
-            {
-                // Make sure the user can't delete themself and make a phantom chat room
-                username != authUser.username && <DeleteButton onDelete={handleDelete} show={hovering} />
-            }
-        </li>
-    )
-}

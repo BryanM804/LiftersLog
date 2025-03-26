@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type DeletedChatRoom = {
@@ -12,12 +13,7 @@ async function deleteChatRoom(deletedRoom: DeletedChatRoom) {
         body: JSON.stringify(deletedRoom)
     });
 
-    if (response.status == 200) {
-        return response.json();
-    } else {
-        throw new Error("Unable to delete chat room.")
-    }
-    
+    return checkStatus(response, "Unable to delete chatroom.")
 }
 
 export default deleteChatRoom;

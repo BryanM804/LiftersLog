@@ -1,0 +1,34 @@
+.friendsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+}
+
+.friendsListContainer {
+    grid-column: 1;
+    padding: 0.2rem;
+}
+
+.friendList {
+    padding: 0;
+    list-style: none;
+}
+
+.friend {
+    margin: 0.5rem;
+}
+
+.activityContainer {
+    grid-column: 2;
+    margin: 0.5rem;
+}
+
+.activityList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.activityItem {
+    margin: 0;
+    padding: 0;
+}

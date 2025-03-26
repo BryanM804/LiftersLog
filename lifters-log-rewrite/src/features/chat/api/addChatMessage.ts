@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewChatMessage = {
@@ -13,11 +14,8 @@ async function addChatMessage(newChatMessage: NewChatMessage) {
         body: JSON.stringify(newChatMessage)
     });
 
-    if (response.status == 200) {
-        return response.json()
-    } else {
-        throw new Error("Unable to send chat message.")
-    }
+
+    return checkStatus(response, "Unable to send chat message")
 }
 
 export default addChatMessage;

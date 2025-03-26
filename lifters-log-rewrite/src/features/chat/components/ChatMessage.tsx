@@ -13,7 +13,9 @@ function ChatMessage({ msg, author, time, date }: ChatMessageProps) {
     const [hovering, setHovering] = useState(false)
 
     const today = new Date()
-    const messageDate = new Date(Date.parse(date))
+    const messageDate = new Date(Date.parse(date + "T00:00:00"))
+    // Date.parse() parses UTC strings then converts them to your timezone which can mess up dates
+    // Adding a time makes it parse it in local time
 
     return (
         <>

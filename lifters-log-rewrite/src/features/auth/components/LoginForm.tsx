@@ -16,7 +16,6 @@ function LoginForm() {
     const authMutation = useMutation({
         mutationFn: authenticateUser,
         onSuccess: (response) => {
-            console.log(response)
             if (response.token) {
                 signIn({
                     auth: {

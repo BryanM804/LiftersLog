@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 
@@ -8,7 +9,8 @@ async function removeSet(setid: number) {
         credentials: "include",
         body: JSON.stringify({setid: setid})
     });
-    return response.json();
+    
+    return checkStatus(response);
 }
 
 export default removeSet;

@@ -6,11 +6,10 @@ import ChatRoomItem from "./ChatRoomItem"
 import ChatRoom from "../types/ChatRoom"
 
 type ChatRoomListProps = {
-    setInChatRoom: (x: boolean) => void;
     setActiveChatRoom: (x: ChatRoom) => void;
 }
 
-function ChatRoomList({ setActiveChatRoom, setInChatRoom }: ChatRoomListProps) {
+function ChatRoomList({ setActiveChatRoom }: ChatRoomListProps) {
 
     const { data, error, isLoading } = useQuery({
         queryKey: ["chatrooms"],
@@ -25,7 +24,6 @@ function ChatRoomList({ setActiveChatRoom, setInChatRoom }: ChatRoomListProps) {
             creatorid: creatorid
         }
         setActiveChatRoom(room);
-        setInChatRoom(true);
     }
 
     if (isLoading) return <Loading />

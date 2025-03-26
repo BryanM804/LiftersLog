@@ -1,8 +1,16 @@
 import HistoryList from "../../history/components/HistoryList";
+import { useMovement } from "../contexts/MovementContextProvider";
 
 
 
 function RecentHistory() {
+
+    const {movement, setMovement} = useMovement();
+
+    function handleMovementChange(m: string) {
+        setMovement(m);
+    }
+
     return (
         <div className="recentHistory">
             <div className="recentHistorySpan">
@@ -10,7 +18,8 @@ function RecentHistory() {
                 <hr />
             </div>
                 <HistoryList date={new Date().toDateString()} className={"recentHistoryList"} 
-                placeholder={"No recent activity for today."} placeholderClass="recentHistorySpan"/>
+                placeholder={"No recent activity for today."} placeholderClass="recentHistorySpan"
+                movementChange={handleMovementChange}/>
         </div>
     )
 }

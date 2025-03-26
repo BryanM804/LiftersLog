@@ -10,9 +10,10 @@ import ItemNotes from "./ItemNotes";
 type HistoryGroupProps = {
     date: string;
     movement: string;
+    onClick?: () => void;
 }
 
-function HistoryGroup({ date, movement }: HistoryGroupProps) {
+function HistoryGroup({ date, movement, onClick }: HistoryGroupProps) {
     
     const { data, error, isLoading } = useQuery({
         queryKey: ["history", "group", {date, movement}],
@@ -23,7 +24,7 @@ function HistoryGroup({ date, movement }: HistoryGroupProps) {
     if (error) return <ServerError error={error} />
 
     return (
-        <div className="historyGroup">
+        <div className="historyGroup" onClick={onClick}>
             <div className="historyTitle">
                 {movement}
             </div>

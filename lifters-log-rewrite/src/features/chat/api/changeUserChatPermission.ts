@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewChatUser = {
@@ -14,11 +15,7 @@ async function changeUserChatPermission(newUser: NewChatUser) {
         body: JSON.stringify(newUser)
     });
 
-    if (response.status == 200) {
-        return response.json();
-    } else {
-        throw new Error("Unable to add user.")
-    }
+    return checkStatus(response, "Unable to add user.")
 }
 
 export default changeUserChatPermission;

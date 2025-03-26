@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 async function deleteNote(noteid: number) {
@@ -8,7 +9,7 @@ async function deleteNote(noteid: number) {
         body: JSON.stringify({ noteid: noteid })
     });
 
-    return response.json();
+    return checkStatus(response);
 }
 
 export default deleteNote;

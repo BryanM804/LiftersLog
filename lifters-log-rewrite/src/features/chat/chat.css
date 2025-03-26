@@ -108,10 +108,17 @@
     list-style: none;
     padding: 0;
     text-align: left;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    max-width: 13rem;
+    max-height: 16rem;
 }
 
 .chatUser {
-    border-bottom: 2px solid white;
+    padding: 0.2rem;
+    border-radius: 12px;
+    margin: 0.2rem 0;
+    background-color: #555;
 }
 
 .chatSubMenu {
@@ -129,8 +136,8 @@
     }
     
     .chatBox {
-        width: 75%;
-        max-width: 75%;
+        width: 80%;
+        max-width: 80%;
         max-height: 28rem;
         overflow-x: auto;
     }
@@ -149,6 +156,12 @@
     .chatBar {
         font-size: 1.3rem;
         width: 65%;
+    }
+
+    .userList {
+        max-width: 5rem;
+        max-height: 20rem;
+        padding-left: 1rem;
     }
     
 }

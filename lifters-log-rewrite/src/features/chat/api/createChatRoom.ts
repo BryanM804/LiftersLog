@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewChatRoom = {
@@ -17,11 +18,7 @@ async function createChatRoom(newChatRoom: NewChatRoom) {
         body: JSON.stringify(newChatRoom)
     });
 
-    if (response.status == 500) {
-        throw Error("User already has a chatroom.");
-    } else {
-        return response;
-    }
+    return checkStatus(response, "User already has a chatroom.")
 }
 
 export default createChatRoom;

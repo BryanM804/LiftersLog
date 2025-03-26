@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewNote = {
@@ -14,7 +15,7 @@ async function addNewNote(newNote: NewNote) {
         body: JSON.stringify(newNote)
     });
 
-    return response.json();
+    return checkStatus(response);
 }
 
 export default addNewNote;

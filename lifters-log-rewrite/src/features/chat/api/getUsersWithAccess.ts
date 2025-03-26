@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 
@@ -7,11 +8,7 @@ async function getUsersWithAccess(roomid: number) {
         credentials: "include"
     });
 
-    if (response.status == 200) {
-        return response.json();
-    } else {
-        throw new Error("Unable to get users with chat access.")
-    }
+    return checkStatus(response, "Unable to get users with chat access.");
 }
 
 export default getUsersWithAccess;

@@ -32,7 +32,7 @@ function ChatMessageList({ room }: ChatMessageListProps) {
 
     function handleScrollPosition() {
         if (messageList.current) {
-            if (messageList.current.scrollTop + messageList.current.clientHeight === messageList.current.scrollHeight) {
+            if (messageList.current.scrollTop + messageList.current.clientHeight >= messageList.current.scrollHeight - 10) {
                 setScrollAtBottom(true)
             } else {
                 setScrollAtBottom(false)
