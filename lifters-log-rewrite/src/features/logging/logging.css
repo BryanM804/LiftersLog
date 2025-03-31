@@ -24,6 +24,8 @@
 
 .recentHistory {
     margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(40px, 275px));
 }
 .recentHistorySpan {
     grid-column: span 3;
@@ -43,6 +45,10 @@ input::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.setInput {
+    width: 2.75rem;
 }
 
 .redButton {
@@ -81,8 +87,18 @@ input::-webkit-calendar-picker-indicator {
     padding: 0.5rem;
     border-radius: 8px;
     border: 2px solid #555;
-    z-index: 2;
+    box-shadow: 2px 2px 5px #111;
+    z-index: 3;
 }
+.confirmationBackground {
+    opacity: 60%;
+    background-color: black;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
 
 .addNoteButton {
     position: absolute;
@@ -102,6 +118,8 @@ input::-webkit-calendar-picker-indicator {
 .addNote {
     background-color: #333;
     border-radius: 8px;
+    border: 2px solid #555;
+    box-shadow: 2px 2px 5px #111;
     position: absolute;
     margin: 0;
     left: 50%;
@@ -131,10 +149,7 @@ input::-webkit-calendar-picker-indicator {
     }
 
     .recentHistoryList {
-        grid-template-columns: repeat(2, minmax(40px, 200px));
-    }
-    .noteSection {
-        grid-template-columns: repeat(2, minmax(40px, 200px));
+        grid-template-columns: repeat(2, minmax(40px, 50%));
     }
 
     .movementPicker {

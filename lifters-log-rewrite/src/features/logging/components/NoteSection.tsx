@@ -26,7 +26,9 @@ function NoteSection() {
                 <hr />
             </div>
             { (!error && !isLoading && (data == null || data.length <= 0)) && 
-            <div className="recentHistorySpan darkFont" style={{ marginLeft: "0.5rem", marginRight: "0.5rem"}}>Sticky notes or notes you have added to a movement for today will appear here.</div> }
+                <div className="recentHistorySpan darkFont" style={{ marginLeft: "0.5rem", marginRight: "0.5rem"}}>
+                    Sticky notes or notes you have added to a movement for today will appear here.
+                </div> }
             <ul style={{gridColumn: "span 3"}}>
                 { isLoading && <li>Loading...</li>}
                 { error && <li>Server error occured</li>}

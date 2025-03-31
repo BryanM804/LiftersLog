@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { ChangeEvent, useState } from "react"
+import sendFriendRequest from "../api/sendFriendRequest"
 
 
 function AddFriend() {
@@ -23,9 +25,32 @@ type AddFriendMenuProps = {
 }
 
 function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
+
+    const [newFriendName, setNewFriendName] = useState("")
+    const [error, setError] = useState(false)
+
+    const addFriendMutation = useMutation({
+        mutationFn: sendFriendRequest,
+        onError: () => {
+            setError(true)
+        }
+    });
+
+    function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
+        setNewFriendName(e.target.value)
+    }
+
+    function handleConfirmation() {
+        addFriendMutation.mutate({ username: newFriendName })
+    }
+
     return (
         <div className="addFriendMenu">
-            <input type="text" className=""
+            <input type="text" value={newFriendName} className="smallTextInput" onChange={handleTextChange}/>
+            <br />
+            <button onClick={handleConfirmation} className="floatingButton">Confirm</button>
+            <button onClick={cancelFn} className="floatingButton">Cancel</button>
+            <div className={ error ? "warningText" : "hidden"}>Invalid Username</div>
         </div>
     )
 }

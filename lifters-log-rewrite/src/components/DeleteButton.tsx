@@ -1,4 +1,5 @@
 import { SyntheticEvent, useState } from "react";
+import ConfirmationBox from "./ConfirmationBox";
 
 type DeleteButtonProps = {
     show: boolean;
@@ -23,11 +24,7 @@ function DeleteButton({ show, onDelete }: DeleteButtonProps) {
         }
         {
             show && isDeleting &&
-                <div className="deleteButton confirmationBox">
-                    <div className="confirmationText">Are you sure?</div>
-                    <button className="smallFloatingButton" onClick={handleDelete}>✅</button>
-                    <button className="smallFloatingButton" onClick={() => setIsDeleting(false)}>❌</button>
-                </div>
+            <ConfirmationBox className="deleteButton" confirmFn={handleDelete} cancelFn={() => setIsDeleting(false)} />
         }
         </>
     )

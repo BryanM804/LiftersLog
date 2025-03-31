@@ -9,6 +9,7 @@
     margin: auto;
     position: relative;
     scrollbar-color: #888 transparent;
+    box-shadow: 2px 2px 5px #111;
 }
 
 .headerButtons {
@@ -162,6 +163,10 @@
         max-width: 5rem;
         max-height: 20rem;
         padding-left: 1rem;
+    }
+
+    .leaveConfirmation {
+        top: 0.75rem;
     }
     
 }

@@ -13,11 +13,11 @@ function FriendActivity() {
             <div className="friendsGrid">
                 <FriendsList />
                 <div className="activityContainer">
-                    Today:
+                    Today
                     <hr />
                     <ActivityList timeframe="today"/>
                     <br />
-                    Most Recent:
+                    Recent
                     <hr />
                     <ActivityList timeframe="recent" />
                 </div>

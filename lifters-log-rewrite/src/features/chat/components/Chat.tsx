@@ -101,10 +101,12 @@ type ChatTopperProps = {
 function ChatTopper({ title, children }: ChatTopperProps) {
     return (
         <>
-            <h3>{
-                title ? title : "Chat"
-            }</h3>
             <div className="chatTopper">
+                <h3>
+                {
+                    title ? title : "Chat"
+                }
+                </h3>
                 <hr />
                 {children}
             </div>

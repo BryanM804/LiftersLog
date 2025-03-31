@@ -33,7 +33,7 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
     if (error) return <ServerError error={error} />
 
     return (
-        <div className={className}>
+        <ul className={className}>
             {
                 (data != null && data.length > 0) ? 
                 data.map((historyGroup: HistoryGroup) => 
@@ -42,7 +42,7 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
                 :
                 <div className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholder}</div>
             }
-        </div>
+        </ul>
     )
 }
 

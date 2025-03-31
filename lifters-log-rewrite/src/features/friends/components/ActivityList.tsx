@@ -2,10 +2,9 @@ import { useQuery } from "@tanstack/react-query"
 import Loading from "../../../components/Loading"
 import ServerError from "../../../components/ServerError"
 import getFriendActivity from "../api/getFriendActivity"
-import ActivityItem from "./ActivityItem"
-import Lift from "../../../types/Lift"
-import Note from "../../../types/Note"
+import ActivityEntry from "../types/ActivityEntry"
 import { useEffect, useState } from "react"
+import ActivityItem from "./ActivityItem"
 
 type ActivityListProps = {
     timeframe: string;
@@ -13,27 +12,19 @@ type ActivityListProps = {
 
 function ActivityList({ timeframe }: ActivityListProps) {
 
-    const [noActivity, setNoActivity] = useState(false)
+    const [noActivity, setNoActivity] = useState(true)
 
     const { data, error, isLoading } = useQuery({
         queryKey: ["activity", timeframe],
-        queryFn: () => getFriendActivity(timeframe)
+        queryFn: () => getFriendActivity(timeframe),
+        refetchInterval: 5000
     })
 
     useEffect(() => {
+        if (data) console.log(data)
+
         if (data && data.length > 0) {
-            let hadActivity = false;
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].lifts || data[i].notes) {
-                    setNoActivity(false);
-                    hadActivity = true;
-                    break;
-                } 
-            }
-            if (!hadActivity) {
-                // Can't check the actual state
-                setNoActivity(true)
-            }
+            setNoActivity(false)
         }
     }, [data])
 
@@ -44,7 +35,7 @@ function ActivityList({ timeframe }: ActivityListProps) {
 
     if (noActivity) {
         return (
-            <>No activity</>
+            <div className="darkFont">No activity</div>
         )
     }
 
@@ -52,27 +43,16 @@ function ActivityList({ timeframe }: ActivityListProps) {
         <div className="activityContainer">
             <ul className="activityList">
             {
-                data.map((activity: {username: string, lifts: Array<Lift>}) => {
-                    return activity.lifts.map((lift: Lift) => 
-                        <ActivityItem key={lift.setid} type="lift"
-                            username={activity.username}
-                            exercise={lift.movement}
-                            weight={lift.weight}
-                            reps={lift.reps}
-                            />
-                    )
-                })
-            }
-            {
-                data.map((activity: {username: string, notes: Array<Note>}) => {
-                    return activity.notes.map((note: Note) =>
-                        <ActivityItem key={note.noteid} type="note"
-                            username={activity.username}
-                            note={note.text}
-                            exercise={note.movement}
-                            />
-                    )
-                })
+                data.map((entry: ActivityEntry) => 
+                    <ActivityItem key={entry.id} 
+                        username={entry.username}
+                        exercise={entry.movement}
+                        weight={entry.weight}
+                        reps={entry.reps}
+                        note={entry.text}
+                        date={entry.date}
+                    />
+                )
             }
             </ul>
         </div>

@@ -7,6 +7,7 @@ import getUsersWithAccess from "../api/getUsersWithAccess";
 import Loading from "../../../components/Loading";
 import ChatUser from "./ChatUser";
 import ServerError from "../../../components/ServerError";
+import ConfirmationBox from "../../../components/ConfirmationBox";
 
 type ChatRoomMenuProps = {
     type: string;
@@ -106,11 +107,7 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
                     }
                     {
                         isDeleting &&
-                        <div className="confirmationBox center">
-                            <div className="confirmationText">Are you sure?</div>
-                            <button className="smallFloatingButton" onClick={handleDelete}>✅</button>
-                            <button className="smallFloatingButton" onClick={() => setIsDeleting(false)}>❌</button>
-                        </div>
+                        <ConfirmationBox className="center" confirmFn={handleDelete} cancelFn={() => setIsDeleting(false)} />
                     }
                 </div>
             </div>

@@ -2,6 +2,10 @@
     list-style: none;
     padding: 10px;
     font-size: 0.8rem;
+    background-color: #333;
+    border-radius: 8px;
+    margin: 0.2rem;
+    box-shadow: 0px 0px 10px #111;
 }
 
 .historyTitle {
@@ -84,6 +88,6 @@
 
 @media (max-width: 768px) {
     .historyList {
-        grid-template-columns: repeat(2, minmax(40px, 200px));
+        grid-template-columns: repeat(2, minmax(40px, 275px));
     }
 }

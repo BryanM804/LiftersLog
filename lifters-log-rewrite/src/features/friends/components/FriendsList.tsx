@@ -20,8 +20,13 @@ function FriendsList() {
             <ul className="friendList">
                 {
                     (data && data.length > 0) ?
-                        data.map((friend: {username: string, level: number, id: number}) => 
-                            <Friend username={friend.username} level={friend.level} key={friend.id} />
+                        data.map((friend: {username: string, level: number, id: number, pfpurl: string}) => 
+                            <Friend 
+                                username={friend.username} 
+                                level={friend.level} 
+                                imageURL={friend.pfpurl}
+                                key={friend.id} 
+                            />
                         )
                     :
                     <div className="darkFont">Looks like you have no friends {":("}</div>

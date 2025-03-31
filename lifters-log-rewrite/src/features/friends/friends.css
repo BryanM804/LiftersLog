@@ -1,3 +1,7 @@
+.friendActivity {
+    margin-top: 2rem;
+}
+
 .friendsGrid {
     display: grid;
     grid-template-columns: repeat(2, 50%);
@@ -31,4 +35,16 @@
 .activityItem {
     margin: 0;
     padding: 0;
+    font-size: 1rem;
+}
+
+
+@media (max-width: 768px) {
+    .friendsGrid {
+        grid-template-columns: 33% 66%;
+    }
+
+    .activityItem {
+        font-size: 0.8rem;
+    }
 }

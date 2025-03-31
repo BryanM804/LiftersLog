@@ -4,6 +4,7 @@ import XpBar from "../../../components/XpBar";
 import { useQuery } from "@tanstack/react-query";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import getUserStats from "../api/getUserStats";
+import ProfilePictureChanger from "./ProfilePictureChanger";
 
 
 function UserProfile() {
@@ -30,6 +31,7 @@ function UserProfile() {
     return (
         <div className="mainContentPane">
             <h3>{authUser && authUser.username}<hr /></h3>
+            <ProfilePictureChanger imageURL={data.pfpurl} size={128}/>
             Level: {data.level}
             <br />
             <XpBar value={data.xp} max={data.level * 1500}/>

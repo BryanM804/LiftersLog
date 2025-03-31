@@ -13,7 +13,8 @@ function ChatRoomList({ setActiveChatRoom }: ChatRoomListProps) {
 
     const { data, error, isLoading } = useQuery({
         queryKey: ["chatrooms"],
-        queryFn: getChatRooms
+        queryFn: getChatRooms,
+        refetchInterval: 5000
     })
 
     function handleRoomClick(roomid: number, creatorid: number, name: string, description: string) {
