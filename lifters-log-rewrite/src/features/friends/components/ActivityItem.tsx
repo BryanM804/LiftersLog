@@ -16,18 +16,18 @@ function ActivityItem({ username, date, exercise, weight, reps, note }: Activity
 
     if (weight && reps) {
         return (
-            <li className="activityItem">
-                - {username} logged {exercise}, {weight}lbs for {reps} reps
+            <li className="activityItem logActivity">
+                {username} logged {exercise}, {weight}lbs for {reps} reps
             </li>
         )
     }
 
     if (note) {
         return (
-            <li className="activityItem">
-                - {username} added a note to their {exercise}
-                <ul>
-                    <li className="smallText">{note}</li>
+            <li className="activityItem noteActivity">
+                {username} added a note to {exercise}
+                <ul style={{paddingLeft: "1rem"}}>
+                    <li className="smallText activityNote">"{note}"</li>
                 </ul>
             </li>
         )

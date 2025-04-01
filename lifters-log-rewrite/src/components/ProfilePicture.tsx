@@ -7,7 +7,7 @@ function ProfilePicture({ imageURL, size }: ProfilePictureProps) {
 
     return (
         <div className="profilePictureContainer">
-            <img src={imageURL} alt="N/A" width={size} />
+            <img src={imageURL} alt="N/A" width={size} height={size} className="profilePicture"/>
         </div>
     )
 }

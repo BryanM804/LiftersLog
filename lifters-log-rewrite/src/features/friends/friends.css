@@ -19,6 +19,38 @@
 
 .friend {
     margin: 0.5rem;
+    margin-left: 0;
+    position: relative;
+    background-color: #333;
+    padding: 0.65rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px #111;
+}
+.friendText {
+    position: absolute;
+    left: 100px;
+    top: 0;
+    width: 75%;
+    margin-top: 0;
+    padding-top: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+.friendUsername {
+    margin-top: 0.1rem;
+    font-size: 0.8rem;
+    display: inline-block;
+    transition: transform 3s linear;
+}
+.friendText.overflow:hover .friendUsername{
+    transform: translateX(calc(75% - 100% - 100px));
+}
+
+.friendSubtext {
+    font-size: 0.55rem;
+    margin-top: 0.15rem;
 }
 
 .activityContainer {
@@ -34,17 +66,35 @@
 
 .activityItem {
     margin: 0;
-    padding: 0;
+    margin-bottom: 0.2rem;
+    padding-left: 0.3rem;
     font-size: 1rem;
 }
+.noteActivity {
+    border-left: 4px solid rgb(113, 237, 71);
+}
+.logActivity {
+    border-left: 4px solid rgb(96, 181, 96);
+}
 
+.activityNote {
+    list-style: none;
+    font-style: italic;
+}
 
 @media (max-width: 768px) {
     .friendsGrid {
-        grid-template-columns: 33% 66%;
+        grid-template-columns: 40% 60%;
     }
 
     .activityItem {
         font-size: 0.8rem;
+    }
+
+    .friendText {
+        left: 48px;
+        /*width: 5.25rem;*/
+        width: 60%;
+        font-size: 0.75rem;
     }
 }
