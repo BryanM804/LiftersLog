@@ -5,39 +5,38 @@ import Loading from "../../../components/Loading";
 import Friend from "./Friend";
 
 
-function FriendsList() {
+function RequestList() {
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["friends"],
-        queryFn: () => getFriendList(false)
-    })  
+        queryKey: ["requests"],
+        queryFn: () => getFriendList(true)
+    });
 
     if (error) return <ServerError error={error} />
     if (isLoading) return <Loading />
 
-    if (data) console.log(data)
+    if (data && data.length == 0) return <></>
 
     return (
         <div className="friendListContainer">
+            Requests
+            <hr />
             <ul className="friendList">
                 {
-                    (data && data.length > 0) ?
-                        data.map((friend: {username: string, level: number, id: number, pfpurl: string, lastseen: string}) => 
+                    (data && data.length > 0) &&
+                        data.map((friend: {username: string, id: number, pfpurl: string}) => 
                             <Friend 
-                                type="friend"
+                                type="request"
                                 username={friend.username} 
-                                level={friend.level} 
                                 imageURL={friend.pfpurl}
-                                lastSeen={friend.lastseen}
                                 key={friend.id} 
                             />
                         )
-                    :
-                    <div className="darkFont">Looks like you have no friends {":("}</div>
                 }
             </ul>
+            <hr />
         </div>
     )
 }
 
-export default FriendsList;
+export default RequestList;

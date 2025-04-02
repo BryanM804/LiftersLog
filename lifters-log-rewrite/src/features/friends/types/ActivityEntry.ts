@@ -8,7 +8,8 @@ type ActivityEntry = {
     reps: number,
     subweight: number,
     subreps: number,
-    text: string
+    text: string,
+    label: string
 }
 
 export default ActivityEntry;

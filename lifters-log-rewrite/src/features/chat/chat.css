@@ -4,7 +4,7 @@
     border-radius: 8px;
     border: 2px solid #555;
     width: 30rem;
-    min-height: 12rem;
+    min-height: 15rem;
     max-height: 22rem;
     margin: auto;
     position: relative;
@@ -133,6 +133,7 @@
     padding: 0.3rem;
     position: absolute;
     z-index: 2;
+    box-shadow: 0px 0px 10px #111;
 }
 
 @media (max-width: 768px) {

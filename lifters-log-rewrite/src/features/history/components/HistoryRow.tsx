@@ -1,8 +1,8 @@
-import { useState } from "react";
 import DeleteButton from "../../../components/DeleteButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import removeSet from "../api/removeSet";
 import TimeSubtext from "../../../components/TimeSubtext";
+import useHoverTouch from "../../../app/hooks/useHoverTouch";
 
 type HistoryRowProps = {
     time: string;
@@ -15,7 +15,7 @@ type HistoryRowProps = {
 
 function HistoryRow({ time, weight, reps, setid, split}: HistoryRowProps) {
 
-    const [hovering, setHovering] = useState(false);
+    const { isHovering, hoverHandlers } = useHoverTouch();
 
     const queryClient = useQueryClient();
     
@@ -31,9 +31,9 @@ function HistoryRow({ time, weight, reps, setid, split}: HistoryRowProps) {
     }
 
     return (
-        <li id={setid.toString()} className="historyItem" onPointerEnter={() => setHovering(true)} onPointerLeave={() => setHovering(false)}>
+        <li id={setid.toString()} className="historyItem" {...hoverHandlers}>
             <TimeSubtext className="historyItemTime">{time}</TimeSubtext> {weight}lbs x {reps} reps
-            <DeleteButton show={hovering} onDelete={handleDelete} />
+            <DeleteButton show={isHovering} onDelete={handleDelete} />
         </li>
     )
 }

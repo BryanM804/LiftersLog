@@ -46,7 +46,9 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
     
     return (
         <div className="chatSubMenu" style={{textAlign: "center"}}>
-            <input type="text" value={invitedUser} className="smallTextInput" onChange={handleTextChange}/>
+            <input type="text" value={invitedUser} className="smallTextInput" onChange={handleTextChange}
+                placeholder="Username"
+            />
             <br />
             <button onClick={handleConfirmation} className="floatingButton">Confirm</button>
             <button onClick={cancelFn} className="floatingButton">Cancel</button>

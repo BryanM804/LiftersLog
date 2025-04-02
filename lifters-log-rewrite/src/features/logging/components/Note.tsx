@@ -1,7 +1,7 @@
-import { useState } from "react";
 import DeleteButton from "../../../components/DeleteButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import deleteNote from "../api/deleteNote";
+import useHoverTouch from "../../../app/hooks/useHoverTouch";
 
 
 type NoteProps = {
@@ -11,7 +11,7 @@ type NoteProps = {
 
 function Note({ text, noteid }: NoteProps) {
 
-    const [hovering, setHovering] = useState(false);
+    const { isHovering, hoverHandlers } = useHoverTouch();
     const queryClient = useQueryClient();
 
     const deleteMutation = useMutation({
@@ -27,10 +27,10 @@ function Note({ text, noteid }: NoteProps) {
     }
 
     return (
-        <div className="note" onPointerEnter={() => setHovering(true)} onPointerLeave={() => setHovering(false)}>
+        <div className="note" {...hoverHandlers}>
             <li>
                 {text}
-                <DeleteButton show={hovering} onDelete={handleDelete}/>
+                <DeleteButton show={isHovering} onDelete={handleDelete}/>
             </li>
         </div>
     )

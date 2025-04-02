@@ -17,7 +17,8 @@ function ActivityList({ timeframe }: ActivityListProps) {
     const { data, error, isLoading } = useQuery({
         queryKey: ["activity", timeframe],
         queryFn: () => getFriendActivity(timeframe),
-        refetchInterval: 5000
+        // refetchInterval: 5000
+        // commented to avoid spamming console for debugging
     })
 
     useEffect(() => {
@@ -50,7 +51,9 @@ function ActivityList({ timeframe }: ActivityListProps) {
                         weight={entry.weight}
                         reps={entry.reps}
                         note={entry.text}
+                        label={entry.label}
                         date={entry.date}
+                        time={entry.time}
                     />
                 )
             }

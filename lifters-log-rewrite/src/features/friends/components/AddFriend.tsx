@@ -13,7 +13,7 @@ function AddFriend() {
 
     return (
         <div className="addFriendContainer">
-            <button onClick={() => setAddingFriend(true)}>Add Friend</button>
+            <button className="addFriendButton" onClick={() => setAddingFriend(true)}>+</button>
         </div>
     )
 }
@@ -33,6 +33,9 @@ function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
         mutationFn: sendFriendRequest,
         onError: () => {
             setError(true)
+        },
+        onSuccess: () => {
+            cancelFn()
         }
     });
 
@@ -45,8 +48,10 @@ function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
     }
 
     return (
-        <div className="addFriendMenu">
-            <input type="text" value={newFriendName} className="smallTextInput" onChange={handleTextChange}/>
+        <div className="addFriendMenu center">
+            <input type="text" value={newFriendName} className="smallTextInput" onChange={handleTextChange}
+                placeholder="Username"
+            />
             <br />
             <button onClick={handleConfirmation} className="floatingButton">Confirm</button>
             <button onClick={cancelFn} className="floatingButton">Cancel</button>

@@ -6,6 +6,7 @@ import UserData from "../../../types/UserData";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import changeUserChatPermission from "../api/changeUserChatPermission";
 import DeleteButton from "../../../components/DeleteButton";
+import useHoverTouch from "../../../app/hooks/useHoverTouch";
 
 type ChatUserProps = {
     username: string;
@@ -14,7 +15,7 @@ type ChatUserProps = {
 
 function ChatUser({ username, room }: ChatUserProps) {
 
-    const [hovering, setHovering] = useState(false)
+    const { isHovering, hoverHandlers } = useHoverTouch();
 
     const queryClient = useQueryClient();
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
@@ -35,13 +36,12 @@ function ChatUser({ username, room }: ChatUserProps) {
     return (
         <li className="chatUser"
             style={{position: "relative"}} 
-            onPointerEnter={() => setHovering(true)} 
-            onPointerLeave={() => setHovering(false)}
+            {...hoverHandlers}
             >
             {username}
             {
                 // Make sure the user can't delete themself and make a phantom chat room
-                username != authUser.username && <DeleteButton onDelete={handleDelete} show={hovering} />
+                username != authUser.username && <DeleteButton onDelete={handleDelete} show={isHovering} />
             }
         </li>
     )

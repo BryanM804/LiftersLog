@@ -1,5 +1,5 @@
-import { useState } from "react";
 import TimeSubtext from "../../../components/TimeSubtext";
+import useHoverTouch from "../../../app/hooks/useHoverTouch";
 
 type ChatMessageProps = {
     msg: string;
@@ -10,7 +10,7 @@ type ChatMessageProps = {
 
 function ChatMessage({ msg, author, time, date }: ChatMessageProps) {
 
-    const [hovering, setHovering] = useState(false)
+    const { isHovering, hoverHandlers } = useHoverTouch();
 
     const today = new Date()
     const messageDate = new Date(Date.parse(date + "T00:00:00"))
@@ -19,9 +19,9 @@ function ChatMessage({ msg, author, time, date }: ChatMessageProps) {
 
     return (
         <>
-        <li className="chatMessage" onPointerEnter={() => setHovering(true)} onPointerLeave={() => setHovering(false)}>
+        <li className="chatMessage" {...hoverHandlers}>
             {
-                hovering &&
+                isHovering &&
                 <TimeSubtext className="chatMessageTime">
                     { 
                         (today.getDay() != messageDate.getDay()) ?

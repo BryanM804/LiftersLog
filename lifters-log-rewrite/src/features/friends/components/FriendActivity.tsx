@@ -1,5 +1,7 @@
 import ActivityList from "./ActivityList";
+import AddFriend from "./AddFriend";
 import FriendsList from "./FriendsList";
+import RequestList from "./RequestList";
 
 
 function FriendActivity() {
@@ -10,14 +12,22 @@ function FriendActivity() {
         <div className="friendActivity">
             <h3>Friends</h3>
             <hr />
+            <AddFriend />
             <div className="friendsGrid">
-                <FriendsList />
+                <div>
+                    <RequestList />
+                    <FriendsList />
+                </div>
                 <div className="activityContainer">
-                    Today
+                    <span style={{fontWeight: "bold"}}>
+                        Today
+                    </span>
                     <hr />
                     <ActivityList timeframe="today"/>
                     <br />
-                    Recent
+                    <span style={{fontWeight: "bold"}}>
+                        Recent
+                    </span>
                     <hr />
                     <ActivityList timeframe="recent" />
                 </div>
