@@ -82,7 +82,7 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
     return (
         <div className="chatRoomMenu">
             <div>
-                <button className="floatingButton" onClick={cancelFunction} style={{position: "absolute", top: "0", left: "5%"}}>Back</button>
+                <button className="floatingButton menuButton" onClick={cancelFunction} style={{position: "absolute", top: "0", left: "5%"}}>Back</button>
                 <br /><br />
                 <label htmlFor="chatRoomName">Room Name</label><br />
                 <input id="chatRoomName" type="text" className="smallTextInput" value={roomName} onChange={handleTextChange} />
@@ -97,13 +97,15 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
                     {
                         type === "create" ?
                         <>
-                            <button className="floatingButton" onClick={handleSubmit}>Create</button>
+                            <button className="floatingButton menuButton" onClick={handleSubmit}>Create</button>
                         </>
                         :
-                        <>
-                            <button className="floatingButton" onClick={handleSubmit}>Confirm</button>
-                            <button className="floatingButton" onClick={() => setIsDeleting(true)}>Delete Room</button> 
-                        </>
+                        <div>
+                            <button className="floatingButton menuButton" 
+                                onClick={handleSubmit}
+                                style={{marginRight: "0.35rem"}}>Confirm</button>
+                            <button className="floatingButton menuButton" onClick={() => setIsDeleting(true)}>Delete Room</button> 
+                        </div>
                     }
                     {
                         isDeleting &&

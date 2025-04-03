@@ -7,7 +7,9 @@ interface XpBarProps {
 function XpBar({ value, max }: XpBarProps) {
     return (
         <>
-            XP: {value}/{max}
+            <div className="xpGutter">
+                <div className="xpBar" style={{ width: `${(value / max) * 100}%`}}></div>
+            </div>
         </>
     )
 }

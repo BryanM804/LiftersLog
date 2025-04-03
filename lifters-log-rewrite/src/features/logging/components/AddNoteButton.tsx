@@ -52,8 +52,8 @@ function AddNoteButton() {
                         </label>
                         <Tooltip id="sticky"  place="top" content={tooltipText}/>
                         <br />
-                        <button className="smallFloatingButton" onClick={handleAddNote} style={{marginTop: "1rem"}}>Save</button>
-                        <button className="smallFloatingButton" onClick={() => setAddingNote(false)} style={{marginTop: "1rem"}}>Cancel</button>
+                        <button className="smallFloatingButton smallMenuButton" onClick={handleAddNote} style={{marginTop: "1rem"}}>Save</button>
+                        <button className="smallFloatingButton smallMenuButton" onClick={() => setAddingNote(false)} style={{marginTop: "1rem"}}>Cancel</button>
                     </form>
                 </div>
             }

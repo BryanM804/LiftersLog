@@ -29,12 +29,17 @@
 
 .historyItem {
     position: relative;
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    user-select: none;
+}
+.historyItem:hover {
+    background-color: #444;
+    border-radius: 8px;
 }
 
 .historyItemTime {
     position: absolute;
-    bottom: -0.5rem;
+    bottom: 0rem;
 }
 
 .historySubList {

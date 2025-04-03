@@ -14,7 +14,7 @@ function FriendActivity() {
             <hr />
             <AddFriend />
             <div className="friendsGrid">
-                <div>
+                <div className="friendListsList">
                     <RequestList />
                     <FriendsList />
                 </div>

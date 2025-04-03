@@ -4,7 +4,6 @@ import InviteConfirmation from "./InviteConfirmation";
 import ConfirmationBox from "../../../components/ConfirmationBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import changeUserChatPermission from "../api/changeUserChatPermission";
-import { useNavigate } from "react-router-dom";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import UserData from "../../../types/UserData";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
@@ -47,12 +46,12 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
     if (type == "inRoom") {
         return (
             <div className="headerButtons">
-                <button className="floatingButton" onClick={onBackClick}>Back</button>
+                <button className="floatingButton menuButton" onClick={onBackClick}>Back</button>
                 {
                     isOwner &&
                     <>
-                        <button className="floatingButton" style={{marginLeft: "0.5rem"}} onClick={onEditChatRoom}>Edit Room</button>
-                        <button className="floatingButton" style={{marginLeft: "0.5rem"}} onClick={() => setInvitingUser(true)}>Invite User</button>
+                        <button className="floatingButton menuButton" onClick={onEditChatRoom}>Edit Room</button>
+                        <button className="floatingButton menuButton" onClick={() => setInvitingUser(true)}>Invite User</button>
                         {
                             (invitingUser && room) &&
                             <InviteConfirmation cancelFn={() => setInvitingUser(false)} room={room} />
@@ -61,7 +60,7 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
                 }
                 {
                     (!isOwner && room && room.roomid != 1) &&
-                    <button className="floatingButton" onClick={() => setIsLeaving(true)}>Leave Chat</button>
+                    <button className="floatingButton menuButton" onClick={() => setIsLeaving(true)}>Leave Chat</button>
                 }
                 {
                     isLeaving &&
@@ -72,7 +71,7 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
     } else if (type == "roomList") {
         return (
             <div className="headerButtons">
-                <button className="floatingButton" onClick={onCreateChatRoom}>Create Room</button>
+                <button className="floatingButton menuButton" onClick={onCreateChatRoom}>Create Room</button>
             </div>
         )
     }

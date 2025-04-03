@@ -15,8 +15,6 @@ function FriendsList() {
     if (error) return <ServerError error={error} />
     if (isLoading) return <Loading />
 
-    if (data) console.log(data)
-
     return (
         <div className="friendListContainer">
             <ul className="friendList">

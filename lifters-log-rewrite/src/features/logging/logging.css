@@ -74,6 +74,11 @@ input::-webkit-calendar-picker-indicator {
     grid-column: span 3;
     position: relative;
 }
+.note:hover {
+    background-color: #444;
+    border-radius: 8px;
+}
+
 .deleteButton {
     position: absolute;
     right: 0;
@@ -81,7 +86,7 @@ input::-webkit-calendar-picker-indicator {
 }
 .confirmationBox {
     position: absolute;
-    top: -1.3rem;
+    top: -3.5rem;
     text-align: right;
     background-color: #333;
     padding: 0.5rem;
@@ -107,6 +112,7 @@ input::-webkit-calendar-picker-indicator {
     color: white;
     border-style: none;
     font-size: 1.8rem;
+    cursor: pointer;
 }
 .addNoteButton:hover {
     color: #999;
@@ -150,6 +156,10 @@ input::-webkit-calendar-picker-indicator {
 
     .recentHistoryList {
         grid-template-columns: repeat(2, minmax(40px, 50%));
+    }
+
+    .note {
+        user-select: none;
     }
 
     .movementPicker {

@@ -22,8 +22,6 @@ function ActivityList({ timeframe }: ActivityListProps) {
     })
 
     useEffect(() => {
-        if (data) console.log(data)
-
         if (data && data.length > 0) {
             setNoActivity(false)
         }

@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { isMobile } from "react-device-detect";
 
 
 function useHoverTouch() {
@@ -10,15 +11,29 @@ function useHoverTouch() {
     const handlePointerDown = useCallback(() => setIsHovering(true), []);
     const handlePointerUp = useCallback(() => setIsHovering(false), []);
 
-    return {
-        isHovering,
-        hoverHandlers: {
-            onPointerEnter: handlePointerEnter,
-            onPointerLeave: handlePointerLeave,
-            onPointerDown: handlePointerDown,
-            onPointerUp: handlePointerUp
+    function onTouchMove() {
+
+    }
+
+    if (isMobile) {
+        return {
+            isHovering,
+            hoverHandlers: {
+                onPointerDown: handlePointerDown,
+                onPointerUp: handlePointerUp,
+                onTouchEnd: handlePointerUp
+            }
+        }
+    } else {
+        return {
+            isHovering,
+            hoverHandlers: {
+                onPointerEnter: handlePointerEnter,
+                onPointerLeave: handlePointerLeave
+            }
         }
     }
+    
 }
 
 export default useHoverTouch;

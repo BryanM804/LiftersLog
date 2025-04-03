@@ -44,7 +44,8 @@ function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
     }
 
     function handleConfirmation() {
-        addFriendMutation.mutate({ username: newFriendName })
+        if (newFriendName.length > 0)
+            addFriendMutation.mutate({ username: newFriendName })
     }
 
     return (
@@ -52,9 +53,10 @@ function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
             <input type="text" value={newFriendName} className="smallTextInput" onChange={handleTextChange}
                 placeholder="Username"
             />
-            <br />
-            <button onClick={handleConfirmation} className="floatingButton">Confirm</button>
-            <button onClick={cancelFn} className="floatingButton">Cancel</button>
+            <div style={{display: "flex", gap: "0.3rem", marginTop: "0.5rem"}} className="center">
+                <button onClick={handleConfirmation} className="floatingButton menuButton">Confirm</button>
+                <button onClick={cancelFn} className="floatingButton menuButton">Cancel</button>
+            </div>
             <div className={ error ? "warningText" : "hidden"}>Invalid Username</div>
         </div>
     )

@@ -19,7 +19,7 @@ function DeleteButton({ show, onDelete }: DeleteButtonProps) {
         {   
             show && !isDeleting &&
                 <div className="deleteButton">
-                    <button className="smallFloatingButton" onClick={() => setIsDeleting(true)}>❌</button>
+                    <button className="smallFloatingButton transparentButton" onClick={() => setIsDeleting(true)}>❌</button>
                 </div>
         }
         {

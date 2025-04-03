@@ -21,6 +21,14 @@
     list-style: none;
 }
 
+.friendListsList {
+    padding: 0;
+    margin: 0;
+    max-height: 34rem;
+    overflow: auto;
+    scrollbar-color: #888 transparent;
+}
+
 .friend {
     margin: 0.5rem;
     margin-left: 0;
@@ -41,12 +49,14 @@
     white-space: nowrap;
     display: inline-block;
     text-overflow: ellipsis;
+    user-select: none;
 }
 .friendUsername {
     margin-top: 0.1rem;
     font-size: 0.8rem;
     display: inline-block;
     transition: transform 3s linear;
+    user-select: none;
 }
 .friendText.overflow:hover .friendUsername{
     transform: translateX(calc(75% - 100% - 100px));
@@ -69,6 +79,7 @@
     color: white;
     border-style: none;
     font-size: 1.8rem;
+    cursor: pointer;
 }
 .addFriendButton:hover {
     color: #999;
@@ -86,11 +97,13 @@
     z-index: 2;
     text-align: center;
     box-shadow: 0px 0px 10px #111;
+    height: 5rem;
 }
 
 .activityContainer {
     grid-column: 2;
     margin: 0.5rem;
+    user-select: none;
 }
 
 .activityList {
@@ -149,8 +162,11 @@
 
     .friendText {
         left: 48px;
-        /*width: 5.25rem;*/
         width: 60%;
         font-size: 0.75rem;
+    }
+
+    .addFriendMenu {
+        height: 6rem;
     }
 }

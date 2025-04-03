@@ -4,15 +4,18 @@ type ConfirmationBoxProps = {
     confirmFn: (e: SyntheticEvent) => void;
     cancelFn: () => void;
     className?: string;
+    text?: string;
 }
 
-function ConfirmationBox({ confirmFn, cancelFn, className }: ConfirmationBoxProps) {
+function ConfirmationBox({ confirmFn, cancelFn, className, text }: ConfirmationBoxProps) {
+
+    const showText = text ? text : "Are you sure?" // Omni man
 
     return (
         <div className={"confirmationBox " + className}>
-            <div className="confirmationText">Are you sure?</div>
-            <button className="smallFloatingButton" onClick={confirmFn}>✅</button>
-            <button className="smallFloatingButton" onClick={cancelFn}>❌</button>
+            <div className="confirmationText">{showText}</div>
+            <button className="smallFloatingButton smallMenuButton" onClick={confirmFn}>✅</button>
+            <button className="smallFloatingButton smallMenuButton" onClick={cancelFn}>❌</button>
         </div>
     )
 }

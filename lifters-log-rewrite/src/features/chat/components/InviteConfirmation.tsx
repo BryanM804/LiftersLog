@@ -45,13 +45,15 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
     }
     
     return (
-        <div className="chatSubMenu" style={{textAlign: "center"}}>
+        <div className="chatSubMenu">
             <input type="text" value={invitedUser} className="smallTextInput" onChange={handleTextChange}
                 placeholder="Username"
             />
             <br />
-            <button onClick={handleConfirmation} className="floatingButton">Confirm</button>
-            <button onClick={cancelFn} className="floatingButton">Cancel</button>
+            <div style={{display: "flex", gap: "0.3rem", marginTop: "0.5rem"}} className="center">
+                <button onClick={handleConfirmation} className="floatingButton menuButton">Confirm</button>
+                <button onClick={cancelFn} className="floatingButton menuButton">Cancel</button>
+            </div>
             <div className={ error ? "warningText" : "hidden"}>Invalid User</div>
         </div>
     )
