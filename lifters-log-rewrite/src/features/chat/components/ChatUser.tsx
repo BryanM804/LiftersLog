@@ -6,7 +6,7 @@ import UserData from "../../../types/UserData";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import changeUserChatPermission from "../api/changeUserChatPermission";
 import DeleteButton from "../../../components/DeleteButton";
-import useHoverTouch from "../../../app/hooks/useHoverTouch";
+import useHoverTouch from "../../../hooks/useHoverTouch";
 
 type ChatUserProps = {
     username: string;

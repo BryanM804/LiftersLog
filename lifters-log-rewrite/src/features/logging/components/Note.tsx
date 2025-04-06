@@ -1,8 +1,8 @@
 import DeleteButton from "../../../components/DeleteButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import deleteNote from "../api/deleteNote";
-import useHoverTouch from "../../../app/hooks/useHoverTouch";
-import useLongPress from "../../../app/hooks/useLongPress";
+import useHoverTouch from "../../../hooks/useHoverTouch";
+import useLongPress from "../../../hooks/useLongPress";
 import { isMobile } from "react-device-detect";
 import { useState } from "react";
 import ConfirmationBox from "../../../components/ConfirmationBox";

@@ -1,5 +1,5 @@
 import TimeSubtext from "../../../components/TimeSubtext";
-import useHoverTouch from "../../../app/hooks/useHoverTouch";
+import useHoverTouch from "../../../hooks/useHoverTouch";
 
 type ChatMessageProps = {
     msg: string;

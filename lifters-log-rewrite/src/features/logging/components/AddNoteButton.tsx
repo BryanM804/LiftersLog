@@ -3,6 +3,7 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import addNewNote from "../api/addNewNote";
 import { useMovement } from "../contexts/MovementContextProvider";
 import { Tooltip } from "react-tooltip";
+import ToggleSwitch from "../../../components/ToggleSwitch";
 
 
 function AddNoteButton() {
@@ -46,12 +47,12 @@ function AddNoteButton() {
                     <form className="addNoteForm">
                         <textarea className="longTextInput noteTextBox" id="noteInput" value={noteText} onChange={changeNoteText}/>
                         <br />
-                        <label data-tooltip-id="sticky" htmlFor="stickyCheck" className="plainLink">
-                            Sticky
-                            <input type="checkbox" id="stickyCheck" className="stickyCheck" checked={stickyNote} onChange={() => setStickyNote(!stickyNote)}/>
-                        </label>
-                        <Tooltip id="sticky"  place="top" content={tooltipText}/>
-                        <br />
+                        <div data-tooltip-id="sticky" style={{marginTop: "0.5rem"}}>
+                            <ToggleSwitch  onChange={() => setStickyNote(!stickyNote)} 
+                                label="Sticky"
+                                />
+                        </div>
+                        <Tooltip id="sticky" place="top" content={tooltipText} className="niceTooltip"/>
                         <button className="smallFloatingButton smallMenuButton" onClick={handleAddNote} style={{marginTop: "1rem"}}>Save</button>
                         <button className="smallFloatingButton smallMenuButton" onClick={() => setAddingNote(false)} style={{marginTop: "1rem"}}>Cancel</button>
                     </form>

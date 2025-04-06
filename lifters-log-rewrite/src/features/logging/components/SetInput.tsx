@@ -15,10 +15,10 @@ function SetInput({ type, onChange, id, value }: SetInputProps) {
             <label htmlFor={id}>{type == "rep" ? "Reps" : "Weight"}
             </label>
             <br />
-                <input id={id} onChange={onChange} type="number" className="smallTextInput setInput" value={displayValue} min={0} max={
-                    type == "rep" ? 50 : 1500
-                }
-                />
+            <input id={id} onChange={onChange} type="number" className="smallTextInput setInput" value={displayValue} min={0} max={
+                type == "rep" ? 50 : 1500
+            }
+            />
         </>
     )
 }

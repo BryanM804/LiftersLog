@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useHoverTouch from "../../../app/hooks/useHoverTouch";
+import useHoverTouch from "../../../hooks/useHoverTouch";
 
 type ActivityItemProps = {
     username: string;

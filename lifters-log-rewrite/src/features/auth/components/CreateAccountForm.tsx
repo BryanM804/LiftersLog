@@ -63,7 +63,12 @@ function CreateAccountForm() {
             <input className="smallTextInput" type="text" id="username" onChange={handleTextChange} value={username}/>
             <br />
             <label htmlFor="id" data-tooltip-id="idTooltip">Discord ID</label>
-            <Tooltip id="idTooltip" place="top" content="Enter your discord user ID if you want your data to sync from the discord bot. If you don't include this you CANNOT sync them later." />
+            <Tooltip 
+                id="idTooltip" 
+                place="top" 
+                content="Enter your discord user ID if you want your data to sync from the discord bot. If you don't include this you CANNOT sync them later." 
+                className="niceTooltip"
+                />
             <br />
             <input className="smallTextInput" type="text" id="id" onChange={handleTextChange} value={userid} />
             <br />

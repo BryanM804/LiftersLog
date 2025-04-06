@@ -8,17 +8,19 @@ import ActivityItem from "./ActivityItem"
 
 type ActivityListProps = {
     timeframe: string;
+    friend: string;
+    active: boolean;
 }
 
-function ActivityList({ timeframe }: ActivityListProps) {
+function ActivityList({ timeframe, friend, active }: ActivityListProps) {
 
     const [noActivity, setNoActivity] = useState(true)
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["activity", timeframe],
-        queryFn: () => getFriendActivity(timeframe),
-        // refetchInterval: 5000
-        // commented to avoid spamming console for debugging
+        queryKey: ["activity", timeframe, friend],
+        queryFn: () => getFriendActivity(timeframe, friend),
+        refetchInterval: 5000,
+        enabled: active
     })
 
     useEffect(() => {
@@ -34,7 +36,7 @@ function ActivityList({ timeframe }: ActivityListProps) {
 
     if (noActivity) {
         return (
-            <div className="darkFont">No activity</div>
+            <div style={{opacity: "50%"}}>No activity</div>
         )
     }
 

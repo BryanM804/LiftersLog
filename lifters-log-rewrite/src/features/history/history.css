@@ -48,6 +48,17 @@
     margin: 0;
 }
 
+.historyNotes {
+    padding: 0;
+    position: relative;
+    left: 1.2rem;
+    top: 0;
+    margin: 0;
+    word-wrap: break-word;
+    padding-right: 1.2rem;
+    user-select: none;
+}
+
 .historyItemSpan {
     text-align: center;
     grid-column: span 4;

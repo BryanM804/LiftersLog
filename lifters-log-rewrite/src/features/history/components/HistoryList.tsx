@@ -29,7 +29,7 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
         }
     }
 
-    if (isLoading) return <Loading />
+    // if (isLoading) return <Loading />
     if (error) return <ServerError error={error} />
 
     return (

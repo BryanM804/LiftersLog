@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
-import '../index.css'
+import '../styles/index.css'
 import Navbar from '../features/navbar/Navbar'
 import Logging from './routes/Logging'
 import History from './routes/History'

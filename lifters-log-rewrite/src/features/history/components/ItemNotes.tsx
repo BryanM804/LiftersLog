@@ -31,7 +31,7 @@ function ItemNotes({ movement, date }: ItemNotesProps) {
         return (
             <div>
                 <div style={{fontWeight: "bold"}}>Notes:</div>
-                <ul style={{padding: 0, position: "relative", left: "1.2rem", top: 0, margin: 0}}>
+                <ul className="historyNotes">
                     {
                         data.map((data: Note) =>
                             <li key={data.noteid}>{data.text}</li>

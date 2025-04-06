@@ -3,8 +3,11 @@ import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"
 
+type LogMenuProps = {
+    logMode: boolean;
+}
 
-function LogMenu() {
+function LogMenu({ logMode }: LogMenuProps) {
     const [reps, setReps] = useState(0)
     const [weight, setWeight] = useState(0.0)
     const [subReps, setSubReps] = useState(0)
@@ -52,40 +55,42 @@ function LogMenu() {
         setSubWeight(0.0);
     }
 
+    if (logMode) return <></>
+
     return (
         <form>
-                <div className="logGridContainer">
-                    <div className="gridItemSpan">
-                        <MovementPicker changeSplit={changeSplit} onClear={clearInputs}/>
-                    </div>
-                    {
-                        (splitMovement && userSplits) && 
-                        <>
-                            <div className="gridItem" style={{textAlign: "center"}}>Left<hr /></div>
-                            <div className="gridItem" style={{textAlign: "center"}}>Right<hr /></div>
-                        </>
-                    }
-                    <div className="gridItem">
-                        <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
-                    </div>
-                    {
-                        (splitMovement && userSplits) && 
-                        <div className="gridItem">
-                            <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
-                        </div>
-                    }
-                    <div className="gridItem">
-                        <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
-                    </div>
-                    {
-                        (splitMovement && userSplits) && 
-                        <div className="gridItem">
-                            <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
-                        </div>
-                    }
-                    <LogButton reps={reps} weight={weight} subReps={subReps} subWeight={subWeight} />
+            <div className="logGridContainer">
+                <div className="gridItemSpan">
+                    <MovementPicker changeSplit={changeSplit} onClear={clearInputs}/>
                 </div>
-            </form>
+                {
+                    (splitMovement && userSplits) && 
+                    <>
+                        <div className="gridItem" style={{textAlign: "center"}}>Left<hr /></div>
+                        <div className="gridItem" style={{textAlign: "center"}}>Right<hr /></div>
+                    </>
+                }
+                <div className="gridItem">
+                    <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
+                </div>
+                {
+                    (splitMovement && userSplits) && 
+                    <div className="gridItem">
+                        <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
+                    </div>
+                }
+                <div className="gridItem">
+                    <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
+                </div>
+                {
+                    (splitMovement && userSplits) && 
+                    <div className="gridItem">
+                        <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
+                    </div>
+                }
+                <LogButton reps={reps} weight={weight} subReps={subReps} subWeight={subWeight} />
+            </div>
+        </form>
     )
 }
 

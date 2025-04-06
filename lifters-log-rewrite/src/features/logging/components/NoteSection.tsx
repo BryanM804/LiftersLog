@@ -11,7 +11,11 @@ type Note = {
     noteid: number;
 }
 
-function NoteSection() {
+type NoteSectionProps = {
+    logMode: boolean;
+}
+
+function NoteSection({ logMode }: NoteSectionProps) {
 
     const { movement } = useMovement();
     const [queryNotes, setQueryNotes] = useState(false);
@@ -33,6 +37,8 @@ function NoteSection() {
             setQueryNotes(true)
         }, 350)
     }, [movement])
+
+    if (logMode) return <></>
 
     return (
         <div className="noteSection">

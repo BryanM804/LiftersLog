@@ -4,13 +4,13 @@
     width: 33.15rem;
 }
 
-.friendsGrid {
+/* .friendsGrid {
     display: grid;
     grid-template-columns: repeat(2, 50%);
-}
+} */
 
 .friendsListContainer {
-    grid-column: 1;
+    /* grid-column: 1; */
     padding: 0.2rem;
     max-height: 10rem;
     overflow: auto;
@@ -24,14 +24,12 @@
 .friendListsList {
     padding: 0;
     margin: 0;
-    max-height: 34rem;
     overflow: auto;
     scrollbar-color: #888 transparent;
 }
 
 .friend {
-    margin: 0.5rem;
-    margin-left: 0;
+    margin: 0.5rem 0.25rem;
     position: relative;
     background-color: #333;
     padding: 0.65rem;
@@ -68,7 +66,7 @@
 }
 
 .requestButton {
-    padding: 0.2rem 0.75rem;
+    padding: 0.2rem 1.5rem;
 }
 
 .addFriendButton {
@@ -101,7 +99,7 @@
 }
 
 .activityContainer {
-    grid-column: 2;
+    /* grid-column: 2; */
     margin: 0.5rem;
     user-select: none;
 }
@@ -124,7 +122,7 @@
     position: relative;
 }
 .noteActivity {
-    border-left: 4px solid rgb(113, 237, 71);
+    border-left: 4px solid rgb(193, 237, 71);
 }
 .logActivity {
     border-left: 4px solid rgb(96, 181, 96);
@@ -147,10 +145,32 @@
     font-style: italic;
 }
 
+.activityExpand {
+    max-height: 0;
+    transition: max-height 0.3s ease;
+    overflow: auto;
+}
+.activityExpand.expanded {
+    margin-top: 0.5rem;
+    max-height: 18rem;
+}
+
+.expansionArrow {
+    position: absolute;
+    font-weight: bold;
+    top: 1.75rem;
+    right: 1rem;
+    opacity: 50%;
+    transition: transform 0.3s ease;
+}
+.expansionArrow.expanded {
+    transform: rotate(-90deg);
+}
+
 @media (max-width: 768px) {
-    .friendsGrid {
+    /* .friendsGrid {
         grid-template-columns: 40% 60%;
-    }
+    } */
 
     .friendActivity {
         width: 100%;
@@ -162,7 +182,7 @@
 
     .friendText {
         left: 48px;
-        width: 60%;
+        width: 75%;
         font-size: 0.75rem;
     }
 

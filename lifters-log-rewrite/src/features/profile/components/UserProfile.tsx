@@ -10,6 +10,8 @@ import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
 import { useState } from "react";
 import ProfilePicture from "../../../components/ProfilePicture";
+import ToggleSwitch from "../../../components/ToggleSwitch";
+import ProfileRecords from "./ProfileRecords";
 
 
 function UserProfile() {
@@ -51,12 +53,16 @@ function UserProfile() {
                 <ProfilePicture imageURL={data.pfpurl} size={128}/>
             </div>
             <div className="profileDescription">
-                Level: {data.level}
+                <span style={{fontWeight: "bold"}}>Level {data.level}</span>
                 <br />
                 <XpBar value={data.xp} max={data.level * 1500}/>
-                Total Weight Lifted: {data.totalweight}
+                <div style={{fontWeight: "bold"}}>Weight Lifted</div>
+                {data.totalweight}
                 <br />
-                Total Sets Logged: {data.totalsets}
+                <div style={{fontWeight: "bold"}}>Sets Logged</div>
+                {data.totalsets}
+                <br />
+                <ProfileRecords />
             </div>
             </div>
         </div>

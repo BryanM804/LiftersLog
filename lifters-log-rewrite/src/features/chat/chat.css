@@ -2,14 +2,13 @@
     background-color: #333;
     padding: 1rem;
     border-radius: 8px;
-    border: 2px solid #555;
     width: 30rem;
     min-height: 15rem;
     max-height: 22rem;
     margin: auto;
     position: relative;
     scrollbar-color: #888 transparent;
-    box-shadow: 2px 2px 5px #111;
+    box-shadow: 1px 1px 5px #111;
 }
 
 .headerButtons {
@@ -144,12 +143,14 @@
 @media (max-width: 768px) {
     .chatTopper {
         width: 100%;
+        position: relative;
+        margin-left: 0;
+        margin-right: 0;
     }
     
     .chatBox {
-        width: 85%;
-        max-width: 90%;
         max-height: 28rem;
+        width: 89%;
     }
 
     .chatMessageList {
@@ -165,12 +166,11 @@
 
     .chatBar {
         font-size: 1.3rem;
-        width: 65%;
+        width: 70%;
     }
 
     .chatSubmitButton {
         padding: 0.75rem 1.25rem;
-        right: 0.5rem;
     }
 
     .userList {

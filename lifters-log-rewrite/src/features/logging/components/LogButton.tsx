@@ -32,12 +32,10 @@ function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
             setInvalidLog(true);
             setTimeout(() => {
                 setInvalidLog(false);
-            }, 100);
+            }, 200);
             return;
         }
 
-        console.log(`${movement}: ${reps} x ${weight}lbs`)
-        console.log(`Subreps: ${subReps}, subweight: ${subWeight}`)
         setMutation.mutate({movement: movement, weight: weight, reps: reps, subweight: subWeight, subreps: subReps});
     }
 

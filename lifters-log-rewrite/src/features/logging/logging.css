@@ -144,11 +144,6 @@ input::-webkit-calendar-picker-indicator {
     resize: none;
 }
 
-.stickyCheck {
-    background-color: transparent;
-    border: none;
-}
-
 @media (max-width: 768px) {
     .logGridContainer {
         font-size: 1.3rem;

@@ -2,9 +2,9 @@ import DeleteButton from "../../../components/DeleteButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import removeSet from "../api/removeSet";
 import TimeSubtext from "../../../components/TimeSubtext";
-import useHoverTouch from "../../../app/hooks/useHoverTouch";
-import useLongPress from "../../../app/hooks/useLongPress";
-import { isDesktop, isMobile } from "react-device-detect";
+import useHoverTouch from "../../../hooks/useHoverTouch";
+import useLongPress from "../../../hooks/useLongPress";
+import { isDesktop } from "react-device-detect";
 import { useState } from "react";
 import ConfirmationBox from "../../../components/ConfirmationBox";
 
