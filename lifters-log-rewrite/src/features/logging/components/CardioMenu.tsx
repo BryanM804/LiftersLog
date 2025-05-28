@@ -8,8 +8,8 @@ type CardioMenuProps = {
 function CardioMenu({ logMode }: CardioMenuProps) {
 
     const [cardioMovement, setCardioMovement] = useState("");
-    const [cardioTime, setCardioTime] = useState<number | "">(0);
-    const [cardioDistance, setCardioDistance] = useState<number | "">(0);
+    const [cardioTime, setCardioTime] = useState<number | "">("");
+    const [cardioDistance, setCardioDistance] = useState<number | "">("");
     const [cardioNote, setCardioNote] = useState("");
 
     function parseAndRound(s: string) {

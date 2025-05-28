@@ -28,11 +28,19 @@
     border-radius: 64px;
 }
 
+.darkSwitchSlider::before {
+    background-color: lightgray;
+}
+
 input:checked + .switchSlider {
     background-color: lightgreen;
 }
 input:checked + .switchSlider::before {
     transform: translateX(1rem);
+}
+
+input:checked + .darkSwitchSlider {
+    background-color: #888;
 }
 
 @media (max-width: 768px) {

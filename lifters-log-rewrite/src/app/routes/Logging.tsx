@@ -17,7 +17,10 @@ function Logging() {
         <>
         <AuthChecker />
         <div style={{margin: "0.5rem"}}>
-            <ToggleSwitch offLabel="Lift" onLabel="Cardio" onChange={() => setLogMode(!logMode)}/>
+            <ToggleSwitch offLabel="Lift" onLabel="Cardio" 
+            onChange={() => setLogMode(!logMode)}
+            type="dark"
+            />
         </div>
         <div className="mainContentPane">
             <MovementContextProvider>

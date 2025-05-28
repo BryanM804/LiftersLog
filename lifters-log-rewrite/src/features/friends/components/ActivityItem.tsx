@@ -10,9 +10,12 @@ type ActivityItemProps = {
     reps?: number;
     note?: string;
     label?: string;
+    cardiotime?: number;
+    distance?: number;
+    cardionote?: string;
 }
 
-function ActivityItem({ username, date, time, exercise, weight, reps, note, label }: ActivityItemProps) {
+function ActivityItem({ username, date, time, exercise, weight, reps, note, label, cardiotime, distance, cardionote }: ActivityItemProps) {
 
     // Should always either have a weight and reps, note, or label as non null values
 
@@ -63,6 +66,24 @@ function ActivityItem({ username, date, time, exercise, weight, reps, note, labe
                 {username} set label for {date}
                 <ul style={{paddingLeft: "1rem"}}>
                     <li className="activityNote">"{label}"</li>
+                </ul>
+            </li>
+        )
+    }
+
+    if (cardiotime) {
+        return (
+            <li className="activityItem cardioActivity" {...hoverHandlers}>
+                <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
+                    [{showTime ? time : date}]
+                </div>
+                {username} logged {exercise}
+                <ul style={{paddingLeft: "1rem"}}>
+                    <li className="activityNote">{cardiotime} minutes{ distance && `, ${distance} miles` }</li>
+                    {
+                        cardionote &&
+                        <li className="activityNote">{cardionote}</li>
+                    }
                 </ul>
             </li>
         )

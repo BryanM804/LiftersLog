@@ -54,6 +54,9 @@ function ActivityList({ timeframe, friend, active }: ActivityListProps) {
                         label={entry.label}
                         date={entry.date}
                         time={entry.time}
+                        cardiotime={entry.cardiotime}
+                        cardionote={entry.note}
+                        distance={entry.distance}
                     />
                 )
             }

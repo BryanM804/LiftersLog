@@ -7,6 +7,9 @@ import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import changeUserChatPermission from "../api/changeUserChatPermission";
 import DeleteButton from "../../../components/DeleteButton";
 import useHoverTouch from "../../../hooks/useHoverTouch";
+import useLongPress from "../../../hooks/useLongPress";
+import { isMobile } from "react-device-detect";
+import ConfirmationBox from "../../../components/ConfirmationBox";
 
 type ChatUserProps = {
     username: string;
@@ -16,6 +19,10 @@ type ChatUserProps = {
 function ChatUser({ username, room }: ChatUserProps) {
 
     const { isHovering, hoverHandlers } = useHoverTouch();
+    const { isHeld, holdHandlers } = useLongPress(() => setIsDeleting(true));
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handlers = isMobile ? holdHandlers : hoverHandlers;
 
     const queryClient = useQueryClient();
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
@@ -35,13 +42,21 @@ function ChatUser({ username, room }: ChatUserProps) {
 
     return (
         <li className="chatUser"
-            style={{position: "relative"}} 
-            {...hoverHandlers}
+            // style={{position: "relative"}} 
+            {...handlers}
             >
             {username}
             {
                 // Make sure the user can't delete themself and make a phantom chat room
                 username != authUser.username && <DeleteButton onDelete={handleDelete} show={isHovering} />
+            }
+            {
+                isDeleting && username != authUser.username && 
+                <ConfirmationBox className="center chatUserDeleteConfirm" 
+                    confirmFn={handleDelete} 
+                    cancelFn={() => setIsDeleting(false)}
+                    text={`Remove ${username} from the chatroom?`}
+                    />
             }
         </li>
     )

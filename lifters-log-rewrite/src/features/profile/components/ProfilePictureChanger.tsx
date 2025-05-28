@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
 import uploadProfilePicture from "../api/uploadProfilePicture";
 import ProfilePicture from "../../../components/ProfilePicture";
+import HalfGap from "../../../components/HalfGap";
 
 type ProfilePictureChangerProps = {
     imageURL: string;
@@ -11,13 +12,17 @@ type ProfilePictureChangerProps = {
 function ProfilePictureChanger({ imageURL, size }: ProfilePictureChangerProps) {
 
     const [image, setImage] = useState<File | null>(null)
+    const [preview, setPreview] = useState<string | null>(null)
 
     const newPicMutation = useMutation({
         mutationFn: uploadProfilePicture
     })
 
     function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
-        setImage(e.target.files ? e.target.files[0] : null)
+        if (e.target.files) {
+            setImage(e.target.files[0])
+            setPreview(URL.createObjectURL(e.target.files[0]))
+        }
     }
 
     function handleUpload() {
@@ -31,9 +36,18 @@ function ProfilePictureChanger({ imageURL, size }: ProfilePictureChangerProps) {
 
     return (
         <div className="profilePictureContainer">
-            <ProfilePicture imageURL={imageURL} size={size} />
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            <button onClick={handleUpload} className="floatingButton">Upload Test</button>
+            {
+                preview ?
+                <ProfilePicture imageURL={preview} size={size} />
+                :
+                <ProfilePicture imageURL={imageURL} size={size} />
+            }
+            <HalfGap />
+            <label
+                htmlFor="profilePictureUpload"
+                className="smallFloatingButton smallMenuButton"
+            >Choose File</label>
+            <input hidden id="profilePictureUpload" type="file" accept="image/*" onChange={handleFileChange} />
         </div>
     )
 }

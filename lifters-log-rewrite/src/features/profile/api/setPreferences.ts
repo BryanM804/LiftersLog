@@ -5,7 +5,7 @@ type NewPreferences = {
     logActivity: boolean;
     noteActivity: boolean;
     labelActivity: boolean;
-    splitsExercises: boolean;
+    splitsMovements: boolean;
 }
 
 async function setPreferences(preferences: NewPreferences) {

@@ -71,7 +71,7 @@ function Friend({ username, level, imageURL, type, lastSeen }: FriendProps) {
 
     return (
         <li className="friend">
-            <ProfilePicture imageURL={imageURL} size={ isMobile ? 32 : 64 } />
+            <ProfilePicture imageURL={imageURL} size={ isMobile ? 48 : 76 } />
             <div ref={containerRef} 
                 className={`friendText ${usernameOverflows && "overflow"}`}
                 onClick={handleClick}

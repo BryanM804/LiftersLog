@@ -3,6 +3,7 @@ import HistoryGroup from "./HistoryGroup";
 import getHistoryGroupsForDate from "../api/getHistoryGroupsForDate";
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
+import CardioList from "./CardioList";
 
 type HistoryListProps = {
     date: string;
@@ -42,6 +43,7 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
                 :
                 <div className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholder}</div>
             }
+            <CardioList date={date} />
         </ul>
     )
 }

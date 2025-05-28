@@ -140,6 +140,11 @@
     text-align: center;
 }
 
+.chatUserDeleteConfirm {
+    text-align: center;
+    top: 10rem;
+}
+
 @media (max-width: 768px) {
     .chatTopper {
         width: 100%;
@@ -174,13 +179,17 @@
     }
 
     .userList {
-        max-width: 5rem;
+        max-width: 8rem;
         max-height: 20rem;
         padding-left: 1rem;
     }
 
     .leaveConfirmation {
         top: 0.75rem;
+    }
+
+    .chatRoomMenu {
+        grid-template-columns: 60% 40%;
     }
 
     .chatSubMenu {

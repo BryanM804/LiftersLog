@@ -4,47 +4,42 @@ import getUserPreferences from "../api/getUserPreferences"
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
 import { useEffect, useState } from "react";
+import ToggleSwitch from "../../../components/ToggleSwitch";
+import HalfGap from "../../../components/HalfGap";
 
+type PreferenceMenuProps = {
+    noteActivity: boolean;
+    logActivity: boolean;
+    labelActivity: boolean;
+    splitsMovements: boolean;
+    onChange: (e: string) => void;
+}
 
-function PreferenceMenu() {
+function PreferenceMenu({ noteActivity, logActivity, labelActivity, splitsMovements, onChange }: PreferenceMenuProps) {
 
-    const [noteActivity, setNoteActivity] = useState(true)
-    const [logActivity, setLogActivity] = useState(true)
-    const [labelActivity, setLabelActivity] = useState(true)
-    const [splitsMovements, setSplitsMovements] = useState(true)
-
-    const { data, error, isLoading } = useQuery({
-        queryKey: ["preferences"],
-        queryFn: getUserPreferences
-    });
-
-    const preferenceMutation = useMutation({
-        mutationFn: setPreferences
-    })
-
-    useEffect(() => {
-        if (data) {
-            setNoteActivity(data.noteActivity);
-            setLogActivity(data.logActivity);
-            setLabelActivity(data.labelActivity);
-            setSplitsMovements(data.splitsMovements)
-        }
-    }, [data])
-
-    function handleSubmit() {
-
-    }
-
-    if (isLoading) return <Loading />
-    if (error) return <ServerError error={error} />
-
-    // Placeholder to test querying
     return (
         <div className="preferenceMenu">
-            <p>Note Activity: {noteActivity.toString()}</p>
-            <p>Log Activity: {logActivity.toString()}</p>
-            <p>Label Activity: {labelActivity.toString()}</p>
-            <p>Splits Movements: {splitsMovements.toString()}</p>
+            Preferences
+            <hr />
+            <ToggleSwitch label="Note Activity" 
+                initialState={noteActivity}
+                onChange={() => onChange("noteActivity")}
+                />
+            <HalfGap />
+            <ToggleSwitch label="Log Activity" 
+                initialState={logActivity}
+                onChange={() => onChange("logActivity")}
+                />
+            <HalfGap />
+            <ToggleSwitch label="Label Activity" 
+                initialState={labelActivity}
+                onChange={() => onChange("labelActivity")}
+                />
+            <HalfGap />
+            <ToggleSwitch label="Split Movements" 
+                initialState={splitsMovements}
+                onChange={() => onChange("splitsMovements")}
+                />
         </div>
     )
 }

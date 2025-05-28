@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SyntheticEvent, useState } from "react";
 import addNewCardio from "../api/addNewCardio";
 
@@ -11,16 +11,21 @@ type CardioLogButtonProps = {
 
 function CardioLogButton({ movement, time, distance, note }: CardioLogButtonProps) {
 
+    const queryClient = useQueryClient();
+
     const [invalidLog, setInvalidLog] = useState(false);
 
     const cardioMutation = useMutation({
-        mutationFn: addNewCardio
+        mutationFn: addNewCardio,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["history", "cardio"] })
+        }
     })
 
     function handleClick(e: SyntheticEvent) {
         e.preventDefault();
         if (movement.length > 0 && time > 0 && distance >= 0) {
-            cardioMutation.mutate({ movement, time, distance, note });
+            cardioMutation.mutate({ movement, cardiotime: time, distance, note });
         } else {
             setInvalidLog(true);
             setTimeout(() => {

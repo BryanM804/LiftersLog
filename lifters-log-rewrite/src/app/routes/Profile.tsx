@@ -7,10 +7,8 @@ function Profile() {
     return (
         <div className="mainContentPane">
             <AuthChecker />
-                <div className="mainContentPane">
-                    <UserProfile />
-                </div>
-            <LogoutButton></LogoutButton>
+            <UserProfile />
+            <LogoutButton />
         </div>
     )
 }

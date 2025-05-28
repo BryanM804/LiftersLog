@@ -1,16 +1,16 @@
-import CardioSet from "../../../types/CardioSet";
 import checkStatus from "../../../utils/api/checkStatus";
-import { SERVER_URL } from "../../../utils/constants"
+import { SERVER_URL } from "../../../utils/constants";
 
-async function addNewCardio(newCardioSet: CardioSet) {
+
+async function removeCardioSet(cardioid: number) {
     const response = await fetch(`${SERVER_URL}/log/cardio`, {
-        method: "POST",
+        method: "DELETE",
         credentials: "include",
         headers: {"Content-type": "application/json"},
-        body: JSON.stringify(newCardioSet)
+        body: JSON.stringify({cardioid})
     });
 
     return checkStatus(response);
 }
 
-export default addNewCardio
+export default removeCardioSet;
