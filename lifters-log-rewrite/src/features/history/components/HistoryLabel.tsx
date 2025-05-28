@@ -18,7 +18,7 @@ function HistoryLabel({ date }: HistoryLabelProps) {
 
     const { data, error, isLoading} = useQuery({
         queryKey: ["label",  date],
-        queryFn: () => getLabelForDate(date)
+        queryFn: getLabelForDate
     });
 
     const labelMutation = useMutation({

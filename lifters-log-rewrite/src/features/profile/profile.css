@@ -27,7 +27,7 @@
     padding-top: 0;
     border-radius: 24px;
     position: relative;
-    min-width: 18rem;
+    width: 20rem;
     min-height: 28rem;
     overflow: hidden;
 }
@@ -40,8 +40,8 @@
     text-align: left;
     position: absolute;
     top: 0;
-    left: 144px;
-    width: 75%;
+    left: 272px;
+    width: 55%;
 }
 
 .preferenceMenu {
@@ -49,14 +49,33 @@
     margin-top: 1rem;
 }
 
+.userRecords {
+    position: absolute;
+    text-align: left;
+}
+
+.editButton {
+    padding: 0.1rem;
+    border-radius: 4px;
+}
+.editButton:hover {
+    cursor: pointer;
+    background-color: #555;
+}
+
 @media (max-width: 768px) {
     .userProfileContainer {
-        max-width: 90%;
+        width: 80%;
         min-height: 32.5rem;
     }
 
     .profileDescription {
-        width: auto;
+        width: 55%;
+        font-size: 1.2rem;
+        left: 144px;
+    }
+
+    .userRecords {
         font-size: 1.2rem;
     }
 }

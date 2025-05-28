@@ -16,8 +16,8 @@ type HistoryGroupProps = {
 function HistoryGroup({ date, movement, onClick }: HistoryGroupProps) {
     
     const { data, error, isLoading } = useQuery({
-        queryKey: ["history", "group", {date, movement}],
-        queryFn: () => getHistoryForDate(date, movement)
+        queryKey: ["history", "group", date, movement],
+        queryFn: getHistoryForDate
     });
 
     if (isLoading) return <Loading />

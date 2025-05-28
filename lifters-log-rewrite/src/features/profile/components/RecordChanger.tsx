@@ -31,7 +31,6 @@ function RecordChanger({ type, initWeight }: RecordChangerProps) {
     }
 
     function changeRecord() {
-        console.log(type)
         updateMutation.mutate({type: type, weight: newWeight})
     }
 
@@ -54,9 +53,9 @@ function RecordChanger({ type, initWeight }: RecordChangerProps) {
                 :
                     "N/A"
             }
-            <button onClick={() => setIsChanging(true)}>
-                <img src="" />
-            </button>
+            <a onClick={() => setIsChanging(true)}>
+                <img src="./src/assets/edit.png" height={20} width={20} className="editButton" />
+            </a>
         </>
     )
 }

@@ -10,6 +10,7 @@ import getUserStats from "../api/getUserStats";
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
 import { useQuery } from "@tanstack/react-query";
+import { isMobile } from "react-device-detect";
 
 
 function UserProfile() {
@@ -22,6 +23,8 @@ function UserProfile() {
         queryKey: ["stats"],
         queryFn: getUserStats
     });
+
+    const pfpSize = isMobile ? 128 : 256
     
     if (isLoading) return <Loading />
 
@@ -37,16 +40,18 @@ function UserProfile() {
             <h3>{authUser && authUser.username}<hr /></h3>
             <div className="profileContainer">
                 <div className="profilePictureContainer">
-                    <ProfilePicture imageURL={data.pfpurl} size={128}/>
+                    <ProfilePicture imageURL={data.pfpurl} size={pfpSize}/>
                     <button className="floatingButton menuButton"
-                        style={{width: "128px"}}
+                        style={{width: pfpSize}}
                         onClick={() => setIsEditing(true)}
                     >
-                    Edit
+                    Edit Profile
                     </button>
                 </div>
                 <div className="profileDescription">
                     <ProfileStats stats={data}/>
+                </div>
+                <div className="userRecords">
                     <ProfileRecords />
                 </div>
             </div>

@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 async function getUserStats() {
@@ -5,7 +6,7 @@ async function getUserStats() {
         method: "GET",
         credentials: "include" // include credentials to send auth cookie
     });
-    return response.json();
+    return checkStatus(response);
 }
 
 export default getUserStats;

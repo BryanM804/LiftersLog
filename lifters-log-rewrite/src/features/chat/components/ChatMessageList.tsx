@@ -14,7 +14,7 @@ function ChatMessageList({ room }: ChatMessageListProps) {
 
     const { data, error, isLoading } = useQuery({
         queryKey: ["chat", room.roomid],
-        queryFn: () => getChatMessages(room.roomid),
+        queryFn: getChatMessages,
         refetchInterval: 3000
     })
 

@@ -16,8 +16,8 @@ type Note = {
 function ItemNotes({ movement, date }: ItemNotesProps) {
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["notes", "history", {movement, date}],
-        queryFn: () => getNotesForMovement(movement, date)
+        queryKey: ["notes", "history", movement, date],
+        queryFn: getNotesForMovement
     });
 
     if (isLoading) {

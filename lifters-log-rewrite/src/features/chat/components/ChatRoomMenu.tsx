@@ -46,8 +46,8 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
     })
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["chatUsers"],
-        queryFn: () => getUsersWithAccess(room?.roomid || 0) // room should always be defined if this runs
+        queryKey: ["chatUsers", room?.roomid || 0], // room should always be defined if this runs
+        queryFn: getUsersWithAccess
     })
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {

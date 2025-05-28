@@ -23,7 +23,7 @@ function NoteSection({ logMode }: NoteSectionProps) {
     
     const { data, error, isLoading } = useQuery({
         queryKey: ["notes", movement],
-        queryFn: () => getNotesForMovement(movement),
+        queryFn: getNotesForMovement,
         enabled: queryNotes
     })
 

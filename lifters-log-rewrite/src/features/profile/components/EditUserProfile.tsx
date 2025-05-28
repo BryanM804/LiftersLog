@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import setPreferences from "../api/setPreferences";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import UserData from "../../../types/UserData";
@@ -7,6 +7,8 @@ import ProfilePictureChanger from "./ProfilePictureChanger";
 import getUserPreferences from "../api/getUserPreferences";
 import { useEffect, useState } from "react";
 import PreferenceMenu from "./PreferenceMenu";
+import { isMobile } from "react-device-detect";
+import uploadProfilePicture from "../api/uploadProfilePicture";
 
 type EditUserProfileProps = {
     pfpurl: string;
@@ -16,14 +18,26 @@ type EditUserProfileProps = {
 function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
 
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
+    const queryClient = useQueryClient()
 
     const [noteActivity, setNoteActivity] = useState(true)
     const [logActivity, setLogActivity] = useState(true)
     const [labelActivity, setLabelActivity] = useState(true)
     const [splitsMovements, setSplitsMovements] = useState(true)
 
+    const [profileImage, setProfileImage] = useState<File | null>(null)
+
+    const pfpSize = isMobile ? 128 : 256;
+
     const preferenceMutation = useMutation({
         mutationFn: setPreferences
+    })
+
+    const newPicMutation = useMutation({
+        mutationFn: uploadProfilePicture,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["stats"] })
+        }
     })
 
     const { data, error, isLoading } = useQuery({
@@ -42,7 +56,15 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
 
     function handleSave() {
         preferenceMutation.mutate({ noteActivity, logActivity, labelActivity, splitsMovements})
-        console.log("Preferences saved.")
+        
+        if (profileImage) {
+            const formData = new FormData();
+            formData.append("profilePic", profileImage);
+
+            newPicMutation.mutate(formData);
+        }
+
+        cancelFn()
     }
 
     function handlePreferenceChange(pref: string) {
@@ -61,7 +83,7 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
         <div className="userProfileContainer">
             <h3>{authUser && authUser.username}<hr /></h3>
             <div className="profilePictureContainer">
-                <ProfilePictureChanger imageURL={pfpurl} size={128}/>
+                <ProfilePictureChanger imageURL={pfpurl} size={pfpSize} image={profileImage} setImage={setProfileImage} />
             </div>
             <PreferenceMenu 
                 noteActivity={noteActivity}

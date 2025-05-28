@@ -8,8 +8,8 @@ import Friend from "./Friend";
 function FriendsList() {
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["friends"],
-        queryFn: () => getFriendList(false)
+        queryKey: ["friends", false],
+        queryFn: getFriendList
     })  
 
     if (error) return <ServerError error={error} />

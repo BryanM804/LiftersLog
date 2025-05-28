@@ -11,8 +11,8 @@ type CardioListProps = {
 function CardioList({ date }: CardioListProps) {
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["history", "cardio"],
-        queryFn: () => getCardioHistory(date)
+        queryKey: ["history", "cardio", date],
+        queryFn: getCardioHistory
     })
 
     if (error) return <ServerError error={error} />

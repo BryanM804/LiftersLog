@@ -18,7 +18,7 @@ function ActivityList({ timeframe, friend, active }: ActivityListProps) {
 
     const { data, error, isLoading } = useQuery({
         queryKey: ["activity", timeframe, friend],
-        queryFn: () => getFriendActivity(timeframe, friend),
+        queryFn: getFriendActivity,
         refetchInterval: 5000,
         enabled: active
     })

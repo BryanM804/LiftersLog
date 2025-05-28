@@ -21,7 +21,7 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
 
     const {data, error, isLoading} = useQuery({
         queryKey: ["history",  date],
-        queryFn: () => getHistoryGroupsForDate(date)
+        queryFn: getHistoryGroupsForDate
     })
 
     function handleMovementChange(m: string) {
