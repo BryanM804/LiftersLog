@@ -52,7 +52,7 @@ function UserProfile() {
                     <ProfileStats stats={data}/>
                 </div>
                 <div className="userRecords">
-                    <ProfileRecords />
+                    <ProfileRecords editable={true} />
                 </div>
             </div>
         </div>

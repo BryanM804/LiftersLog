@@ -4,11 +4,16 @@ import Loading from "../../../components/Loading"
 import ServerError from "../../../components/ServerError"
 import RecordChanger from "./RecordChanger"
 
+type ProfileRecordsProps = {
+    editable?: boolean;
+    username?: string;
+}
 
-function ProfileRecords() {
+
+function ProfileRecords({ editable, username }: ProfileRecordsProps) {
 
     const { data, error, isLoading} = useQuery({
-        queryKey: ["records"],
+        queryKey: ["records", username],
         queryFn: getUserRecords
     })
 
@@ -21,7 +26,12 @@ function ProfileRecords() {
                 data.map((record: {weight: number, type: string}) =>
                     <div key={record.type}> 
                         <div style={{fontWeight: "bold"}}>{record.type.substring(0, 1).toUpperCase() + record.type.substring(1)}</div>
-                        <RecordChanger type={record.type} initWeight={record.weight} />
+                        {
+                            editable ?
+                                <RecordChanger type={record.type} initWeight={record.weight} />
+                            :
+                                record.weight > 0 ? record.weight : "N/A"
+                        }
                         <br />
                     </div>
                 )

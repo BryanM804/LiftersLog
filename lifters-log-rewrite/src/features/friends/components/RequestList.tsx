@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import getFriendList from "../api/getFriendList";
 import ServerError from "../../../components/ServerError";
 import Loading from "../../../components/Loading";
-import Friend from "./Friend";
+import FriendRequest from "./FriendRequest";
 
 
 function RequestList() {
@@ -25,8 +25,7 @@ function RequestList() {
                 {
                     (data && data.length > 0) &&
                         data.map((friend: {username: string, id: number, pfpurl: string}) => 
-                            <Friend 
-                                type="request"
+                            <FriendRequest
                                 username={friend.username} 
                                 imageURL={friend.pfpurl}
                                 key={friend.id} 

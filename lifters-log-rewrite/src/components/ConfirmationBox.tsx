@@ -12,11 +12,14 @@ function ConfirmationBox({ confirmFn, cancelFn, className, text }: ConfirmationB
     const showText = text ? text : "Are you sure?" // Omni man
 
     return (
-        <div className={"confirmationBox " + className}>
+        <>
+        <div className="backgroundDim" style={{zIndex: "100"}} onClick={cancelFn}></div>
+        <div className={"confirmationBox " + className} style={{zIndex: "101"}}>
             <div className="confirmationText">{showText}</div>
             <button className="smallFloatingButton smallMenuButton" onClick={confirmFn}>✅</button>
             <button className="smallFloatingButton smallMenuButton" onClick={cancelFn}>❌</button>
         </div>
+        </>
     )
 }
 

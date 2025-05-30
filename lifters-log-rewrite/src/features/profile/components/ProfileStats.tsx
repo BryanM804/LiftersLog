@@ -19,16 +19,16 @@ function ProfileStats({ stats }: ProfileStatsProps) {
         <br />
         <XpBar value={stats.xp} max={stats.level * 1500}/>
         <div style={{fontWeight: "bold"}}>Weight Lifted</div>
-        {stats.totalweight}
+        {stats.totalweight} lbs
         <br />
         <div style={{fontWeight: "bold"}}>Sets Logged</div>
         {stats.totalsets}
         <br />
         <div style={{fontWeight: "bold"}}>Cardio Time</div>
-        {stats.totalcardiotime}
+        {stats.totalcardiotime} Minutes
         <br />
         <div style={{fontWeight: "bold"}}>Cardio Distance</div>
-        {stats.totalcardiodistance}
+        {stats.totalcardiodistance} Miles
         <br />
         </>
     )

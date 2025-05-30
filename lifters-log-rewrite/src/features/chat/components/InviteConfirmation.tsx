@@ -45,6 +45,8 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
     }
     
     return (
+        <>
+        <div className="backgroundDim" onClick={cancelFn} ></div>
         <div className="chatSubMenu">
             <input type="text" value={invitedUser} className="smallTextInput" onChange={handleTextChange}
                 placeholder="Username"
@@ -56,6 +58,7 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
             </div>
             <div className={ error ? "warningText" : "hidden"}>Invalid User</div>
         </div>
+        </>
     )
 }
 

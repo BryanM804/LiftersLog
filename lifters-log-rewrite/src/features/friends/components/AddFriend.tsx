@@ -49,6 +49,8 @@ function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
     }
 
     return (
+        <>
+        <div className="backgroundDim" onClick={cancelFn}></div>
         <div className="addFriendMenu center">
             <input type="text" value={newFriendName} className="smallTextInput" onChange={handleTextChange}
                 placeholder="Username"
@@ -59,5 +61,6 @@ function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
             </div>
             <div className={ error ? "warningText" : "hidden"}>Invalid Username</div>
         </div>
+        </>
     )
 }

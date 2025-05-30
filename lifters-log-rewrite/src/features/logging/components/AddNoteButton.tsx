@@ -43,6 +43,8 @@ function AddNoteButton() {
         <>
             {
                 addingNote && 
+                <>
+                <div className="backgroundDim" onClick={() => setAddingNote(false)}></div>
                 <div className="addNote">
                     <form className="addNoteForm">
                         <textarea className="longTextInput noteTextBox" id="noteInput" value={noteText} onChange={changeNoteText}/>
@@ -57,6 +59,7 @@ function AddNoteButton() {
                         <button className="smallFloatingButton smallMenuButton" onClick={() => setAddingNote(false)} style={{marginTop: "1rem"}}>Cancel</button>
                     </form>
                 </div>
+                </>
             }
             <button className="addNoteButton" onClick={() => setAddingNote(!addingNote)}>+</button>
         </>

@@ -66,7 +66,7 @@
 }
 
 .requestButton {
-    padding: 0.2rem 1.5rem;
+    padding: 0.5rem 1.5rem;
 }
 
 .addFriendButton {
@@ -170,11 +170,34 @@
     transform: rotate(-90deg);
 }
 
-@media (max-width: 768px) {
-    /* .friendsGrid {
-        grid-template-columns: 40% 60%;
-    } */
+.friendProfileContainer {
+    text-align: center;
+    background-color: #333;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 20vh;
+    z-index: 3;
+    border-radius: 24px;
+    width: 20rem;
+    min-height: 28rem;
+    overflow: hidden;
+}
 
+.unfriendButton {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.unfriendConfirmation {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    text-align: center;
+    top: auto;
+}
+
+@media (max-width: 768px) {
     .friendActivity {
         width: 100%;
     }
@@ -191,5 +214,10 @@
 
     .addFriendMenu {
         height: 6rem;
+    }
+
+    .friendProfileContainer {
+        width: 80%;
+        max-height: 65%;
     }
 }

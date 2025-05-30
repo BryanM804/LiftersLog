@@ -30,6 +30,7 @@
     width: 20rem;
     min-height: 28rem;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .profileContainer {

@@ -22,7 +22,6 @@ function FriendsList() {
                     (data && data.length > 0) ?
                         data.map((friend: {username: string, level: number, id: number, pfpurl: string, lastseen: string}) => 
                             <Friend 
-                                type="friend"
                                 username={friend.username} 
                                 level={friend.level} 
                                 imageURL={friend.pfpurl}

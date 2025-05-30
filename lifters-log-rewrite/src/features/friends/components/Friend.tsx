@@ -1,35 +1,24 @@
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProfilePicture from "../../../components/ProfilePicture";
 import { isMobile } from "react-device-detect";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import resolveRequest from "../api/resolveRequest";
 import ActivityList from "./ActivityList";
+import FriendProfile from "./FriendProfile";
 
 type FriendProps = {
     username: string;
-    level?: number;
-    lastSeen?: string;
+    level: number;
+    lastSeen: string;
     imageURL: string;
-    type: string;
 }
 
-function Friend({ username, level, imageURL, type, lastSeen }: FriendProps) {
-
-    const queryClient = useQueryClient();
+function Friend({ username, level, imageURL, lastSeen }: FriendProps) {
 
     const [usernameOverflows, setUsernameOverflows] = useState(false)
     const [expanded, setExpanded] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const containerRef = useRef<HTMLDivElement>(null)
     const usernameRef = useRef<HTMLHeadingElement>(null)
-
-    const resolveMutation = useMutation({
-        mutationFn: resolveRequest,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["requests"] });
-            queryClient.invalidateQueries({ queryKey: ["friends"] });
-        }
-    })
 
     // Check previous expanded state
     useEffect(() => {
@@ -53,14 +42,6 @@ function Friend({ username, level, imageURL, type, lastSeen }: FriendProps) {
         return () => window.removeEventListener("resize", checkOverflow)
     }, [])
 
-    function handleResolution(e: SyntheticEvent) {
-        if (e.currentTarget.id === "acceptRequest") {
-            resolveMutation.mutate({ username: username, resolution: "accept"})
-        } else if (e.currentTarget.id === "denyRequest") {
-            resolveMutation.mutate({ username: username, resolution: "deny"})
-        }
-    }
-
     function handleClick() {
         if (!expanded)
             localStorage.setItem(username+"FriendCard", "expanded");
@@ -70,33 +51,19 @@ function Friend({ username, level, imageURL, type, lastSeen }: FriendProps) {
     }
 
     return (
+        <>
+        <FriendProfile username={username} isOpen={isProfileOpen} cancelFn={() => setIsProfileOpen(false)} />
         <li className="friend">
-            <ProfilePicture imageURL={imageURL} size={ isMobile ? 48 : 76 } />
+            <ProfilePicture imageURL={imageURL} size={ isMobile ? 48 : 76 } onClick={() => setIsProfileOpen(true)}/>
             <div ref={containerRef} 
                 className={`friendText ${usernameOverflows && "overflow"}`}
                 onClick={handleClick}
             >
                 <h3 ref={usernameRef} className="friendUsername">{username}</h3>
                 <hr style={{marginBottom: "0", marginTop: "0.2rem", opacity: "25%"}} />
-                <p className="friendSubtext">
-                    {
-                        type == "friend" ?
-                        <>
-                            Level: {level}<br />
-                            Last seen: {lastSeen}
-                        </>
-                        :
-                        <>
-                        <button className="smallFloatingButton requestButton" 
-                            onClick={handleResolution}
-                            id="acceptRequest"
-                        >✅</button>
-                        <button className="smallFloatingButton requestButton" 
-                            onClick={handleResolution}
-                            id="denyRequest"
-                        >❌</button>
-                        </>
-                    }
+                <p className="friendSubtext">      
+                    Level: {level}<br />
+                    Last seen: {lastSeen}
                 </p>
             </div>
             <div className={`expansionArrow ${expanded && "expanded"}`}>{"<"}</div>
@@ -112,6 +79,7 @@ function Friend({ username, level, imageURL, type, lastSeen }: FriendProps) {
                 </div>
             </div>
         </li>
+        </>
     )
 }
 
