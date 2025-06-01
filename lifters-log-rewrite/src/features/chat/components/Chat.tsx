@@ -9,6 +9,26 @@ import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import ChatRoomMenu from "./ChatRoomMenu";
 import ChatRoom from "../types/ChatRoom";
 
+type ChatTopperProps = {
+    title?: string;
+    children: ReactNode;
+}
+
+function ChatTopper({ title, children }: ChatTopperProps) {
+    return (
+        <>
+            <div className="chatTopper">
+                <h3>
+                {
+                    title ? title : "Chat"
+                }
+                </h3>
+                <hr />
+                {children}
+            </div>
+        </>
+    )
+}
 
 function Chat() {
 
@@ -92,24 +112,3 @@ function Chat() {
 }
 
 export default Chat;
-
-type ChatTopperProps = {
-    title?: string;
-    children: ReactNode;
-}
-
-function ChatTopper({ title, children }: ChatTopperProps) {
-    return (
-        <>
-            <div className="chatTopper">
-                <h3>
-                {
-                    title ? title : "Chat"
-                }
-                </h3>
-                <hr />
-                {children}
-            </div>
-        </>
-    )
-}

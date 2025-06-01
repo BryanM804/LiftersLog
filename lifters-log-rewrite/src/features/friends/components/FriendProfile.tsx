@@ -60,6 +60,11 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
         <>
             <div className="backgroundDim" onClick={cancelFn} ></div>
             <div className="friendProfileContainer center">
+                <button 
+                    className="transparentButton" 
+                    style={{position: "absolute", right: "1rem", color: "white", fontSize: "1rem"}}
+                    onClick={cancelFn}
+                >X</button>
                 <h3>{username}<hr /></h3>
                 <div className="profileContainer">
                     <div className="profilePictureContainer">

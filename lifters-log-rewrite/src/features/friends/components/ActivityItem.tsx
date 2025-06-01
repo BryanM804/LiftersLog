@@ -63,7 +63,7 @@ function ActivityItem({ username, date, time, exercise, weight, reps, note, labe
                 <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
                     [{showTime ? time : date}]
                 </div>
-                {username} set label for {date}
+                {username} set a label for {date}
                 <ul style={{paddingLeft: "1rem"}}>
                     <li className="activityNote">"{label}"</li>
                 </ul>

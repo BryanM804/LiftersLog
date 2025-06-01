@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 function useLongPress(callback: VoidFunction, delay=700) {
 
     const [isHeld, setIsheld] = useState(false);
-    const timerRef = useRef<number | null>(null);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     function startHold() {
         timerRef.current = setTimeout(() => {

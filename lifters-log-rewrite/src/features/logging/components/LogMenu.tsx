@@ -3,11 +3,7 @@ import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"
 
-type LogMenuProps = {
-    logMode: boolean;
-}
-
-function LogMenu({ logMode }: LogMenuProps) {
+function LogMenu() {
     const [reps, setReps] = useState(0)
     const [weight, setWeight] = useState(0.0)
     const [subReps, setSubReps] = useState(0)
@@ -55,13 +51,11 @@ function LogMenu({ logMode }: LogMenuProps) {
         setSubWeight(0.0);
     }
 
-    if (logMode) return <></>
-
     return (
         <form>
             <div className="logGridContainer">
                 <div className="gridItemSpan">
-                    <MovementPicker changeSplit={changeSplit} onClear={clearInputs}/>
+                    <MovementPicker changeSplit={changeSplit} onClear={clearInputs} label="Exercise"/>
                 </div>
                 {
                     (splitMovement && userSplits) && 

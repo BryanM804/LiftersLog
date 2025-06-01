@@ -11,15 +11,11 @@ type Note = {
     noteid: number;
 }
 
-type NoteSectionProps = {
-    logMode: boolean;
-}
-
-function NoteSection({ logMode }: NoteSectionProps) {
+function NoteSection() {
 
     const { movement } = useMovement();
     const [queryNotes, setQueryNotes] = useState(false);
-    const timerRef = useRef<number | null>(null);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     
     const { data, error, isLoading } = useQuery({
         queryKey: ["notes", movement],
@@ -37,8 +33,6 @@ function NoteSection({ logMode }: NoteSectionProps) {
             setQueryNotes(true)
         }, 350)
     }, [movement])
-
-    if (logMode) return <></>
 
     return (
         <div className="noteSection">

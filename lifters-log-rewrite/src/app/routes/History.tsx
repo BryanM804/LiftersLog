@@ -4,6 +4,7 @@ import HistoryLabel from "../../features/history/components/HistoryLabel";
 import "../../features/history/history.css";
 import AuthChecker from "../../components/AuthChecker";
 import HistoryList from "../../features/history/components/HistoryList";
+import Insights from "../../features/insights/components/Insights";
 
 function History() {
 
@@ -35,6 +36,7 @@ function History() {
                 <hr />
                 <HistoryList date={currentDate} className={"historyList"} placeholder={"No history for this date."} placeholderClass="historyItemSpan"/>
             </div>
+            <Insights />
         </div>
     )
 }

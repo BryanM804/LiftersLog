@@ -3,10 +3,15 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import getMovements from "../api/getMovements";
 import getSplitMovements from "../api/getSplitMovements";
+import ServerError from "../../../components/ServerError";
+import { isMobile } from "react-device-detect";
 
 type MovementPickerProps = {
-    changeSplit: (newBool: boolean) => void;
-    onClear: VoidFunction;
+    changeSplit?: (newBool: boolean) => void;
+    onClear?: VoidFunction;
+    label?: string;
+    className?: string;
+    placeholder?: string;
 }
 
 type Movement = { 
@@ -14,7 +19,7 @@ type Movement = {
     exerciseid: number;
 }
 
-function MovementPicker({ changeSplit, onClear }: MovementPickerProps) {
+function MovementPicker({ changeSplit, onClear, label, className, placeholder }: MovementPickerProps) {
 
     const { movement, setMovement } = useMovement();
 
@@ -41,6 +46,8 @@ function MovementPicker({ changeSplit, onClear }: MovementPickerProps) {
 
     function handleMovementChange(e: ChangeEvent<HTMLInputElement>) {
         setMovement(e.target.value);
+        if (!changeSplit) return
+
         if (isSplittableMovement(e.target.value)) {
             changeSplit(true)
         } else {
@@ -52,14 +59,12 @@ function MovementPicker({ changeSplit, onClear }: MovementPickerProps) {
         // Not sure why you need to prevent default on a plain button
         e.preventDefault();
         setMovement("")
-        changeSplit(false)
-        onClear();
+        if (changeSplit) changeSplit(false)
+        if (onClear) onClear();
     }
 
     if (error || splitError) {
-        return (
-            <>Server error occured</>
-        )
+        return <ServerError />
     }
 
     return (
@@ -73,11 +78,32 @@ function MovementPicker({ changeSplit, onClear }: MovementPickerProps) {
                     )
                 }
             </datalist>
-            <label htmlFor="movement">Exercise</label>
-            <br />
-            <div style={{position: "relative", marginLeft: "2rem", marginRight: "2rem"}}>
-                <input type="text" className="longTextInput movementPicker" id="movement" autoComplete="on" list="movementList" onChange={handleMovementChange} value={movement} />
-                <button className="smallFloatingButton transparentButton clearMovementButton" onClick={clearText}>❌</button>
+            { label && 
+                <>
+                    <label htmlFor="movement">{label}</label>
+                    <br />
+                </> 
+            }
+            <div style={{position: "relative"}} className={className && className}>
+                <input 
+                    type="text" 
+                    className="longTextInput movementPicker"
+                    id="movement" 
+                    autoComplete="on" 
+                    list="movementList" 
+                    onChange={handleMovementChange} 
+                    value={movement}
+                    placeholder={placeholder && placeholder} 
+                />
+                {
+                    isMobile && 
+                    <button 
+                        className="smallFloatingButton transparentButton clearMovementButton" 
+                        onClick={clearText}
+                        >
+                            ❌
+                        </button>
+                }
             </div>
         </>
     )

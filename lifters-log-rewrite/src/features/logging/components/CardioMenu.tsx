@@ -1,11 +1,7 @@
 import { ChangeEvent, useState } from "react"
 import CardioLogButton from "./CardioLogButton";
 
-type CardioMenuProps = {
-    logMode: boolean;
-}
-
-function CardioMenu({ logMode }: CardioMenuProps) {
+function CardioMenu() {
 
     const [cardioMovement, setCardioMovement] = useState("");
     const [cardioTime, setCardioTime] = useState<number | "">("");
@@ -38,8 +34,6 @@ function CardioMenu({ logMode }: CardioMenuProps) {
         }
     }
 
-    if (!logMode) return <></>
-
     return (
         <form>
             <div className="logGridContainer">
@@ -48,6 +42,7 @@ function CardioMenu({ logMode }: CardioMenuProps) {
                     <br />
                     <input type="text" id="cardioMovement" 
                         className="longTextInput movementPicker"
+                        style={{width: "75%"}}
                         value={cardioMovement}
                         onChange={handleChange}
                         />

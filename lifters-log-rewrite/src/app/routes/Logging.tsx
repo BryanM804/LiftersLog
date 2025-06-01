@@ -1,35 +1,105 @@
 import "../../features/logging/logging.css";
 import RecentHistory from "../../features/logging/components/RecentHistory";
-import MovementContextProvider from "../../features/logging/contexts/MovementContextProvider";
 import NoteSection from "../../features/logging/components/NoteSection";
 import AuthChecker from "../../components/AuthChecker";
 import LogMenu from "../../features/logging/components/LogMenu";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import { useState } from "react";
 import CardioMenu from "../../features/logging/components/CardioMenu";
+import useSwipe from "../../hooks/useSwipe";
+import { isDesktop } from "react-device-detect";
+import { motion, AnimatePresence } from "framer-motion"
+
+function LogScreen() {
+    return (
+        <>
+            <AnimatePresence>
+                <motion.div
+                    initial={{visibility: "visible", opacity: 1}}
+                    animate={{opacity: 0, visibility: "hidden"}}
+                    transition={{ duration: 0.8 }}
+                    className="popupCard"
+                    >
+                    Lifts
+                </motion.div>
+            </AnimatePresence>
+            <LogMenu />
+            <NoteSection />
+            <RecentHistory />
+        </>
+    )
+}
+
+function CardioScreen () {
+    return (
+        <>
+            <AnimatePresence>
+                <motion.div
+                    initial={{visibility: "visible", opacity: 1}}
+                    animate={{opacity: 0, visibility: "hidden"}}
+                    transition={{ duration: 0.8 }}
+                    className="popupCard"
+                    >
+                    Cardio
+                </motion.div>
+            </AnimatePresence>
+            <CardioMenu />
+            <RecentHistory />
+        </>
+    )
+}
+
+const screens = [<LogScreen />, <CardioScreen />]
 
 function Logging() {
 
-    // False for lift, true for cardio
-    const [logMode, setLogMode] = useState(false);
+    const [index, setIndex] = useState(0)
+    const [direction, setDirection] = useState(1) // 1 for right, -1 for left
+
+    const { swiping } = useSwipe({
+        onSwipeLeft: () => {
+            setIndex(1)
+            setDirection(-1)
+        },
+        onSwipeRight: () => {
+            setIndex(0)
+            setDirection(1)
+        }
+    })
+
+    function handleDesktopSwitchChange() {
+        setIndex(index == 1 ? 0 : 1)
+        setDirection(direction == 1 ? -1 : 1)
+    }
 
     return (
         <>
         <AuthChecker />
-        <div style={{margin: "0.5rem"}}>
-            <ToggleSwitch offLabel="Lift" onLabel="Cardio" 
-            onChange={() => setLogMode(!logMode)}
-            type="dark"
-            />
-        </div>
-        <div className="mainContentPane">
-            <MovementContextProvider>
-                <LogMenu logMode={logMode} />
-                <CardioMenu logMode={logMode} />
-                <NoteSection logMode={logMode} />
-                <RecentHistory />
-            </MovementContextProvider>
-        </div>
+        <AnimatePresence>
+            <motion.div
+                key={index}
+                initial={{ opacity: 0, position: "absolute" }}
+                animate={{ x: 0, opacity: 1, position: "relative"}}
+                exit={{ x: direction > 0 ? -300 : 300, opacity: 0, position: "absolute"}}
+                transition={{ duration: 0.2 }}
+                className="mainContentPane"
+            >
+                {
+                    isDesktop && 
+                    <div style={{margin: "0.5rem", alignSelf: "start"}}>
+                        <ToggleSwitch offLabel="Lift" onLabel="Cardio" 
+                        onChange={handleDesktopSwitchChange}
+                        type="dark"
+                        initialState={index == 1}
+                        />
+                    </div>
+                    // This reloads on every switch so initialState is really just the state
+                }
+                {
+                    screens[index]
+                }
+            </motion.div>
+        </AnimatePresence>
         </>
     )
 }

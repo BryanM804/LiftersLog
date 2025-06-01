@@ -3,17 +3,24 @@ import ServerError from "../../../components/ServerError";
 import getCardioHistory from "../api/getCardioHistory";
 import CardioSet from "../../../types/CardioSet";
 import CardioHistory from "./CardioHistory";
+import { useEffect } from "react";
 
 type CardioListProps = {
     date: string;
+    setPlaceholderText?: (s: string) => void;
 }
 
-function CardioList({ date }: CardioListProps) {
+function CardioList({ date, setPlaceholderText }: CardioListProps) {
 
     const { data, error, isLoading } = useQuery({
         queryKey: ["history", "cardio", date],
         queryFn: getCardioHistory
     })
+
+    useEffect(() => {
+        if (data && data.length > 0)
+            setPlaceholderText?.("")
+    }, [data])
 
     if (error) return <ServerError error={error} />
 

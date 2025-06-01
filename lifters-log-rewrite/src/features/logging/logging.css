@@ -32,7 +32,8 @@
 }
 
 .movementPicker {
-    width: 90%;
+    width: 70%;
+    position: relative;
 }
 
 input::-webkit-calendar-picker-indicator {
@@ -45,6 +46,7 @@ input::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 0;
     top: 0;
+    padding-top: 0.4rem;
 }
 
 .setInput {
@@ -147,9 +149,7 @@ input::-webkit-calendar-picker-indicator {
     }
 
     .movementPicker {
+        max-width: 500px;
         width: 75%;
-    }
-    .clearMovementButton {
-        right: 8%;
     }
 }

@@ -1,10 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
-interface NavbarProps {
-    visible: boolean
-}
+function Navbar() {
+    const location = useLocation();
 
-function Navbar({ visible }: NavbarProps) {
+    const [visible, setVisible] = useState(false)
+
+    useEffect(() => {
+        setVisible(location.pathname != "/")
+    }, [location])
+
     return (
         <nav className={visible ? "navbar" : "navbar hidden"}>
             <ul>
