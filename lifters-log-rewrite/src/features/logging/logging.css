@@ -140,6 +140,10 @@ input::-webkit-calendar-picker-indicator {
         font-size: 1.3rem;
     }
 
+    .recentHistory {
+        margin-bottom: 1rem;
+    }
+
     .recentHistoryList {
         grid-template-columns: repeat(2, minmax(40px, 50%));
     }

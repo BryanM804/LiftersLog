@@ -46,7 +46,7 @@ function ItemPicker({ placeholder, options, selected, setSelected }: ItemPickerP
                 >
                 {
                     selected && selected != "" ? selected :
-                        placeholder ? placeholder : "Select"
+                        placeholder ? <span className="darkFont">{placeholder}</span> : "Select"
                 }
                 </button>
                 {

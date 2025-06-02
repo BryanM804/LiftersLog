@@ -4,16 +4,15 @@ import MovementPicker from "../../logging/components/MovementPicker";
 import { useMovement } from "../../logging/contexts/MovementContextProvider";
 import HalfGap from "../../../components/HalfGap";
 import { useEffect, useState } from "react";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import UserData from "../../../types/UserData";
-import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import ItemPicker from "../../../components/ItemPicker";
+import MovementInsights from "./MovementInsights";
+import UserInsights from "./UserInsights";
+import SectionTitle from "../../../components/SectionTitle";
 
 const timeframes = ["All", "Recent", "Today"]
 const metrics = ["Average", "Max", "Best"]
 
 function Insights() {
-    const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
 
     const { movement, setMovement } = useMovement()
 
@@ -33,8 +32,7 @@ function Insights() {
     return (
         <>
         <div className="insightsContainer">
-        <h3>Insights</h3>
-        <hr />
+        <SectionTitle text="Insights" />
         <div className="insightPickerBar">
             <div><MovementPicker placeholder="Select Movement" className="insightMovementPicker"/></div>
             <ItemPicker placeholder="Timeframe" options={timeframes} selected={timeframe} setSelected={setTimeframe} />
@@ -44,18 +42,16 @@ function Insights() {
         {
             movement != "" ?
                 <>
-                <div className="graphContainer">
-                    <MovementGraph 
-                        movement={movement}
-                        timeframe={timeframe}
-                        metric={metric}
-                    />
-                </div>
-                <h5>{movement}</h5>
+                <MovementGraph 
+                    movement={movement}
+                    timeframe={timeframe}
+                    metric={metric}
+                />
+                <MovementInsights />
                 </>
             :
                 <>
-                    <h4>{authUser.username}</h4>
+                    <UserInsights />
                 </>
         }
         </div>

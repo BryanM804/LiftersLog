@@ -221,6 +221,9 @@ nav {
     position: fixed;
     top: 2rem;
     z-index: 1000;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
 }
 
 .dropdownPickerMenu {

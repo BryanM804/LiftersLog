@@ -9,20 +9,12 @@ import CardioMenu from "../../features/logging/components/CardioMenu";
 import useSwipe from "../../hooks/useSwipe";
 import { isDesktop } from "react-device-detect";
 import { motion, AnimatePresence } from "framer-motion"
+import FadePopup from "../../components/FadePopup";
 
 function LogScreen() {
     return (
         <>
-            <AnimatePresence>
-                <motion.div
-                    initial={{visibility: "visible", opacity: 1}}
-                    animate={{opacity: 0, visibility: "hidden"}}
-                    transition={{ duration: 0.8 }}
-                    className="popupCard"
-                    >
-                    Lifts
-                </motion.div>
-            </AnimatePresence>
+            <FadePopup text="Lifts" />
             <LogMenu />
             <NoteSection />
             <RecentHistory />
@@ -33,16 +25,7 @@ function LogScreen() {
 function CardioScreen () {
     return (
         <>
-            <AnimatePresence>
-                <motion.div
-                    initial={{visibility: "visible", opacity: 1}}
-                    animate={{opacity: 0, visibility: "hidden"}}
-                    transition={{ duration: 0.8 }}
-                    className="popupCard"
-                    >
-                    Cardio
-                </motion.div>
-            </AnimatePresence>
+            <FadePopup text="Cardio" />
             <CardioMenu />
             <RecentHistory />
         </>
@@ -78,9 +61,9 @@ function Logging() {
         <AnimatePresence>
             <motion.div
                 key={index}
-                initial={{ opacity: 0, position: "absolute" }}
+                initial={{ opacity: 0, position: "fixed" }}
                 animate={{ x: 0, opacity: 1, position: "relative"}}
-                exit={{ x: direction > 0 ? -300 : 300, opacity: 0, position: "absolute"}}
+                exit={{ x: direction > 0 ? -300 : 300, opacity: 0, position: "fixed"}}
                 transition={{ duration: 0.2 }}
                 className="mainContentPane"
             >

@@ -4,6 +4,7 @@ import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useEffect, useState } from "react";
+import FadePopup from "../../../components/FadePopup";
 
 type MovementGraphProps = {
     movement: string;
@@ -54,38 +55,48 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
     if (isLoading) return <Loading />
     if (error) return <ServerError error={error} />
 
+    if (data && data.length < 2) {
+        return (
+            <>
+                <FadePopup text="Not enough data to graph" duration={1.2} />
+            </>
+        )
+    }
+
     return (
         <>
-        <h4 style={{textAlign: "center"}}>{graphTitle}</h4>
-        <ResponsiveContainer height="100%" width="100%">
-            <LineChart 
-                data={data}
-            >
-                <CartesianGrid vertical={false} />
-                <XAxis 
-                    dataKey="date"
-                    tickLine={false}
-                    axisLine={false}
-                />
-                <YAxis 
-                    dataKey="value"
-                    tickMargin={8}
-                />
-                <Tooltip 
-                    contentStyle={{backgroundColor: "#111"}}
-                    formatter={(value) => `${value} lbs`}
-                />
-                <Legend />
-                <Line
-                    name={lineLabel}
-                    dataKey="value"
-                    type="natural"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                />
-            </LineChart>
-        </ResponsiveContainer>
+        <div className="graphContainer">
+            <h4 style={{textAlign: "center"}}>{graphTitle}</h4>
+            <ResponsiveContainer height="100%" width="100%">
+                <LineChart 
+                    data={data}
+                >
+                    <CartesianGrid vertical={false} />
+                    <XAxis 
+                        dataKey="date"
+                        tickLine={false}
+                        axisLine={false}
+                    />
+                    <YAxis 
+                        dataKey="value"
+                        tickMargin={8}
+                    />
+                    <Tooltip 
+                        contentStyle={{backgroundColor: "#111"}}
+                        formatter={(value) => `${value} lbs`}
+                    />
+                    <Legend />
+                    <Line
+                        name={lineLabel}
+                        dataKey="value"
+                        type="natural"
+                        stroke="#5ba5f0"
+                        strokeWidth={2}
+                        dot={false}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
         </>
     )
 }
