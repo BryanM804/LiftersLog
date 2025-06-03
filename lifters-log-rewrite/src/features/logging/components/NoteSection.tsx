@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import getNotesForMovement from "../api/getNotesForMovement";
 import AddNoteButton from "./AddNoteButton";
 import ServerError from "../../../components/ServerError";
-import { useEffect, useRef, useState } from "react";
+import useDebounce from "../../../hooks/useDebounce";
 
 type Note = {
     text: string;
@@ -14,25 +14,12 @@ type Note = {
 function NoteSection() {
 
     const { movement } = useMovement();
-    const [queryNotes, setQueryNotes] = useState(false);
-    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const debouncedMovement = useDebounce(movement, 300);
     
     const { data, error, isLoading } = useQuery({
-        queryKey: ["notes", movement],
-        queryFn: getNotesForMovement,
-        enabled: queryNotes
+        queryKey: ["notes", debouncedMovement],
+        queryFn: getNotesForMovement
     })
-
-    // Originally meant to fix flickering on every character change (fixed another way)
-    // Leaving it because it will still reduce server traffic
-    useEffect(() => {
-        setQueryNotes(false)
-        if (timerRef.current)
-            clearTimeout(timerRef.current)
-        timerRef.current = setTimeout(() => {
-            setQueryNotes(true)
-        }, 350)
-    }, [movement])
 
     return (
         <div className="noteSection">

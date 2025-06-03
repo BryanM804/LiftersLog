@@ -3,14 +3,19 @@ import { useMovement } from "../../logging/contexts/MovementContextProvider"
 import getMovementInsights from "../api/getMovementInsights"
 import Loading from "../../../components/Loading"
 import ServerError from "../../../components/ServerError"
+import StatCard from "./StatCard"
+import useDebounce from "../../../hooks/useDebounce"
+
+
 
 function MovementInsights() {
 
     const { movement } = useMovement()
+    const debouncedMovement = useDebounce(movement, 300)
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ["insights", movement],
-        queryFn: getMovementInsights
+        queryKey: ["insights", debouncedMovement],
+        queryFn: getMovementInsights,
     })
 
     if (isLoading) return <Loading />
@@ -19,20 +24,20 @@ function MovementInsights() {
     return (
         <>
             <div style={{width: "100%", marginTop: "2.75rem"}}>
-                <h5 style={{marginBottom: "0"}}>{movement}</h5>
+                <h5 style={{marginBottom: "0"}}>{debouncedMovement}</h5>
                 <hr className="darkFont"/>
             </div>
             {
-                data.totalSets == 0 ?
+                !data ?
                     <p className="darkFont" style={{width: "95%", alignSelf: "center"}}>Start logging some {movement} to see your stats!</p>
                 :
-                // This is all placeholder to get everything on the backend working
-                <>
-                    <p>Total sets | All time: {data.totalSets} This week: {data.currentFreq}</p>
-                    <p>Best Set: {data.bestSet.weight} lbs x {data.bestSet.reps} reps on {data.bestSet.date}</p>
-                    <p>Most Weight: {data.maxWeight} lbs | Most Reps: {data.maxReps}</p>
-                    <p>Average Sets Per Week: {data.averageFreq}</p>
-                </>
+                <div className="statSection">
+                    {
+                        data.map((stat: {title: string, value: string, subValue?: string}) => 
+                            <StatCard key={stat.title} title={stat.title} value={stat.value} subValue={stat.subValue} />
+                        )
+                    }
+                </div>
             }
         </>
     )

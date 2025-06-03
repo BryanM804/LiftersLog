@@ -13,6 +13,11 @@
     width: 100%;
 }
 
+.userChartContainer {
+    height: 600px;
+    width: 100%;
+}
+
 .insightMovementPicker {
     margin: 0;
     margin-top: 1.3rem;
@@ -27,6 +32,22 @@
     align-self: center;
 }
 
+.statSection {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(40px, 275px));
+    gap: 1.35rem;
+    justify-items: center;
+    align-items: stretch;
+}
+
+.statCard {
+    background-color: #333;
+    box-shadow: 0px 0px 6px #111;
+    padding: 0.5rem;
+    border-radius: 8px;
+    width: 100%;
+}
+
 @media (max-width: 768px) {
     .insightsContainer {
         margin-bottom: 1rem;
@@ -36,9 +57,18 @@
         height: 275px;
     }
 
+    .userChartContainer {
+        height: 400px;
+    }
+
     .insightMovementPicker {
         width: 10rem;
         margin: 0;
         margin-top: 1.3rem;
+    }
+
+    .statSection {
+        grid-template-columns: repeat(3, minmax(40px, 275px));
+        margin: 0.5rem;
     }
 }

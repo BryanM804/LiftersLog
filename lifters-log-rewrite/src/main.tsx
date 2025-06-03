@@ -7,10 +7,10 @@ import MovementContextProvider from './features/logging/contexts/MovementContext
 createRoot(document.getElementById('root')!).render(
 
   <StrictMode>
-    <BrowserRouter>
-      <MovementContextProvider>
-        <App />
-      </MovementContextProvider>
-    </BrowserRouter>
+    <MovementContextProvider>
+      <BrowserRouter>
+          <App />
+      </BrowserRouter>
+    </MovementContextProvider>
   </StrictMode>,
 )

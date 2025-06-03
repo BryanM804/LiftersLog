@@ -1,20 +1,41 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"
+import { useMovement } from "../contexts/MovementContextProvider"
+import { useQuery } from "@tanstack/react-query"
+import getSplitMovements from "../api/getSplitMovements"
 
 function LogMenu() {
-    const [reps, setReps] = useState(0)
-    const [weight, setWeight] = useState(0.0)
-    const [subReps, setSubReps] = useState(0)
-    const [subWeight, setSubWeight] = useState(0.0)
+
+    const {
+        movement,
+        reps,
+        subReps,
+        weight,
+        subWeight,
+        setReps,
+        setSubReps,
+        setWeight,
+        setSubWeight
+    } = useMovement()
     
     // User split preference will be set from account
     const [userSplits, setUserSplits] = useState(true)
     const [splitMovement, setSplitMovement] = useState(false)
 
-    function changeSplit(newSplit: boolean) {
-        setSplitMovement(newSplit)
+    const { data: splitMovements } = useQuery({
+        queryKey: ["splitMovements"],
+        queryFn: getSplitMovements,
+        staleTime: Infinity
+    });
+
+    function isSplittableMovement(m: string) {
+        for (const s of splitMovements) {
+            if (s.movement == m)
+                return true;
+        }
+        return false;
     }
 
     function parseAndRound(s: string) {
@@ -51,14 +72,24 @@ function LogMenu() {
         setSubWeight(0.0);
     }
 
+    useEffect(() => {
+        if (movement && isSplittableMovement(movement)) {
+            if (userSplits) {
+                setSplitMovement(true)
+            }
+        } else {
+            setSplitMovement(false)
+        }
+    }, [movement])
+
     return (
         <form>
             <div className="logGridContainer">
                 <div className="gridItemSpan">
-                    <MovementPicker changeSplit={changeSplit} onClear={clearInputs} label="Exercise"/>
+                    <MovementPicker onClear={clearInputs} label="Exercise"/>
                 </div>
                 {
-                    (splitMovement && userSplits) && 
+                    splitMovement && 
                     <>
                         <div className="gridItem" style={{textAlign: "center"}}>Left<hr /></div>
                         <div className="gridItem" style={{textAlign: "center"}}>Right<hr /></div>
@@ -68,7 +99,7 @@ function LogMenu() {
                     <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
                 </div>
                 {
-                    (splitMovement && userSplits) && 
+                    splitMovement && 
                     <div className="gridItem">
                         <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
                     </div>
@@ -77,12 +108,12 @@ function LogMenu() {
                     <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
                 </div>
                 {
-                    (splitMovement && userSplits) && 
+                    splitMovement && 
                     <div className="gridItem">
                         <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
                     </div>
                 }
-                <LogButton reps={reps} weight={weight} subReps={subReps} subWeight={subWeight} />
+                <LogButton />
             </div>
         </form>
     )

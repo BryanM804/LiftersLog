@@ -3,8 +3,8 @@ type HistoryItem = {
     movement: string;
     weight: number;
     reps: number;
-    subweight: number;
-    subreps: number;
+    subweight?: number;
+    subreps?: number;
     time: string;
     date: string;
 }

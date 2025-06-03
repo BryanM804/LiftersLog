@@ -12,6 +12,8 @@ type MovementGraphProps = {
     metric: string;
 }
 
+// This doesn't use the movement context in case I want to use a static graph elsewhere at some point in time
+
 function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
 
     const [lineLabel, setLineLabel] = useState("Total")
@@ -58,7 +60,7 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
     if (data && data.length < 2) {
         return (
             <>
-                <FadePopup text="Not enough data to graph" duration={1.2} />
+                <FadePopup text="Not enough data to graph" duration={2} />
             </>
         )
     }

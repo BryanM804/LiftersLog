@@ -3,16 +3,15 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addNewSet from "../api/addNewSet";
 
-type LogButtonProps = {
-    reps: number;
-    subReps?: number;
-    weight: number;
-    subWeight?: number;
-}
+function LogButton() {
 
-function LogButton({ reps, subReps, weight, subWeight }: LogButtonProps) {
-
-    const { movement } = useMovement();
+    const { 
+        movement,
+        reps,
+        subReps,
+        weight,
+        subWeight
+    } = useMovement();
     const [invalidLog, setInvalidLog] = useState(false);
 
     const queryClient = useQueryClient();

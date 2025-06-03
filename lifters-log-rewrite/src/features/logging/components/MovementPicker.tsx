@@ -1,13 +1,11 @@
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect } from "react";
 import { useMovement } from "../contexts/MovementContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import getMovements from "../api/getMovements";
-import getSplitMovements from "../api/getSplitMovements";
 import ServerError from "../../../components/ServerError";
 import { isMobile } from "react-device-detect";
 
 type MovementPickerProps = {
-    changeSplit?: (newBool: boolean) => void;
     onClear?: VoidFunction;
     label?: string;
     className?: string;
@@ -19,7 +17,7 @@ type Movement = {
     exerciseid: number;
 }
 
-function MovementPicker({ changeSplit, onClear, label, className, placeholder }: MovementPickerProps) {
+function MovementPicker({ onClear, label, className, placeholder }: MovementPickerProps) {
 
     const { movement, setMovement } = useMovement();
 
@@ -30,47 +28,23 @@ function MovementPicker({ changeSplit, onClear, label, className, placeholder }:
         staleTime: Infinity
     });
 
-    const { data: splitMovements, error: splitError, isLoading: isSplitLoading } = useQuery({
-        queryKey: ["splitMovements"],
-        queryFn: getSplitMovements,
-        staleTime: Infinity
-    });
-
-    function isSplittableMovement(m: string) {
-        for (const s of splitMovements) {
-            if (s.movement == m)
-                return true;
-        }
-        return false;
-    }
-
     function handleMovementChange(e: ChangeEvent<HTMLInputElement>) {
         setMovement(e.target.value);
-        if (!changeSplit) return
-
-        if (isSplittableMovement(e.target.value)) {
-            changeSplit(true)
-        } else {
-            changeSplit(false)
-        }
     }
     
     function clearText(e: SyntheticEvent) {
         // Not sure why you need to prevent default on a plain button
         e.preventDefault();
         setMovement("")
-        if (changeSplit) changeSplit(false)
         if (onClear) onClear();
     }
 
-    if (error || splitError) {
-        return <ServerError />
-    }
+    if (error) return <ServerError />
 
     return (
         <>
             <datalist id="movementList">
-                { (isLoading || isSplitLoading) ?
+                { isLoading ?
                     <option value={"Loading..."} />
                     :
                     movements.map((movement: Movement) => 

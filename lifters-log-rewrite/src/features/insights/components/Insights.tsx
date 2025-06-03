@@ -8,26 +8,28 @@ import ItemPicker from "../../../components/ItemPicker";
 import MovementInsights from "./MovementInsights";
 import UserInsights from "./UserInsights";
 import SectionTitle from "../../../components/SectionTitle";
+import useDebounce from "../../../hooks/useDebounce";
 
-const timeframes = ["All", "Recent", "Today"]
+const movementTimeframes = ["All", "Recent", "Today"]
+const userTimeframes = ["All", "Recent", "Week"]
 const metrics = ["Average", "Max", "Best"]
 
 function Insights() {
 
-    const { movement, setMovement } = useMovement()
+    const { movement } = useMovement()
+    const debouncedMovement = useDebounce(movement, 300)
 
     const [timeframe, setTimeframe] = useState("")
     const [metric, setMetric] = useState("")
 
     useEffect(() => {
-        if (movement) {
+        if (debouncedMovement != "") {
             if (timeframe == "") setTimeframe("Recent")
             if (metric == "") setMetric("Average")
-        } else {
-            setTimeframe("")
-            setMetric("")
+        } else if (timeframe == "") {
+            setTimeframe("Recent")
         }
-    }, [movement])
+    }, [debouncedMovement])
 
     return (
         <>
@@ -35,15 +37,15 @@ function Insights() {
         <SectionTitle text="Insights" />
         <div className="insightPickerBar">
             <div><MovementPicker placeholder="Select Movement" className="insightMovementPicker"/></div>
-            <ItemPicker placeholder="Timeframe" options={timeframes} selected={timeframe} setSelected={setTimeframe} />
-            <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={setMetric} />
+            <ItemPicker placeholder="Timeframe" options={debouncedMovement === "" ? userTimeframes : movementTimeframes} selected={timeframe} setSelected={setTimeframe} />
+            { debouncedMovement != "" && <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={setMetric} /> }
         </div>
         <HalfGap />
         {
             movement != "" ?
                 <>
                 <MovementGraph 
-                    movement={movement}
+                    movement={debouncedMovement}
                     timeframe={timeframe}
                     metric={metric}
                 />
@@ -51,7 +53,7 @@ function Insights() {
                 </>
             :
                 <>
-                    <UserInsights />
+                    <UserInsights timeframe={timeframe === "" ? "all" : timeframe} />
                 </>
         }
         </div>

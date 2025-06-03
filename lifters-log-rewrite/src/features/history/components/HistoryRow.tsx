@@ -7,17 +7,26 @@ import useLongPress from "../../../hooks/useLongPress";
 import { isDesktop } from "react-device-detect";
 import { useState } from "react";
 import ConfirmationBox from "../../../components/ConfirmationBox";
+import { useMovement } from "../../logging/contexts/MovementContextProvider";
 
 type HistoryRowProps = {
     time: string;
     weight: number;
     reps: number;
     setid: number;
-    split?: boolean;
+    subWeight?: number;
+    subReps?: number;
 }
 
 
-function HistoryRow({ time, weight, reps, setid, split}: HistoryRowProps) {
+function HistoryRow({ time, weight, reps, setid, subReps, subWeight}: HistoryRowProps) {
+
+    const {
+        setReps,
+        setWeight,
+        setSubReps,
+        setSubWeight
+    } = useMovement();
 
     const { isHovering, hoverHandlers } = useHoverTouch();
     const { isHeld, holdHandlers } = useLongPress(() => setShowDelete(true));
@@ -34,13 +43,30 @@ function HistoryRow({ time, weight, reps, setid, split}: HistoryRowProps) {
         }
     })
     
+    function handleClick() {
+        setWeight(weight)
+        setReps(reps)
+        if (subReps) setSubReps(subReps)
+        if (subWeight) setSubWeight(subWeight)
+    }
+
     function handleDelete() {
         removeMutation.mutate(setid);
     }
 
     return (
-        <li id={setid.toString()} className="historyItem" {...handlers}>
-            <TimeSubtext className="historyItemTime">{time}</TimeSubtext> {weight}lbs x {reps} reps
+        <li id={setid.toString()} className="historyItem" {...handlers} onClick={handleClick}>
+            <TimeSubtext className="historyItemTime">{time}</TimeSubtext>
+            {
+                subWeight && subReps ?
+                    <>
+                        L: {weight}lbs x {reps} reps 
+                        <br/>
+                        R: {subWeight}lbs x {subReps} reps
+                    </>
+                :
+                    `${weight}lbs x ${reps} reps`
+            }
             {
                 isDesktop ?
                     <DeleteButton show={isHovering} onDelete={handleDelete} />

@@ -11,14 +11,13 @@ type HistoryListProps = {
     className?: string;
     placeholder: string;
     placeholderClass?: string;
-    movementChange?: (s: string) => void;
 }
 
 type HistoryGroup = {
     movement: string;
 }
 
-function HistoryList({ date, className, placeholder, placeholderClass, movementChange }: HistoryListProps) {
+function HistoryList({ date, className, placeholder, placeholderClass }: HistoryListProps) {
 
     const [placeholderText, setPlaceholderText] = useState(placeholder)
 
@@ -26,12 +25,6 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
         queryKey: ["history",  date],
         queryFn: getHistoryGroupsForDate
     })
-
-    function handleMovementChange(m: string) {
-        if (movementChange) {
-            movementChange(m)
-        }
-    }
 
     if (isLoading) return <Loading />
     if (error) return <ServerError error={error} />
@@ -41,7 +34,7 @@ function HistoryList({ date, className, placeholder, placeholderClass, movementC
             {
                 (data != null && data.length > 0) ? 
                 data.map((historyGroup: HistoryGroup) => 
-                    <HistoryGroup movement={historyGroup.movement} date={date} key={historyGroup.movement} onClick={() => handleMovementChange(historyGroup.movement)}/>
+                    <HistoryGroup movement={historyGroup.movement} date={date} key={historyGroup.movement} />
                 )
                 :
                 <li className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholderText}</li>
