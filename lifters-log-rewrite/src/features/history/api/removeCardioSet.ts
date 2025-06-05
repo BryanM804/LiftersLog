@@ -10,7 +10,7 @@ async function removeCardioSet(cardioid: number) {
         body: JSON.stringify({cardioid})
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default removeCardioSet;

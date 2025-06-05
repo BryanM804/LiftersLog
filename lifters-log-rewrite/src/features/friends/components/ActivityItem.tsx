@@ -7,7 +7,9 @@ type ActivityItemProps = {
     time: string;
     exercise: string;
     weight?: number;
+    subWeight?: number;
     reps?: number;
+    subReps?: number;
     note?: string;
     label?: string;
     cardiotime?: number;
@@ -15,7 +17,7 @@ type ActivityItemProps = {
     cardionote?: string;
 }
 
-function ActivityItem({ username, date, time, exercise, weight, reps, note, label, cardiotime, distance, cardionote }: ActivityItemProps) {
+function ActivityItem({ username, date, time, exercise, weight, subWeight, reps, subReps, note, label, cardiotime, distance, cardionote }: ActivityItemProps) {
 
     // Should always either have a weight and reps, note, or label as non null values
 
@@ -37,7 +39,14 @@ function ActivityItem({ username, date, time, exercise, weight, reps, note, labe
                 </div>
                 {username} logged {exercise}
                 <ul style={{paddingLeft: "1rem"}}>
-                    <li className="activityNote">{weight}lbs for {reps} reps</li>
+                    <li className="activityNote">{ subWeight && subReps ? "L: " : "" }{weight}lbs for {reps} reps</li>
+                    {
+                        subWeight && subReps ? <li className="activityNote">R: {weight}lbs for {reps} reps</li>
+                        :
+                        <></>
+                        // The fragment is just because && shorthand can render 0s or false in random places sometimes
+                        // this is one of them
+                    }
                 </ul>
             </li>
         )

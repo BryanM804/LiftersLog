@@ -5,9 +5,15 @@ import LogButton from "./LogButton"
 import { useMovement } from "../contexts/MovementContextProvider"
 import { useQuery } from "@tanstack/react-query"
 import getSplitMovements from "../api/getSplitMovements"
+import getUserPreferences from "../../profile/api/getUserPreferences"
 
-function LogMenu() {
+type LogMenuProps = {
+    onLogSuccess: () => void;
+}
 
+function LogMenu({ onLogSuccess }: LogMenuProps) {
+
+    // Contexts
     const {
         movement,
         reps,
@@ -20,20 +26,34 @@ function LogMenu() {
         setSubWeight
     } = useMovement()
     
+    // States
     // User split preference will be set from account
     const [userSplits, setUserSplits] = useState(true)
     const [splitMovement, setSplitMovement] = useState(false)
-
+    
+    // Queries
     const { data: splitMovements } = useQuery({
         queryKey: ["splitMovements"],
         queryFn: getSplitMovements,
         staleTime: Infinity
     });
+    const { data: userPreferences } = useQuery({
+        queryKey: ["preferences"],
+        queryFn: getUserPreferences
+    });
+    useEffect(() => {
+        if (userPreferences) {
+            setUserSplits(userPreferences.splitsMovements)
+        }
+    }, [userPreferences])
+
 
     function isSplittableMovement(m: string) {
-        for (const s of splitMovements) {
-            if (s.movement == m)
-                return true;
+        if (splitMovements && splitMovements.length) {
+            for (const s of splitMovements) {
+                if (s.movement == m)
+                    return true;
+            }
         }
         return false;
     }
@@ -74,15 +94,20 @@ function LogMenu() {
 
     useEffect(() => {
         if (movement && isSplittableMovement(movement)) {
-            if (userSplits) {
+            // Rare edge case that someone can disable splitting and then tap a split set
+            // that would then set the subReps/subWeight without showing it
+            if (userSplits || subReps > 0 || subWeight > 0) {
                 setSplitMovement(true)
             }
         } else {
             setSplitMovement(false)
+            setSubReps(0)
+            setSubWeight(0)
         }
-    }, [movement])
-
+    }, [movement, subReps, subWeight])
+    
     return (
+        <>
         <form>
             <div className="logGridContainer">
                 <div className="gridItemSpan">
@@ -96,15 +121,6 @@ function LogMenu() {
                     </>
                 }
                 <div className="gridItem">
-                    <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
-                </div>
-                {
-                    splitMovement && 
-                    <div className="gridItem">
-                        <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
-                    </div>
-                }
-                <div className="gridItem">
                     <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
                 </div>
                 {
@@ -113,9 +129,19 @@ function LogMenu() {
                         <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
                     </div>
                 }
-                <LogButton />
+                <div className="gridItem">
+                    <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
+                </div>
+                {
+                    splitMovement && 
+                    <div className="gridItem">
+                        <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
+                    </div>
+                }
+                <LogButton onLogSuccess={onLogSuccess} isSplit={splitMovement} />
             </div>
         </form>
+        </>
     )
 }
 

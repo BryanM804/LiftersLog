@@ -16,7 +16,7 @@ async function setPreferences(preferences: NewPreferences) {
         body: JSON.stringify(preferences)
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default setPreferences;

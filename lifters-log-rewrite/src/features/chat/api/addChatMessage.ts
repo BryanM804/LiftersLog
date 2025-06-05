@@ -15,7 +15,7 @@ async function addChatMessage(newChatMessage: NewChatMessage) {
     });
 
 
-    return checkStatus(response, "Unable to send chat message")
+    return await checkStatus(response)
 }
 
 export default addChatMessage;

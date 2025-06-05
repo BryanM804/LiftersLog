@@ -8,7 +8,7 @@ async function getChatRooms() {
         credentials: "include"
     });
 
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default getChatRooms;

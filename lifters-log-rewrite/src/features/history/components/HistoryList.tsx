@@ -4,10 +4,11 @@ import getHistoryGroupsForDate from "../api/getHistoryGroupsForDate";
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
 import CardioList from "./CardioList";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useDate } from "../contexts/DateContextProvider";
+import ToggleSwitch from "../../../components/ToggleSwitch";
 
 type HistoryListProps = {
-    date: string;
     className?: string;
     placeholder: string;
     placeholderClass?: string;
@@ -17,12 +18,14 @@ type HistoryGroup = {
     movement: string;
 }
 
-function HistoryList({ date, className, placeholder, placeholderClass }: HistoryListProps) {
+function HistoryList({ className, placeholder, placeholderClass }: HistoryListProps) {
+
+    const { historyDate } = useDate()
 
     const [placeholderText, setPlaceholderText] = useState(placeholder)
 
     const {data, error, isLoading} = useQuery({
-        queryKey: ["history",  date],
+        queryKey: ["history",  historyDate.toDateString()],
         queryFn: getHistoryGroupsForDate
     })
 
@@ -34,12 +37,12 @@ function HistoryList({ date, className, placeholder, placeholderClass }: History
             {
                 (data != null && data.length > 0) ? 
                 data.map((historyGroup: HistoryGroup) => 
-                    <HistoryGroup movement={historyGroup.movement} date={date} key={historyGroup.movement} />
+                    <HistoryGroup movement={historyGroup.movement} key={historyGroup.movement} />
                 )
                 :
                 <li className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholderText}</li>
             }
-            <CardioList date={date} setPlaceholderText={setPlaceholderText}/>
+            <CardioList setPlaceholderText={setPlaceholderText}/>
         </ul>
     )
 }

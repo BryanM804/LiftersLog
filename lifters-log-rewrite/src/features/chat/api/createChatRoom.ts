@@ -18,7 +18,7 @@ async function createChatRoom(newChatRoom: NewChatRoom) {
         body: JSON.stringify(newChatRoom)
     });
 
-    return checkStatus(response, "User already has a chatroom.")
+    return await checkStatus(response)
 }
 
 export default createChatRoom;

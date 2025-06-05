@@ -35,9 +35,8 @@ function CardioHistory ({ movement, time, distance, note, cardioid }: CardioHist
     function confirmDelete() {
         if (cardioid)
             deleteMutation.mutate(cardioid)
-        else
+        //else
             //show an error
-            return
         setShowDelete(false)
     }
 
@@ -51,15 +50,15 @@ function CardioHistory ({ movement, time, distance, note, cardioid }: CardioHist
                 <li className="cardioItem">
                     {time} minutes {distance > 0 && `, ${distance} miles`}
                     {   
-                        !isMobile && <DeleteButton show={isHovering} onDelete={() => setShowDelete(true)}/>
+                        !isMobile && <DeleteButton show={isHovering} onDelete={confirmDelete} confirmationMessage="Delete this cardio?"/>
                     }
                     {
-                        showDelete &&
+                        showDelete && 
                         <ConfirmationBox 
                             confirmFn={confirmDelete} 
                             cancelFn={() => setShowDelete(false)} 
                             text="Delete this cardio?"
-                            />
+                        />
                     }
                 </li>
             </ul>

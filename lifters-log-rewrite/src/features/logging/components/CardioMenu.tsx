@@ -1,7 +1,11 @@
 import { ChangeEvent, useState } from "react"
 import CardioLogButton from "./CardioLogButton";
 
-function CardioMenu() {
+type CardioMenuProps = {
+    onLogSuccess: () => void;
+}
+
+function CardioMenu({ onLogSuccess }: CardioMenuProps) {
 
     const [cardioMovement, setCardioMovement] = useState("");
     const [cardioTime, setCardioTime] = useState<number | "">("");
@@ -79,6 +83,7 @@ function CardioMenu() {
                     time={cardioTime === "" ? 0 : cardioTime}
                     distance={cardioDistance === "" ? 0.0 : cardioDistance}
                     note={cardioNote}
+                    onLogSuccess={onLogSuccess}
                 />
                 </div>
             </div>

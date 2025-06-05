@@ -7,9 +7,10 @@ type CardioLogButtonProps = {
     time: number;
     distance: number;
     note: string;
+    onLogSuccess: () => void;
 }
 
-function CardioLogButton({ movement, time, distance, note }: CardioLogButtonProps) {
+function CardioLogButton({ movement, time, distance, note, onLogSuccess }: CardioLogButtonProps) {
 
     const queryClient = useQueryClient();
 
@@ -19,6 +20,7 @@ function CardioLogButton({ movement, time, distance, note }: CardioLogButtonProp
         mutationFn: addNewCardio,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["history", "cardio"] })
+            onLogSuccess()
         }
     })
 
@@ -40,6 +42,7 @@ function CardioLogButton({ movement, time, distance, note }: CardioLogButtonProp
                 className={invalidLog ? "floatingButton redButton" : "floatingButton"}
                 onClick={handleClick}
                 style={{width: "75%"}}
+                id="logButton"
             >
             Log
             </button>

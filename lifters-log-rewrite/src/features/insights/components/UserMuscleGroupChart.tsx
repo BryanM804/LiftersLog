@@ -48,6 +48,7 @@ function UserMuscleGroupChart({ timeframe }: UserMuscleGroupChartProps) {
                     <PolarGrid />
                     <PolarAngleAxis 
                         dataKey="mgroup"
+                        tick={{fontSize: "0.75rem"}}
                         />
                     <Radar
                         dataKey="avg"

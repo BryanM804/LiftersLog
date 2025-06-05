@@ -1,4 +1,4 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 
 type MovementContextType = {
     movement: string;
@@ -13,8 +13,8 @@ type MovementContextType = {
     setSubWeight: Dispatch<SetStateAction<number>>;
 }
 
-interface MovementContextProviderProps {
-    children: ReactNode
+type MovementContextProviderProps = {
+    children: ReactNode;
 }
 
 const MovementContext = createContext<MovementContextType | undefined>(undefined)

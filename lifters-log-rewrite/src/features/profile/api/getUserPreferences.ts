@@ -7,7 +7,7 @@ async function getUserPreferences() {
         credentials: "include"
     });
 
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default getUserPreferences;

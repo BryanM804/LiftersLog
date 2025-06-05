@@ -1,40 +1,39 @@
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import HistoryButton from "../../features/history/components/HistoryButton";
 import HistoryLabel from "../../features/history/components/HistoryLabel";
 import "../../features/history/history.css";
 import AuthChecker from "../../components/AuthChecker";
 import HistoryList from "../../features/history/components/HistoryList";
 import Insights from "../../features/insights/components/Insights";
+import { useDate } from "../../features/history/contexts/DateContextProvider";
+import ToggleSwitch from "../../components/ToggleSwitch";
 
 function History() {
 
-    const [currentDate, setCurrentDate] = useState(new Date().toDateString())
-
-    function handleBackClick() {
-        let date = new Date(Date.parse(currentDate))
-        date.setDate(date.getDate() - 1);
-        setCurrentDate(date.toDateString());
-    }
-    function handleForwardClick() {
-        let date = new Date(Date.parse(currentDate))
-        date.setDate(date.getDate() + 1);
-        setCurrentDate(date.toDateString());
-    }
-
+    const { historyDate, stickyDate, setStickyDate } = useDate()
 
     return (
         <div className="mainContentPane">
             <AuthChecker />
             <div className="historyList">
                 <div className="historyTitle historyItemSpan">
-                    <HistoryButton direction="back" onClick={handleBackClick}/>
-                    <HistoryLabel date={currentDate}/>
-                    <HistoryButton direction="forward" onClick={handleForwardClick} />
+                    <HistoryButton direction="back" />
+                    <HistoryLabel />
+                    <HistoryButton direction="forward" />
                 </div>
             </div>
             <div style={{marginTop: "1rem"}}>
                 <hr />
-                <HistoryList date={currentDate} className={"historyList"} placeholder={"No history for this date."} placeholderClass="historyItemSpan"/>
+                <HistoryList className={"historyList"} placeholder={"No history for this date."} placeholderClass="historyItemSpan"/>
+                {
+                    new Date().getDate() != historyDate.getDate() &&
+                    <>
+                        <ToggleSwitch 
+                            label="Log to this date" 
+                            initialState={stickyDate} 
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setStickyDate(e.target.checked)} />
+                    </>
+                }
             </div>
             <Insights />
         </div>

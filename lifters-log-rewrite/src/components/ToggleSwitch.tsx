@@ -20,7 +20,7 @@ function ToggleSwitch({ onChange, label, offLabel, onLabel, type, initialState }
             setToggled(initialState)
     }, [initialState])
 
-    const toggle = (e: ChangeEvent<HTMLInputElement>) => {
+    function toggle(e: ChangeEvent<HTMLInputElement>) {
         setToggled(!toggled)
         if (onChange) onChange(e);
     }

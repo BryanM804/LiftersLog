@@ -14,7 +14,7 @@ async function getNotesForMovement({ queryKey }: QueryFunctionContext<[string, s
         credentials: "include"
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getNotesForMovement

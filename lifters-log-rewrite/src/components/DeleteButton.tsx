@@ -4,9 +4,10 @@ import ConfirmationBox from "./ConfirmationBox";
 type DeleteButtonProps = {
     show: boolean;
     onDelete: VoidFunction;
+    confirmationMessage?: string;
 }
 
-function DeleteButton({ show, onDelete }: DeleteButtonProps) {
+function DeleteButton({ show, onDelete, confirmationMessage }: DeleteButtonProps) {
     const [isDeleting, setIsDeleting] = useState(false);
 
     function handleDelete(e: SyntheticEvent) {
@@ -24,7 +25,7 @@ function DeleteButton({ show, onDelete }: DeleteButtonProps) {
         }
         {
             show && isDeleting &&
-            <ConfirmationBox className="deleteButton" confirmFn={handleDelete} cancelFn={() => setIsDeleting(false)} />
+            <ConfirmationBox className="deleteButton" confirmFn={handleDelete} cancelFn={() => setIsDeleting(false)} text={confirmationMessage}/>
         }
         </>
     )

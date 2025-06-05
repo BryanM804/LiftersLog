@@ -10,7 +10,7 @@ async function getCardioHistory({ queryKey }: QueryFunctionContext<[string, stri
         credentials: "include"
     })
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getCardioHistory

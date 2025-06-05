@@ -10,7 +10,7 @@ async function removeSet(setid: number) {
         body: JSON.stringify({setid: setid})
     });
     
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default removeSet;

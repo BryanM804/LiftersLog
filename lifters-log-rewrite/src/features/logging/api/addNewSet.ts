@@ -7,6 +7,7 @@ type NewSet = {
     reps: number;
     subreps?: number;
     subweight?: number;
+    date: string;
 }
 
 async function addNewSet(newSet: NewSet) {
@@ -17,7 +18,7 @@ async function addNewSet(newSet: NewSet) {
         body: JSON.stringify(newSet)
     });
     
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default addNewSet;

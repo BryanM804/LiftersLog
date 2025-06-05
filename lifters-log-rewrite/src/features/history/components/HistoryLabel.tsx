@@ -1,23 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import getLabelForDate from "../api/getLabelForDate";
 import createNewLabel from "../api/createNewLabel";
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
 import { Tooltip } from "react-tooltip";
+import { useDate } from "../contexts/DateContextProvider";
 
-type HistoryLabelProps = {
-    date: string;
-}
+function HistoryLabel() {
 
-function HistoryLabel({ date }: HistoryLabelProps) {
+    const { historyDate } = useDate()
+    const displayDate = historyDate.toDateString()
 
     const [changingLabel, setChangingLabel] = useState(false);
     const [newLabel, setNewLabel] = useState("");
     const queryClient = useQueryClient();
 
     const { data, error, isLoading} = useQuery({
-        queryKey: ["label",  date],
+        queryKey: ["label",  displayDate],
         queryFn: getLabelForDate
     });
 
@@ -48,7 +48,7 @@ function HistoryLabel({ date }: HistoryLabelProps) {
 
     function handleLabelSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        labelMutation.mutate({label: newLabel, date: date});
+        labelMutation.mutate({label: newLabel, date: displayDate});
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
@@ -77,14 +77,24 @@ function HistoryLabel({ date }: HistoryLabelProps) {
                     <button onClick={handleCancelLabelChange} className="smallFloatingButton">Cancel</button>
                 </form>
                 :
-                <h3 id="currentLabel" 
-                    className="historyLabel" 
-                    data-tooltip-id="historyLabel" 
-                    onClick={handleChangeLabelClick}
-                    >
-                    <Tooltip place="top" content="Tap here to create a custom label for the day." id="historyLabel"/>
-                    {data == null || data.label == "None" ? date : data.label}
-                </h3>
+                <>
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        <h3 id="currentLabel" 
+                            className="historyLabel" 
+                            data-tooltip-id="historyLabel" 
+                            onClick={handleChangeLabelClick}
+                            >
+                            <Tooltip place="top" content="Tap here to create a custom label for the day." id="historyLabel"/>
+                            {data == null || data.label == "None" ? displayDate : data.label}
+                        </h3>
+                        {
+                            data && data.label ?
+                            <h5 style={{margin: "0", opacity: "0.45"}}>{displayDate}</h5>
+                            :
+                            <></>
+                        }
+                    </div>
+                </>
             }
         </>
     )

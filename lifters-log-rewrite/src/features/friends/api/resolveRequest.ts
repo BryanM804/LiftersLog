@@ -16,7 +16,7 @@ async function resolveRequest(resolvedRequest: RequestResolution) {
         body: JSON.stringify(resolvedRequest)
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default resolveRequest;

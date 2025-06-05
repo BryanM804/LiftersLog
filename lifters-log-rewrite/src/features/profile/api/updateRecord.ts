@@ -10,7 +10,7 @@ async function updateRecord(newRecord: Record) {
         body: JSON.stringify(newRecord)
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default updateRecord;

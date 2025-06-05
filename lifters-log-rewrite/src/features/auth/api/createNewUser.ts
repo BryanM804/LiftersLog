@@ -1,3 +1,4 @@
+import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewUser = {
@@ -12,7 +13,7 @@ async function createNewUser(newUser: NewUser) {
         body: JSON.stringify(newUser),
         headers: {"Content-type": "application/json"}
     });
-    return response.json();
+    return await checkStatus(response);
 }
 
 export default createNewUser;

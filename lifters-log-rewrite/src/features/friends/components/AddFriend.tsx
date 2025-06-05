@@ -1,14 +1,44 @@
 import { useMutation } from "@tanstack/react-query"
 import { ChangeEvent, useState } from "react"
 import sendFriendRequest from "../api/sendFriendRequest"
+import TextInputPopup from "../../../components/TextInputPopup"
+import FadePopup from "../../../components/FadePopup"
 
+const ERROR_DURATION = 1.5
 
 function AddFriend() {
 
     const [addingFriend, setAddingFriend] = useState(false)
 
+    const [error, setError] = useState<string | null>(null)
+
+    const addFriendMutation = useMutation({
+        mutationFn: sendFriendRequest,
+        onError: (error: Error) => {
+            setError(error.message)
+            setTimeout(() => {
+                setError(null)
+            }, ERROR_DURATION * 1000)
+        },
+        onSuccess: () => {
+            setAddingFriend(false)
+        }
+    });
+
+    function handleConfirmation(username: string) {
+        if (username.length > 0)
+            addFriendMutation.mutate({ username: username })
+    }
+
     if (addingFriend) {
-        return <AddFriendMenu cancelFn={() => setAddingFriend(false)}/>
+        return (
+            <>
+                {
+                    error && <FadePopup text={error} duration={ERROR_DURATION}/>
+                }
+                <TextInputPopup message="Add Friend" inputPlaceholder="Username" confirmFn={handleConfirmation} cancelFn={() => setAddingFriend(false)} />
+            </>
+        )
     }
 
     return (
@@ -19,48 +49,3 @@ function AddFriend() {
 }
 
 export default AddFriend
-
-type AddFriendMenuProps = {
-    cancelFn: () => void;
-}
-
-function AddFriendMenu({ cancelFn }: AddFriendMenuProps) {
-
-    const [newFriendName, setNewFriendName] = useState("")
-    const [error, setError] = useState(false)
-
-    const addFriendMutation = useMutation({
-        mutationFn: sendFriendRequest,
-        onError: () => {
-            setError(true)
-        },
-        onSuccess: () => {
-            cancelFn()
-        }
-    });
-
-    function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
-        setNewFriendName(e.target.value)
-    }
-
-    function handleConfirmation() {
-        if (newFriendName.length > 0)
-            addFriendMutation.mutate({ username: newFriendName })
-    }
-
-    return (
-        <>
-        <div className="backgroundDim" onClick={cancelFn}></div>
-        <div className="addFriendMenu center">
-            <input type="text" value={newFriendName} className="smallTextInput" onChange={handleTextChange}
-                placeholder="Username"
-            />
-            <div style={{display: "flex", gap: "0.3rem", marginTop: "0.5rem"}} className="center">
-                <button onClick={handleConfirmation} className="floatingButton menuButton">Confirm</button>
-                <button onClick={cancelFn} className="floatingButton menuButton">Cancel</button>
-            </div>
-            <div className={ error ? "warningText" : "hidden"}>Invalid Username</div>
-        </div>
-        </>
-    )
-}

@@ -10,7 +10,7 @@ async function addNewCardio(newCardioSet: CardioSet) {
         body: JSON.stringify(newCardioSet)
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default addNewCardio

@@ -7,7 +7,7 @@ async function getMovements() {
         method: "GET"
     });
     
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getMovements;

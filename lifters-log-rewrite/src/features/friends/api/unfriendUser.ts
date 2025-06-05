@@ -10,7 +10,7 @@ async function unfriendUser(username: string) {
         body: JSON.stringify({ username: username })
     })
 
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default unfriendUser

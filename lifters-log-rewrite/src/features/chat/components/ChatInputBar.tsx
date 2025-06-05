@@ -4,13 +4,17 @@ import addChatMessage from "../api/addChatMessage";
 import ChatRoom from "../types/ChatRoom";
 import sendArrow from "../../../assets/send-arrow.png";
 import { isMobile } from "react-device-detect";
+import FadePopup from "../../../components/FadePopup";
 
 type ChatInputBarProps = {
     room: ChatRoom;
 }
 
+const ERROR_DURATION = 1.5
+
 function ChatInputBar({ room }: ChatInputBarProps) {
     const [chatMessage, setChatMessage] = useState("");
+    const [error, setError] = useState("")
 
     const queryClient = useQueryClient();
 
@@ -19,6 +23,12 @@ function ChatInputBar({ room }: ChatInputBarProps) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["chat"] });
             setChatMessage("");
+        },
+        onError: (error: Error) => {
+            setError(error.message)
+            setTimeout(() => {
+                setError("")
+            }, ERROR_DURATION * 1000)
         }
     })
 
@@ -35,6 +45,9 @@ function ChatInputBar({ room }: ChatInputBarProps) {
 
     return (
         <div className="chatInputBar">
+            {
+                error && <FadePopup text={error} duration={ERROR_DURATION} />
+            }
             <form>
                 <input type="text" className="chatBar" value={chatMessage} onChange={handleChatChange} />
                 <button className="floatingButton chatSubmitButton" onClick={handleChatSubmit}>

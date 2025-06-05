@@ -15,7 +15,7 @@ async function addNewNote(newNote: NewNote) {
         body: JSON.stringify(newNote)
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default addNewNote;

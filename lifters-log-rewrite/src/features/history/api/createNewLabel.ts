@@ -14,7 +14,7 @@ async function createNewLabel(newLabel: NewLabel) {
         body: JSON.stringify(newLabel)
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default createNewLabel;

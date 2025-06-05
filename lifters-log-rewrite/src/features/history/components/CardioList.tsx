@@ -4,16 +4,18 @@ import getCardioHistory from "../api/getCardioHistory";
 import CardioSet from "../../../types/CardioSet";
 import CardioHistory from "./CardioHistory";
 import { useEffect } from "react";
+import { useDate } from "../contexts/DateContextProvider";
 
 type CardioListProps = {
-    date: string;
     setPlaceholderText?: (s: string) => void;
 }
 
-function CardioList({ date, setPlaceholderText }: CardioListProps) {
+function CardioList({ setPlaceholderText }: CardioListProps) {
+
+    const { historyDate } = useDate()
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["history", "cardio", date],
+        queryKey: ["history", "cardio", historyDate.toDateString()],
         queryFn: getCardioHistory
     })
 

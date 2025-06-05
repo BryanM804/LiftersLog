@@ -13,7 +13,7 @@ async function sendFriendRequest(newFriendRequest: FriendRequest) {
         body: JSON.stringify(newFriendRequest)
     });
 
-    return checkStatus(response, "Unable to send friend request")
+    return await checkStatus(response)
 }
 
 export default sendFriendRequest;

@@ -14,7 +14,7 @@ async function getFriendActivity({ queryKey }: QueryFunctionContext<[string, str
         credentials: "include"
     });
     
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default getFriendActivity;

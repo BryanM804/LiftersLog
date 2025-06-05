@@ -7,7 +7,7 @@ async function getSplitMovements() {
         method: "GET"
     });
     
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getSplitMovements;

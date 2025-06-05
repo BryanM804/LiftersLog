@@ -6,7 +6,7 @@ async function getUserStats() {
         method: "GET",
         credentials: "include" // include credentials to send auth cookie
     });
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getUserStats;

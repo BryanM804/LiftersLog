@@ -3,16 +3,20 @@ import ChatRoom from "../types/ChatRoom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addChatMessage from "../api/addChatMessage";
 import changeUserChatPermission from "../api/changeUserChatPermission";
+import TextInputPopup from "../../../components/TextInputPopup";
+import FadePopup from "../../../components/FadePopup";
 
 type InviteConfirmationProps = {
     cancelFn: () => void;
     room: ChatRoom;
 }
 
+const ERROR_DURATION = 1.5
+
 function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
     
-    const [invitedUser, setInvitedUser] = useState("")
-    const [error, setError] = useState(false)
+    const [error, setError] = useState("")
+    const [invitedUser, setInvitedUser] = useState(""); // Needs a state just for the confirmation message in chat
 
     const queryClient = useQueryClient();
 
@@ -29,35 +33,27 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
             addChatMessageMutation.mutate({ roomid: room.roomid, text: `Added ${invitedUser} to ${room.name}.` })
             cancelFn();
         },
-        onError: () => {
-            setError(true)
+        onError: (error: Error) => {
+            setError(error.message)
+            setTimeout(() => {
+                setError("")
+            }, ERROR_DURATION * 1000)
         }
     })
 
-    function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
-        setInvitedUser(e.target.value);
-    }
-
-    function handleConfirmation() {
-        if (invitedUser != "") {
-            inviteUserMutation.mutate({ username: invitedUser, chatPermission: true, roomid: room.roomid })
+    function handleConfirmation(username: string) {
+        if (username != "") {
+            inviteUserMutation.mutate({ username: username, chatPermission: true, roomid: room.roomid });
+            setInvitedUser(username)
         }
     }
     
     return (
         <>
-        <div className="backgroundDim" onClick={cancelFn} ></div>
-        <div className="chatSubMenu">
-            <input type="text" value={invitedUser} className="smallTextInput" onChange={handleTextChange}
-                placeholder="Username"
-            />
-            <br />
-            <div style={{display: "flex", gap: "0.3rem", marginTop: "0.5rem"}} className="center">
-                <button onClick={handleConfirmation} className="floatingButton menuButton">Confirm</button>
-                <button onClick={cancelFn} className="floatingButton menuButton">Cancel</button>
-            </div>
-            <div className={ error ? "warningText" : "hidden"}>Invalid User</div>
-        </div>
+            {
+                error && <FadePopup text={error} duration={ERROR_DURATION} />
+            }
+            <TextInputPopup message="Invite User" inputPlaceholder="Username" confirmFn={handleConfirmation} cancelFn={cancelFn} />
         </>
     )
 }

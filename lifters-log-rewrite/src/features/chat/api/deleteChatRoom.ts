@@ -13,7 +13,7 @@ async function deleteChatRoom(deletedRoom: DeletedChatRoom) {
         body: JSON.stringify(deletedRoom)
     });
 
-    return checkStatus(response, "Unable to delete chatroom.")
+    return await checkStatus(response)
 }
 
 export default deleteChatRoom;

@@ -11,7 +11,7 @@ async function getUsersWithAccess({ queryKey }: QueryFunctionContext<[string, nu
         credentials: "include"
     });
 
-    return checkStatus(response, "Unable to get users with chat access.");
+    return await checkStatus(response);
 }
 
 export default getUsersWithAccess;

@@ -15,7 +15,7 @@ async function changeUserChatPermission(newUser: NewChatUser) {
         body: JSON.stringify(newUser)
     });
 
-    return checkStatus(response, "Unable to add user.")
+    return await checkStatus(response)
 }
 
 export default changeUserChatPermission;

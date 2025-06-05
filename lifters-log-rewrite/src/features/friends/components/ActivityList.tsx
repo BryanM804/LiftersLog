@@ -49,7 +49,9 @@ function ActivityList({ timeframe, friend, active }: ActivityListProps) {
                         username={entry.username}
                         exercise={entry.movement}
                         weight={entry.weight}
+                        subWeight={entry.subweight}
                         reps={entry.reps}
+                        subReps={entry.subreps}
                         note={entry.text}
                         label={entry.label}
                         date={entry.date}

@@ -6,25 +6,36 @@ import ServerError from "../../../components/ServerError";
 import Loading from "../../../components/Loading";
 import ItemNotes from "./ItemNotes";
 import { useMovement } from "../../logging/contexts/MovementContextProvider";
+import { useDate } from "../contexts/DateContextProvider";
 
 
 type HistoryGroupProps = {
-    date: string;
     movement: string;
     onClick?: () => void;
 }
 
-function HistoryGroup({ date, movement, onClick }: HistoryGroupProps) {
+function HistoryGroup({ movement, onClick }: HistoryGroupProps) {
 
-    const { setMovement } = useMovement()
+    const { 
+        setMovement,
+        setWeight,
+        setSubWeight,
+        setReps,
+        setSubReps
+    } = useMovement()
+    const { historyDate } = useDate()
     
     const { data, error, isLoading } = useQuery({
-        queryKey: ["history", "group", date, movement],
+        queryKey: ["history", "group", historyDate.toDateString(), movement],
         queryFn: getHistoryForDate
     });
 
     function handleClick() {
         setMovement(movement)
+        setWeight(0)
+        setSubWeight(0)
+        setReps(0)
+        setSubReps(0)
         onClick?.()
     }
 
@@ -32,15 +43,18 @@ function HistoryGroup({ date, movement, onClick }: HistoryGroupProps) {
     if (error) return <ServerError error={error} />
 
     return (
-        <div className="historyGroup" onClick={handleClick}>
-            <div className="historyTitle">
+        <div className="historyGroup">
+            <div className="historyTitle" onClick={handleClick}>
                 {movement}
             </div>
             <hr />
             <ul className="historySubList">
                 {
                     data.map((historyItem: HistoryItem) => 
+                        // Even though the rows are all under a group, they need to know their movement
+                        // so they can set the input boxes
                         <HistoryRow
+                            movement={historyItem.movement}
                             time={historyItem.time}
                             weight={historyItem.weight}
                             subWeight={historyItem.subweight}
@@ -52,7 +66,7 @@ function HistoryGroup({ date, movement, onClick }: HistoryGroupProps) {
                     )
                 }
             </ul>
-            <ItemNotes movement={movement} date={date} />
+            <ItemNotes movement={movement} />
         </div>
     )
 }

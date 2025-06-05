@@ -8,7 +8,7 @@ async function uploadProfilePicture(formData: FormData) {
         body: formData
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default uploadProfilePicture;

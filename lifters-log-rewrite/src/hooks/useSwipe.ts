@@ -10,13 +10,15 @@ function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 50}: UseSwipeProps) {
 
     const touchStart = useRef<null | number>(null)
     const touchEnd = useRef<null | number>(null)
-    const [swiping, setSwiping] = useState(false)
+    // const [swiping, setSwiping] = useState(false)
+    // The swiping state was causing re-renders of the logging screen, will hopefully
+    // find a fix if necessary later
 
     useEffect(() => {
         function handleTouchStart(e: TouchEvent) {
             touchEnd.current = null;
             touchStart.current = e.targetTouches[0].clientX
-            setSwiping(true)
+            // setSwiping(true)
         }
 
         function handleTouchMove(e: TouchEvent) {
@@ -35,7 +37,7 @@ function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 50}: UseSwipeProps) {
                     onSwipeLeft?.()
             }
 
-            setSwiping(false)
+            // setSwiping(false)
         }
 
         document.addEventListener("touchstart", handleTouchStart, )
@@ -49,7 +51,8 @@ function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 50}: UseSwipeProps) {
         }
     }, [onSwipeLeft, onSwipeRight, threshold])
     
-    return { swiping }
+    //return { swiping }
+    return {}
 }
 
 export default useSwipe

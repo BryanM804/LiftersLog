@@ -10,7 +10,7 @@ async function getHistoryGroupsForDate({ queryKey }: QueryFunctionContext<[strin
         credentials: "include"
     });
     
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getHistoryGroupsForDate;

@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query"
 import getNotesForMovement from "../api/getNotesForMovement";
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
+import { useDate } from "../contexts/DateContextProvider";
 
 type ItemNotesProps = {
     movement: string;
-    date: string;
 }
 
 type Note = {
@@ -13,10 +13,12 @@ type Note = {
     noteid: number;
 }
 
-function ItemNotes({ movement, date }: ItemNotesProps) {
+function ItemNotes({ movement }: ItemNotesProps) {
+
+    const { historyDate } = useDate()
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["notes", "history", movement, date],
+        queryKey: ["notes", "history", movement, historyDate.toDateString()],
         queryFn: getNotesForMovement
     });
 

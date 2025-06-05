@@ -11,7 +11,7 @@ async function getMovementInsights({ queryKey }: QueryFunctionContext<[string, s
         credentials: "include"
     });
 
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default getMovementInsights

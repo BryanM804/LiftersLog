@@ -9,7 +9,7 @@ async function deleteNote(noteid: number) {
         body: JSON.stringify({ noteid: noteid })
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default deleteNote;

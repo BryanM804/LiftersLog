@@ -10,7 +10,7 @@ async function getChatMessages({ queryKey }: QueryFunctionContext<[string, numbe
         credentials: "include"
     });
 
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default getChatMessages;

@@ -11,7 +11,7 @@ async function getUserInsights({ queryKey }: QueryFunctionContext<[string, strin
         credentials: "include"
     });
 
-    return checkStatus(response)
+    return await checkStatus(response)
 }
 
 export default getUserInsights

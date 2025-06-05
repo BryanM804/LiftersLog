@@ -10,6 +10,7 @@ import ConfirmationBox from "../../../components/ConfirmationBox";
 import { useMovement } from "../../logging/contexts/MovementContextProvider";
 
 type HistoryRowProps = {
+    movement: string;
     time: string;
     weight: number;
     reps: number;
@@ -19,9 +20,10 @@ type HistoryRowProps = {
 }
 
 
-function HistoryRow({ time, weight, reps, setid, subReps, subWeight}: HistoryRowProps) {
+function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight}: HistoryRowProps) {
 
     const {
+        setMovement,
         setReps,
         setWeight,
         setSubReps,
@@ -44,10 +46,11 @@ function HistoryRow({ time, weight, reps, setid, subReps, subWeight}: HistoryRow
     })
     
     function handleClick() {
+        setMovement(movement)
         setWeight(weight)
         setReps(reps)
-        if (subReps) setSubReps(subReps)
-        if (subWeight) setSubWeight(subWeight)
+        setSubReps(subReps ? subReps : 0)
+        setSubWeight(subWeight ? subWeight : 0)
     }
 
     function handleDelete() {

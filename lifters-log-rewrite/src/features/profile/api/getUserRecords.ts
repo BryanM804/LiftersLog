@@ -10,7 +10,7 @@ async function getUserRecords({ queryKey }: QueryFunctionContext<[string, string
         credentials: "include"
     });
 
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getUserRecords;

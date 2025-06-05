@@ -8,7 +8,7 @@ async function getFriendProfile(username: string) {
         credentials: "include"
     });
     
-    return checkStatus(response);
+    return await checkStatus(response);
 }
 
 export default getFriendProfile
