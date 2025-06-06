@@ -5,7 +5,7 @@ type CardioSet = {
     distance: number;
     note: string;
     cardioid?: number;
-    date?: string;
+    date: string;
 }
 
 export default CardioSet;

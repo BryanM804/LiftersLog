@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react"
 import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"
@@ -8,7 +8,7 @@ import getSplitMovements from "../api/getSplitMovements"
 import getUserPreferences from "../../profile/api/getUserPreferences"
 
 type LogMenuProps = {
-    onLogSuccess: () => void;
+    onLogSuccess: (xpParticleMultiplier: number) => void;
 }
 
 function LogMenu({ onLogSuccess }: LogMenuProps) {
@@ -105,10 +105,10 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
             setSubWeight(0)
         }
     }, [movement, subReps, subWeight])
-    
+
     return (
         <>
-        <form>
+        <form >
             <div className="logGridContainer">
                 <div className="gridItemSpan">
                     <MovementPicker onClear={clearInputs} label="Exercise"/>

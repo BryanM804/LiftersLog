@@ -18,12 +18,11 @@ function UserInsights({ timeframe }: UserInsightsProps) {
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["insights", timeframe],
-        queryFn: getUserInsights,
-        enabled: false
+        queryFn: getUserInsights
     })
 
-    // if (isLoading) return <Loading />
-    // if (error) return <ServerError error={error} />
+    if (isLoading) return <Loading />
+    if (error) return <ServerError error={error} />
 
     return (
         <>
@@ -33,7 +32,12 @@ function UserInsights({ timeframe }: UserInsightsProps) {
             </div>
             <UserMuscleGroupChart timeframe={timeframe}/>
             <div className="statSection">
-                <StatCard title="Average Sets/Week" value="50" />
+                {
+                    data && data.length &&
+                    data.map((card: {title: string, value: string}) =>
+                        <StatCard title={card.title} value={card.value} key={card.title}/>
+                    )
+                }
             </div>
         </>
     )

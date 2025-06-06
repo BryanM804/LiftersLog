@@ -3,10 +3,11 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addNewSet from "../api/addNewSet";
 import { useDate } from "../../history/contexts/DateContextProvider";
+import { XPPARTICLE_DIVISOR } from "../../../utils/constants";
 
 type LogButtonProps = {
     isSplit: boolean;
-    onLogSuccess: () => void;
+    onLogSuccess: (xpParticleMultiplier: number) => void;
 }
 
 // const LogButton = forwardRef<HTMLInputElement, LogButtonProps>(({ isSplit, onLogSuccess }, ref) => {
@@ -28,8 +29,11 @@ function LogButton({ isSplit, onLogSuccess }: LogButtonProps) {
         mutationFn: addNewSet,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["history"], exact: false });
-            // Add some kind of confirmation animation later
-            onLogSuccess()
+            
+            let xpNumber = ((weight * reps) + (subWeight * subReps))
+            if (xpNumber <= 0)
+                xpNumber = 500
+            onLogSuccess(xpNumber / XPPARTICLE_DIVISOR)
         }
     });
 

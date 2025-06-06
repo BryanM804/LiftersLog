@@ -40,7 +40,7 @@ function HistoryList({ className, placeholder, placeholderClass }: HistoryListPr
                     <HistoryGroup movement={historyGroup.movement} key={historyGroup.movement} />
                 )
                 :
-                <li className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholderText}</li>
+                placeholderText != "" ? <li className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholderText}</li> : <></>
             }
             <CardioList setPlaceholderText={setPlaceholderText}/>
         </ul>

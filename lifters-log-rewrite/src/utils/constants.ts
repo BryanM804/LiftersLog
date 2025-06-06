@@ -4,3 +4,8 @@ export const PLACEHOLDERUSERDATA = {
     username: "",
     userid: 0
 };
+
+export const XPBAR_ANIMATION_TIME = 0.75
+export const XPPARTICLE_DIVISOR = 50
+
+export const XPCOLOR = "#2dfc5a"

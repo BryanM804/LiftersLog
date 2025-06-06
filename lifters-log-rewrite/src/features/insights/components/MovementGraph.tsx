@@ -35,7 +35,7 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
 
         switch (metric) {
             case "Average":
-                setLineLabel("Average Set Total")
+                setLineLabel("Median Set Total")
                 setGraphTitle(`${graphPrefix} Average ${movement}`)
                 break
             case "Max":

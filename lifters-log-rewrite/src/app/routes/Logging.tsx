@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import CardioMenu from "../../features/logging/components/CardioMenu";
 import useSwipe from "../../hooks/useSwipe";
 import { isDesktop } from "react-device-detect";
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useAnimation } from "framer-motion"
 import FadePopup from "../../components/FadePopup";
 import { useDate } from "../../features/history/contexts/DateContextProvider";
 import { Container, Engine } from "@tsparticles/engine"
@@ -16,10 +16,14 @@ import { EmitterContainer, loadEmittersPlugin } from "@tsparticles/plugin-emitte
 import { loadAbsorbersPlugin } from "@tsparticles/plugin-absorbers"
 import { initParticlesEngine, Particles } from "@tsparticles/react"
 import { loadSlim } from "@tsparticles/slim"
+import XPBarAnimator from "../../features/logging/components/XPBarAnimator";
+import { useQueryClient } from "@tanstack/react-query";
+import { XPCOLOR } from "../../utils/constants";
 
 function Logging() {
 
     const { historyDate, setHistoryDate, stickyDate } = useDate()
+    const queryClient = useQueryClient()
 
     const [showWarning, setShowWarning] = useState(false)
     const [index, setIndex] = useState(0)
@@ -54,10 +58,11 @@ function Logging() {
         ]
     }, [historyDate])
 
+
+
     // Particles
 
     const particlesRef = useRef<EmitterContainer | undefined>(undefined);
-    // const buttonRef = useRef<HTMLInputElement>(null)
 
     const particlesOptions = useMemo(() => ({
         fullScreen: {
@@ -80,7 +85,8 @@ function Logging() {
                     radius: 150,
                     mass: 100
                 },
-                density: 200
+                value: 150,
+                density: 100
             },
             position: { x: 50, y: 100 }
         }
@@ -101,20 +107,16 @@ function Logging() {
             particlesRef.current = container as EmitterContainer
     }
 
-    function handleLogSuccess() {
+    function handleLogSuccess(xpParticleMultiplier: number) {
         // emit particle
 
         const tryEmit = () => {
-            // const button = buttonRef.current
             const container = particlesRef.current as EmitterContainer
             const canvas = container.canvas?.element;
 
-            // if (!canvas || !button || !container) {
             if (!canvas || !container) {
                 if (!canvas)
                     console.warn("Canvas not available yet, retrying...");
-                // if (!button)
-                //     console.warn("Button not available yet, retrying...");
                 if (!container)
                     console.warn("Container not available yet, retrying...");
                 setTimeout(tryEmit, 50); // retry in 50ms
@@ -136,7 +138,7 @@ function Logging() {
                 direction: "top",
                 domId: "logButton",
                 rate: {
-                    quantity: 10, //xp related number here later
+                    quantity: xpParticleMultiplier, //xp related number here later
                     delay: 0.1
                 },
                 life: {
@@ -152,9 +154,9 @@ function Logging() {
                         type: "circle"
                     },
                     size: {
-                        value: { min: 3, max: 6 },
+                        value: { min: 4, max: 6 },
                     },
-                    color: { value: "#2dfc5a" },
+                    color: { value: XPCOLOR },
                     opacity: {
                         value: 0.65,
                     },
@@ -172,8 +174,10 @@ function Logging() {
                 }
             });
 
-            // console.log(`Emitter added at ${emitterX}, ${emitterY}`);
             console.log("Spawned emitter")
+            queryClient.invalidateQueries({
+                queryKey: ["userxp"]
+            })
         };
 
         tryEmit();
@@ -186,6 +190,7 @@ function Logging() {
                 <LogMenu onLogSuccess={handleLogSuccess}/>
                 <NoteSection />
                 <RecentHistory />
+                <XPBarAnimator />
             </>
         )
     }
@@ -196,6 +201,7 @@ function Logging() {
                 <FadePopup text="Cardio" />
                 <CardioMenu onLogSuccess={handleLogSuccess}/>
                 <RecentHistory />
+                <XPBarAnimator />
             </>
         )
     }

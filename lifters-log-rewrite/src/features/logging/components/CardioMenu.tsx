@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react"
 import CardioLogButton from "./CardioLogButton";
 
 type CardioMenuProps = {
-    onLogSuccess: () => void;
+    onLogSuccess: (xpParticleMultiplier: number) => void;
 }
 
 function CardioMenu({ onLogSuccess }: CardioMenuProps) {
