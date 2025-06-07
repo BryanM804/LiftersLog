@@ -14,7 +14,7 @@ function ChatRoomItem({ name, description, onClick }: ChatRoomItemProps) {
                 {
                     description && 
                     <>
-                        {description}
+                        <span style={{opacity: 0.7}}>{description}</span>
                     </>
                 }
             </li>

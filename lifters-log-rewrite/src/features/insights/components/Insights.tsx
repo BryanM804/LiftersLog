@@ -36,9 +36,9 @@ function Insights() {
         <div className="insightsContainer">
         <SectionTitle text="Insights" />
         <div className="insightPickerBar">
-            <div><MovementPicker placeholder="Select Movement" className="insightMovementPicker"/></div>
+            <div><MovementPicker placeholder="Select Movement" className="insightMovementPicker" clearButtonClassName="insightClearButton"/></div>
             <ItemPicker placeholder="Timeframe" options={debouncedMovement === "" ? userTimeframes : movementTimeframes} selected={timeframe} setSelected={setTimeframe} />
-            { debouncedMovement != "" && <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={setMetric} /> }
+            { debouncedMovement != "" && timeframe != "Today" && <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={setMetric} /> }
         </div>
         <HalfGap />
         {

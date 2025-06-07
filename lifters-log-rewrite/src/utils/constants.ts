@@ -5,7 +5,7 @@ export const PLACEHOLDERUSERDATA = {
     userid: 0
 };
 
-export const XPBAR_ANIMATION_TIME = 0.75
+export const XPBAR_ANIMATION_TIME = 1
 export const XPPARTICLE_DIVISOR = 50
 
 export const XPCOLOR = "#2dfc5a"

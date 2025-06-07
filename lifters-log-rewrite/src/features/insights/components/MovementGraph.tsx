@@ -96,6 +96,17 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
                         strokeWidth={2}
                         dot={false}
                     />
+                    {
+                        timeframe === "Today" &&
+                        <Line 
+                            name="Recent Performance"
+                            dataKey="baseline"
+                            type="natural"
+                            strokeWidth={2}
+                            stroke="#647087"
+                            dot={false}
+                        />
+                    }
                 </LineChart>
             </ResponsiveContainer>
         </div>

@@ -1,11 +1,14 @@
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, SyntheticEvent, useEffect, useState } from "react"
 import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"
 import { useMovement } from "../contexts/MovementContextProvider"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import getSplitMovements from "../api/getSplitMovements"
 import getUserPreferences from "../../profile/api/getUserPreferences"
+import addNewSet from "../api/addNewSet"
+import { XPPARTICLE_DIVISOR } from "../../../utils/constants"
+import { useDate } from "../../history/contexts/DateContextProvider"
 
 type LogMenuProps = {
     onLogSuccess: (xpParticleMultiplier: number) => void;
@@ -25,13 +28,16 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
         setWeight,
         setSubWeight
     } = useMovement()
+    const queryClient = useQueryClient();
+    const { historyDate } = useDate()
     
     // States
     // User split preference will be set from account
     const [userSplits, setUserSplits] = useState(true)
     const [splitMovement, setSplitMovement] = useState(false)
+    const [invalidLog, setInvalidLog] = useState(false)
     
-    // Queries
+    // Queries/Mutations
     const { data: splitMovements } = useQuery({
         queryKey: ["splitMovements"],
         queryFn: getSplitMovements,
@@ -46,6 +52,17 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
             setUserSplits(userPreferences.splitsMovements)
         }
     }, [userPreferences])
+    const setMutation = useMutation({
+        mutationFn: addNewSet,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["history"], exact: false });
+            
+            let xpNumber = ((weight * reps) + (subWeight * subReps))
+            if (xpNumber <= 0)
+                xpNumber = 500
+            onLogSuccess(xpNumber / XPPARTICLE_DIVISOR)
+        }
+    });
 
 
     function isSplittableMovement(m: string) {
@@ -106,9 +123,25 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
         }
     }, [movement, subReps, subWeight])
 
+    // Submission Logic
+
+    function handleLogSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        if (reps <= 0 || weight <= 0 || reps > 100 || weight > 1500 || movement === "" || (splitMovement && (subReps <= 0 || subWeight <= 0))) {
+            setInvalidLog(true);
+            setTimeout(() => {
+                setInvalidLog(false);
+            }, 200);
+            return;
+        }
+
+        setMutation.mutate({movement: movement, weight: weight, reps: reps, subweight: subWeight, subreps: subReps, date: historyDate.toDateString()});
+    }
+
     return (
         <>
-        <form >
+        <form onSubmit={handleLogSubmit} noValidate={true}>
             <div className="logGridContainer">
                 <div className="gridItemSpan">
                     <MovementPicker onClear={clearInputs} label="Exercise"/>
@@ -138,7 +171,7 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
                         <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
                     </div>
                 }
-                <LogButton onLogSuccess={onLogSuccess} isSplit={splitMovement} />
+                <LogButton invalidLog={invalidLog} />
             </div>
         </form>
         </>

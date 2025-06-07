@@ -27,7 +27,7 @@ function StatCard({ title, value, subValue }: StatCardProps) {
             let fixedString = "";
 
             for (let i = 0; i < valueStrs.length; i++) {
-                if (Number.isNaN(parseFloat(valueStrs[i]))) {
+                if (Number.isNaN(parseFloat(valueStrs[i])) || valueStrs[i].indexOf(":") != -1) {
                     fixedString += valueStrs[i] + " "
                 } else {
                     fixedString += parseAndRound(valueStrs[i]).toString() + " "

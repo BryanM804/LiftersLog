@@ -17,16 +17,31 @@ function HistoryButton({ direction }: HistoryButtonProps) {
     const [changingDate, setChangingDate] = useState(false)
     const [invalidDateEntry, setInvalidDateEntry] = useState(false)
 
-    const { historyDate, setHistoryDate } = useDate()
+    const { historyDate, setHistoryDate, selectableDates, selectedIndex, setSelectedIndex } = useDate()
     const { holdHandlers } = useLongPress(() => setChangingDate(true));
 
     function handleBackClick() {
-        historyDate.setDate(historyDate.getDate() - 1);
-        setHistoryDate(new Date(Date.parse(historyDate.toDateString())))
+        if (selectableDates) {
+            if (selectedIndex > 0) {
+                setHistoryDate(new Date(Date.parse(selectableDates[selectedIndex - 1])));
+                setSelectedIndex(selectedIndex - 1)
+            }
+        } else {
+            historyDate.setDate(historyDate.getDate() - 1);
+            setHistoryDate(new Date(Date.parse(historyDate.toDateString())));   
+        }
     }
     function handleForwardClick() {
-        historyDate.setDate(historyDate.getDate() + 1);
-        setHistoryDate(new Date(Date.parse(historyDate.toDateString())))
+        if (selectableDates) {
+            if (selectedIndex < selectableDates.length - 1) {
+                setHistoryDate(new Date(Date.parse(selectableDates[selectedIndex + 1])));
+                setSelectedIndex(selectedIndex + 1)
+            }
+        } else {
+            historyDate.setDate(historyDate.getDate() + 1);
+            setHistoryDate(new Date(Date.parse(historyDate.toDateString())))
+        }
+        
     }
 
     function jumpToDate(enteredDate: string) {

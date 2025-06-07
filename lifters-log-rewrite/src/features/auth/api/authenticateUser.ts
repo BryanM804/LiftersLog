@@ -4,6 +4,7 @@ import { SERVER_URL } from "../../../utils/constants";
 type UserLogin = {
     username: string;
     password: string;
+    rememberMe: boolean;
 }
 
 async function authenticateUser(userLogin: UserLogin) {

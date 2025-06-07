@@ -3,8 +3,12 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useStat
 type DateContextType = {
     historyDate: Date;
     stickyDate: boolean;
+    selectableDates: Array<string> | null;
+    selectedIndex: number;
     setStickyDate: Dispatch<SetStateAction<boolean>>;
     setHistoryDate: Dispatch<SetStateAction<Date>>;
+    setSelectableDates: Dispatch<SetStateAction<Array<string> | null>>;
+    setSelectedIndex: Dispatch<SetStateAction<number>>;
 }
 
 type DateContextProviderProps = {
@@ -19,13 +23,19 @@ function DateContextProvider({ children }: DateContextProviderProps) {
     // would rather make things more readable
     const [historyDate, setHistoryDate] = useState(new Date());
     const [stickyDate, setStickyDate] = useState(false)
+    const [selectableDates, setSelectableDates] = useState<string[] | null>(null);
+    const [selectedIndex, setSelectedIndex] = useState(-1)
 
     return (
         <DateContext.Provider value={{
             historyDate,
             stickyDate,
+            selectableDates,
+            selectedIndex,
             setStickyDate,
-            setHistoryDate
+            setHistoryDate,
+            setSelectableDates,
+            setSelectedIndex
         }}>
             {children}
         </DateContext.Provider>

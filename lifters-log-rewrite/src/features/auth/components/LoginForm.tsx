@@ -10,6 +10,7 @@ function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [failedLogin, setFailedLogin] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
     const navigate = useNavigate();
     const signIn = useSignIn();
 
@@ -35,7 +36,7 @@ function LoginForm() {
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        authMutation.mutate({username, password})
+        authMutation.mutate({username, password, rememberMe})
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
@@ -44,6 +45,10 @@ function LoginForm() {
         } else if (e.target.id == "password") {
             setPassword(e.target.value);
         }
+    }
+
+    function handleCheckboxChange(e: ChangeEvent<HTMLInputElement>) {
+        setRememberMe(e.target.checked)
     }
 
     return (
@@ -57,9 +62,14 @@ function LoginForm() {
                 <br />
                 <input className="smallTextInput" type="password" id="password" onChange={handleTextChange} value={password}/>
                 <br />
-                <div style={{textAlign: "center"}}>
+                <div style={{textAlign: "center", display: "flex", flexDirection: "column", marginTop: "0.5rem"}}>
+                    <label htmlFor="rememberMeCheckbox" className="plainLink">
+                        Remember Me
+                        <input type="checkbox" id="rememberMeCheckbox" onChange={handleCheckboxChange} />
+                    </label>
                     <input className="floatingButton fullWidth" type="submit" value="Login" onClick={handleSubmit} />
                 </div>
+                
             </form>
             <div id="loginError" className={failedLogin ? "warningText" : "hidden"}>Incorrect username or password.</div>
         </>

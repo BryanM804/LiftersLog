@@ -108,6 +108,13 @@
     grid-auto-rows: 1fr;
 }
 
+.historyFooter {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
 @media (max-width: 768px) {
     .historyList {
         grid-template-columns: repeat(2, minmax(40px, 275px));

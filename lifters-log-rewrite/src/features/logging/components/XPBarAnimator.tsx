@@ -41,6 +41,7 @@ function XPBarAnimator() {
             if (data) {
                 if (initialXp == -1) {
                     setInitialXp(data.xp)
+                    setNewXp(data.xp)
                     setMaxXp(data.level * 1500)
                     setInitialLevel(data.level)
                 } else if (data.level > initialLevel) {

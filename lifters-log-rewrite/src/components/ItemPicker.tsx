@@ -41,7 +41,7 @@ function ItemPicker({ placeholder, options, selected, setSelected }: ItemPickerP
                 className={`dropdownPickerMenu ${open && " openDropdown"}`}
             >
                 <button 
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                     className="dropdownMenuButton"
                 >
                 {

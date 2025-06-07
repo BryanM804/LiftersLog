@@ -9,6 +9,7 @@ type MovementPickerProps = {
     onClear?: VoidFunction;
     label?: string;
     className?: string;
+    clearButtonClassName?: string;
     placeholder?: string;
 }
 
@@ -17,7 +18,7 @@ type Movement = {
     exerciseid: number;
 }
 
-function MovementPicker({ onClear, label, className, placeholder }: MovementPickerProps) {
+function MovementPicker({ onClear, label, className, clearButtonClassName, placeholder }: MovementPickerProps) {
 
     const { movement, setMovement } = useMovement();
 
@@ -58,10 +59,10 @@ function MovementPicker({ onClear, label, className, placeholder }: MovementPick
                     <br />
                 </> 
             }
-            <div style={{position: "relative"}} className={className && className}>
+            <div style={{position: "relative"}} >
                 <input 
                     type="text" 
-                    className="longTextInput movementPicker"
+                    className={`longTextInput movementPicker ${className && className}`}
                     id="movement" 
                     autoComplete="on" 
                     list="movementList" 
@@ -72,10 +73,12 @@ function MovementPicker({ onClear, label, className, placeholder }: MovementPick
                 {
                     isMobile && 
                     <button 
-                        className="smallFloatingButton transparentButton clearMovementButton" 
+                        className={`smallFloatingButton transparentButton clearMovementButton ${clearButtonClassName && clearButtonClassName}`}
+                        type="button"
                         onClick={clearText}
+                        style={{fontWeight: "bold", fontSize: "1rem"}}
                         >
-                            ❌
+                            X
                         </button>
                 }
             </div>

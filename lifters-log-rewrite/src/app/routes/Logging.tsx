@@ -163,7 +163,7 @@ function Logging() {
                     move: {
                         speed: 10,
                         direction: "bottom",
-                        outModes: "destroy",
+                        outModes: "bounce", // I like bounce for now, might go back to destroy later
                         enable: true,
                     },
                     life: {

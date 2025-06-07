@@ -46,8 +46,6 @@ input::-webkit-calendar-picker-indicator {
 .clearMovementButton {
     position: absolute;
     right: 0;
-    top: 0;
-    padding-top: 0.4rem;
 }
 
 .setInput {
