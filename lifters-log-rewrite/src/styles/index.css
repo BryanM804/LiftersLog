@@ -113,6 +113,8 @@ nav {
     padding: 0.2rem;
     border-radius: 4px;
     margin: 0;
+    text-decoration: none;
+    color: inherit;
 }
 .plainLink:hover {
     background-color: #777;
