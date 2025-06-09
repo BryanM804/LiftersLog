@@ -9,6 +9,7 @@ import getUserPreferences from "../../profile/api/getUserPreferences"
 import addNewSet from "../api/addNewSet"
 import { XPPARTICLE_DIVISOR } from "../../../utils/constants"
 import { useDate } from "../../history/contexts/DateContextProvider"
+import getBodyweightMovements from "../api/getBodyweightMovements"
 
 type LogMenuProps = {
     onLogSuccess: (xpParticleMultiplier: number) => void;
@@ -47,6 +48,10 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
         queryKey: ["preferences"],
         queryFn: getUserPreferences
     });
+    const { data: bodyweightMovements, isLoading: bodyweightLoading, error:bodyweightError } = useQuery({
+        queryKey: ["bodyweightMovements"],
+        queryFn: getBodyweightMovements
+    })
     useEffect(() => {
         if (userPreferences) {
             setUserSplits(userPreferences.splitsMovements)
@@ -73,6 +78,15 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
             }
         }
         return false;
+    }
+    function isBodyweightMovement(m: string) {
+        if (bodyweightMovements && bodyweightMovements.length) {
+            for (const b of bodyweightMovements) {
+                if (b.movement == m)
+                    return true
+            }
+        }
+        return false
     }
 
     function parseAndRound(s: string) {
@@ -125,14 +139,23 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
 
     // Submission Logic
 
+    function flagInvalidLog() {
+        setInvalidLog(true);
+        setTimeout(() => {
+            setInvalidLog(false);
+        }, 200);
+    }
+
     function handleLogSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        if (reps <= 0 || weight <= 0 || reps > 100 || weight > 1500 || movement === "" || (splitMovement && (subReps <= 0 || subWeight <= 0))) {
-            setInvalidLog(true);
-            setTimeout(() => {
-                setInvalidLog(false);
-            }, 200);
+        if (reps <= 0 || weight < 0 || reps > 100 || weight > 1500 || movement === "" || (splitMovement && (subReps <= 0 || subWeight <= 0))) {
+            flagInvalidLog();
+            return;
+        }
+        // If we passed those but the weight is 0 and not bodyweight
+        if ((bodyweightLoading || bodyweightError || !isBodyweightMovement(movement)) && weight == 0) {
+            flagInvalidLog();
             return;
         }
 
