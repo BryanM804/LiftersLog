@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import updateRecord from "../api/updateRecord"
 import { ChangeEvent, useState } from "react"
 import HalfGap from "../../../components/HalfGap";
+import editPic from "../../../assets/edit.png"
 
 type RecordChangerProps = {
     type: string;
@@ -54,7 +55,7 @@ function RecordChanger({ type, initWeight }: RecordChangerProps) {
                     "N/A"
             }
             <a onClick={() => setIsChanging(true)}>
-                <img src="./src/assets/edit.png" height={20} width={20} className="editButton" />
+                <img src={editPic} height={20} width={20} className="editButton" />
             </a>
         </>
     )

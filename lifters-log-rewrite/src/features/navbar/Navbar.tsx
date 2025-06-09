@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import loggingPic from "../../assets/log.png"
+import historyPic from "../../assets/history.png"
+import socialPic from "../../assets/social.png"
+import profilePic from "../../assets/profile.png"
 
 function Navbar() {
     const location = useLocation();
@@ -14,16 +18,16 @@ function Navbar() {
         <nav className={visible ? "navbar" : "navbar hidden"}>
             <ul>
                 <NavLink to="/logging" end className={({ isActive }) => (isActive ? "active navlink" : "navlink")}>
-                    <img src="./src/assets/log.png" height={32} width={36} />
+                    <img src={loggingPic} height={32} width={36} />
                 </NavLink>
                 <NavLink to="/history" end className={({ isActive }) => (isActive ? "active navlink" : "navlink")}>
-                    <img src="./src/assets/history.png" height={32} width={36} />
+                    <img src={historyPic} height={32} width={36} />
                 </NavLink>
                 <NavLink to="/social" end className={({ isActive }) => (isActive ? "active navlink" : "navlink")}>
-                    <img src="./src/assets/social.png" height={32} width={38} />
+                    <img src={socialPic} height={32} width={38} />
                 </NavLink>
                 <NavLink to="/profile" end className={({ isActive }) => (isActive ? "active navlink" : "navlink")}>
-                    <img src="./src/assets/profile.png" height={32} width={32} />
+                    <img src={profilePic} height={32} width={32} />
                 </NavLink>
             </ul>
         </nav>
