@@ -7,7 +7,7 @@ function Navbar() {
     const [visible, setVisible] = useState(false)
 
     useEffect(() => {
-        setVisible(location.pathname != "/")
+        setVisible(location.pathname != "/" && location.pathname != "/welcome")
     }, [location])
 
     return (

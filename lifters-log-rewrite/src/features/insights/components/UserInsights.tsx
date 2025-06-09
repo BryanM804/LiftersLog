@@ -7,6 +7,7 @@ import Loading from "../../../components/Loading"
 import ServerError from "../../../components/ServerError"
 import UserMuscleGroupChart from "./UserMuscleGroupChart"
 import StatCard from "./StatCard"
+import { useEffect, useState } from "react"
 
 type UserInsightsProps = {
     timeframe: string;
@@ -16,10 +17,20 @@ function UserInsights({ timeframe }: UserInsightsProps) {
     
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA
 
+    const [hasData, setHasData] = useState(true)
+
     const { data, isLoading, error } = useQuery({
         queryKey: ["insights", timeframe],
         queryFn: getUserInsights
     })
+
+    useEffect(() => {
+        if (!data) {
+            setHasData(false)
+        } else {
+            setHasData(true)
+        }
+    }, [data])
 
     if (isLoading) return <Loading />
     if (error) return <ServerError error={error} />
@@ -30,7 +41,9 @@ function UserInsights({ timeframe }: UserInsightsProps) {
                 <h5 style={{marginTop: "2.75rem", marginBottom: "0"}}>{authUser.username}</h5>
                 <hr className="darkFont"/>
             </div>
-            <UserMuscleGroupChart timeframe={timeframe}/>
+            {
+                hasData ? <UserMuscleGroupChart timeframe={timeframe}/> : <p className="darkFont" style={{width: "95%", alignSelf: "center"}}>Start logging to see your set distribution across muscle groups and other stats!</p>
+            }
             <div className="statSection">
                 {
                     data && data.length &&

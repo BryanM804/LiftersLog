@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     touch-action: manipulation;
     height: 100vh;
+    scrollbar-width: none;
 }
 
 :root {
@@ -41,9 +42,24 @@ h3 {
     transform: translateX(-50%);
 }
 
+.welcomeScreen {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.welcomeMessage {
+    position: absolute;
+    top: 40%;
+    margin: 0;
+}
+
 .navbar {
     background-color: #333;
-    font-size: 1.5rem;
     left: 0;
     top: 0;
     position: fixed;
@@ -70,6 +86,7 @@ nav {
     margin: 0;
     height: 100%;
     display: flex;
+    justify-content: center;
 }
 
 .navlink {
@@ -102,6 +119,10 @@ nav {
     min-height: 90vh;
     overflow-x: hidden;
     height: 100%;
+    position: relative;
+}
+.mainContentPane::-webkit-scrollbar {
+  display: none;
 }
 
 .warningText {
@@ -304,9 +325,12 @@ nav {
         left: 0;
         right: 0;
         position: fixed;
-        font-size: 1.3rem;
         width: 100%;
         z-index: 2;
+    }
+
+    .navlink {
+        padding: 0.75vh 7vw;
     }
 
     .mainContentPane {

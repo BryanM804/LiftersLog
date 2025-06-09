@@ -13,7 +13,12 @@ function LogoutButton() {
     }
 
     return (
-        <button id="logout" className="floatingButton" onClick={handleLogout}>Logout</button>
+        <button 
+            id="logout" 
+            className="floatingButton" 
+            onClick={handleLogout}
+            style={{marginBottom: "5rem"}}
+        >Logout</button>
     )
 }
 

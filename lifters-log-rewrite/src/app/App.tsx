@@ -11,6 +11,7 @@ import AuthProvider from 'react-auth-kit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import createStore from 'react-auth-kit/createStore'
 import UserData from '../types/UserData'
+import Welcome from './routes/Welcome'
 
 const queryClient = new QueryClient();
 
@@ -30,12 +31,12 @@ function App() {
           <Navbar />
             <Routes>
               <Route path="/" element={<Login />}></Route>
+              <Route path="/welcome" element={<Welcome />}></Route>
               <Route path="/logging" element={<Logging />}></Route>
               <Route path="/history" element={<History />}></Route>
               <Route path="/social" element={<Social />}></Route>
               <Route path="/profile" element={<Profile />}></Route>
             </Routes>
-          <ReactQueryDevtools initialIsOpen={false}/>
         </QueryClientProvider>
       </AuthProvider>
     </>

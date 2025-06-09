@@ -5,9 +5,10 @@ type ItemPickerProps = {
     options: Array<string>;
     selected: string;
     setSelected: (s: string) => void;
+    className?: string;
 }
 
-function ItemPicker({ placeholder, options, selected, setSelected }: ItemPickerProps) {
+function ItemPicker({ placeholder, options, selected, setSelected, className }: ItemPickerProps) {
 
     const [open, setOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement | null>(null)
@@ -38,7 +39,7 @@ function ItemPicker({ placeholder, options, selected, setSelected }: ItemPickerP
         <>
             <div
                 ref={menuRef}
-                className={`dropdownPickerMenu ${open && " openDropdown"}`}
+                className={`dropdownPickerMenu ${open && " openDropdown"} ${className && className}`}
             >
                 <button 
                     onClick={() => setOpen(!open)}

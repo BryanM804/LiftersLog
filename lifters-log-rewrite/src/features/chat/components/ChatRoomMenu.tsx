@@ -8,6 +8,7 @@ import Loading from "../../../components/Loading";
 import ChatUser from "./ChatUser";
 import ServerError from "../../../components/ServerError";
 import ConfirmationBox from "../../../components/ConfirmationBox";
+import { isMobile } from "react-device-detect";
 
 type ChatRoomMenuProps = {
     type: string;
@@ -117,7 +118,8 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
                 (type === "edit" && isLoading) ? <Loading /> :
                 (type === "edit" && error) ? <ServerError /> :
                 (type === "edit" && room) &&
-                <div style={{gridColumn: "2"}}>
+                <div className="chatMenuUserListContainer">
+                    { isMobile ? <br /> : <></>}
                     Users:
                     <ul className="userList">
                         {

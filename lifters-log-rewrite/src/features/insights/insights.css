@@ -35,7 +35,7 @@
     flex-direction: row;
     gap: 0.25rem;
     text-align: center;
-    align-self: center;
+    justify-content: center;
 }
 
 .statSection {
@@ -67,8 +67,12 @@
         height: 400px;
     }
 
+    .insightMovementPickerContainer {
+        width: 45%;
+    }
+
     .insightMovementPicker {
-        width: 10rem;
+        width: 90%;
         margin: 0;
         margin-top: 1.3rem;
     }

@@ -26,7 +26,7 @@ function Insights() {
         if (debouncedMovement != "") {
             if (timeframe == "") setTimeframe("Recent")
             if (metric == "") setMetric("Average")
-        } else if (timeframe == "") {
+        } else if (timeframe == "" || timeframe == "Week") {
             setTimeframe("Recent")
         }
     }, [debouncedMovement])
@@ -36,7 +36,9 @@ function Insights() {
         <div className="insightsContainer">
         <SectionTitle text="Insights" />
         <div className="insightPickerBar">
-            <div><MovementPicker placeholder="Select Movement" className="insightMovementPicker" clearButtonClassName="insightClearButton"/></div>
+            <div className="insightMovementPickerContainer">
+                <MovementPicker placeholder="Select Movement" className="insightMovementPicker" clearButtonClassName="insightClearButton"/>
+            </div>
             <ItemPicker placeholder="Timeframe" options={debouncedMovement === "" ? userTimeframes : movementTimeframes} selected={timeframe} setSelected={setTimeframe} />
             { debouncedMovement != "" && timeframe != "Today" && <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={setMetric} /> }
         </div>

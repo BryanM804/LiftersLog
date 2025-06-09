@@ -11,6 +11,7 @@ function LoginForm() {
     const [password, setPassword] = useState("");
     const [failedLogin, setFailedLogin] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [serverError, setServerError] = useState(false);
     const navigate = useNavigate();
     const signIn = useSignIn();
 
@@ -27,9 +28,14 @@ function LoginForm() {
                         userid: response.userid
                     }
                 });
-                navigate("/logging");
+                navigate("/welcome");
+            }
+        },
+        onError: (error) => {
+            if (error.message.startsWith("401")) {
+                setFailedLogin(true)
             } else {
-                setFailedLogin(true);
+                setServerError(true) // This should only really happen if the server is down
             }
         }
     })
@@ -71,7 +77,12 @@ function LoginForm() {
                 </div>
                 
             </form>
-            <div id="loginError" className={failedLogin ? "warningText" : "hidden"}>Incorrect username or password.</div>
+            <div id="loginError" className={failedLogin ? "warningText" : "hidden"}>
+                Incorrect username or password.
+            </div>
+            <div className={!serverError ? "hidden" : ""}>
+                Looks like the server is down {":("}
+            </div>
         </>
     )
 }

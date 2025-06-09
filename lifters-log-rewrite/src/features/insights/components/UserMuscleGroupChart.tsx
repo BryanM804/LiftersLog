@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { isMobile } from "react-device-detect";
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import getUserGraphData from "../api/getUserGraphData";
 import Loading from "../../../components/Loading";
 import ServerError from "../../../components/ServerError";
@@ -49,7 +49,10 @@ function UserMuscleGroupChart({ timeframe }: UserMuscleGroupChartProps) {
                     <PolarAngleAxis 
                         dataKey="mgroup"
                         tick={{fontSize: "0.75rem"}}
-                        />
+                    />
+                    <PolarRadiusAxis 
+                        tick={{fontSize: "0.6rem", opacity: "0.5"}}
+                    />
                     <Radar
                         dataKey="avg"
                         stroke="#5b6af0"

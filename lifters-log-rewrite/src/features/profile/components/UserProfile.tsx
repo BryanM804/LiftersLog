@@ -42,7 +42,7 @@ function UserProfile() {
                 <div className="profilePictureContainer">
                     <ProfilePicture imageURL={data.pfpurl} size={pfpSize}/>
                     <button className="floatingButton menuButton"
-                        style={{width: pfpSize}}
+                        style={{width: pfpSize, margin: "0.25rem", marginLeft: "0"}}
                         onClick={() => setIsEditing(true)}
                     >
                     Edit Profile
