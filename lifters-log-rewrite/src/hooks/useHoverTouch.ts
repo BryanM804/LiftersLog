@@ -11,9 +11,9 @@ function useHoverTouch() {
     const handlePointerDown = useCallback(() => setIsHovering(true), []);
     const handlePointerUp = useCallback(() => setIsHovering(false), []);
 
-    function onTouchMove() {
+    // function onTouchMove() {
 
-    }
+    // }
 
     if (isMobile) {
         return {

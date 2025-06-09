@@ -6,6 +6,8 @@ type NewPreferences = {
     noteActivity: boolean;
     labelActivity: boolean;
     splitsMovements: boolean;
+    xpAnimation: boolean;
+    liftRecords: boolean;
 }
 
 async function setPreferences(preferences: NewPreferences) {

@@ -31,7 +31,7 @@ function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight}: 
     } = useMovement();
 
     const { isHovering, hoverHandlers } = useHoverTouch();
-    const { isHeld, holdHandlers } = useLongPress(() => setShowDelete(true));
+    const { holdHandlers } = useLongPress(() => setShowDelete(true));
     const [showDelete, setShowDelete] = useState(false);
 
     const handlers = isDesktop ? hoverHandlers : holdHandlers;

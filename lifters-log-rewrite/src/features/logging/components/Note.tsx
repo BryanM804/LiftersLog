@@ -18,7 +18,7 @@ function Note({ text, noteid }: NoteProps) {
     const [deleting, setDeleting] = useState(false);
 
     const { isHovering, hoverHandlers } = useHoverTouch();
-    const { isHeld, holdHandlers } = useLongPress(() => {setDeleting(true)});
+    const { holdHandlers } = useLongPress(() => {setDeleting(true)});
     const queryClient = useQueryClient();
 
     const handlers = isMobile ? holdHandlers : hoverHandlers;

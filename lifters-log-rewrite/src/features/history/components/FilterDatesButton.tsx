@@ -15,7 +15,7 @@ function FilterDatesButton() {
     const [filteringDates, setFilteringDates] = useState(false)
     const [filteredMovement, setFilteredMovement] = useState("")
 
-    const { data, error } = useQuery({
+    const { data } = useQuery({
         queryKey: ["filteredDates", movement],
         queryFn: getFilteredDates,
         staleTime: Infinity,

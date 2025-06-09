@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import HistoryButton from "../../features/history/components/HistoryButton";
 import HistoryLabel from "../../features/history/components/HistoryLabel";
 import "../../features/history/history.css";

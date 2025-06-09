@@ -14,7 +14,7 @@ function CardioList({ setPlaceholderText }: CardioListProps) {
 
     const { historyDate } = useDate()
 
-    const { data, error, isLoading } = useQuery({
+    const { data, error } = useQuery({
         queryKey: ["history", "cardio", historyDate.toDateString()],
         queryFn: getCardioHistory
     })

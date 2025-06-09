@@ -10,4 +10,6 @@ export const XPPARTICLE_DIVISOR = 50
 
 export const XPCOLOR = "#2dfc5a"
 
-export const WELCOME_DELAY = 2
+export const WELCOME_DELAY = 1.25
+
+export const VERSION_NUMBER = "0.1.0"

@@ -6,10 +6,12 @@ type PreferenceMenuProps = {
     logActivity: boolean;
     labelActivity: boolean;
     splitsMovements: boolean;
+    xpAnimation: boolean;
+    liftRecords: boolean;
     onChange: (e: string) => void;
 }
 
-function PreferenceMenu({ noteActivity, logActivity, labelActivity, splitsMovements, onChange }: PreferenceMenuProps) {
+function PreferenceMenu({ noteActivity, logActivity, labelActivity, splitsMovements, xpAnimation, liftRecords, onChange }: PreferenceMenuProps) {
 
     return (
         <div className="preferenceMenu">
@@ -33,6 +35,16 @@ function PreferenceMenu({ noteActivity, logActivity, labelActivity, splitsMoveme
             <ToggleSwitch label="Split Movements" 
                 initialState={splitsMovements}
                 onChange={() => onChange("splitsMovements")}
+                />
+            <HalfGap />
+            <ToggleSwitch label="XP Animation" 
+                initialState={xpAnimation}
+                onChange={() => onChange("xpAnimation")}
+                />
+            <HalfGap />
+            <ToggleSwitch label="Show Friends Lift Records" 
+                initialState={liftRecords}
+                onChange={() => onChange("liftRecords")}
                 />
         </div>
     )

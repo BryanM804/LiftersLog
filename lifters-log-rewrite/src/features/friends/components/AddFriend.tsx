@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { ChangeEvent, useState } from "react"
+import { useState } from "react"
 import sendFriendRequest from "../api/sendFriendRequest"
 import TextInputPopup from "../../../components/TextInputPopup"
 import FadePopup from "../../../components/FadePopup"

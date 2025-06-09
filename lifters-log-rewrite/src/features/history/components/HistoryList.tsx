@@ -6,7 +6,6 @@ import ServerError from "../../../components/ServerError";
 import CardioList from "./CardioList";
 import { useState } from "react";
 import { useDate } from "../contexts/DateContextProvider";
-import ToggleSwitch from "../../../components/ToggleSwitch";
 
 type HistoryListProps = {
     className?: string;

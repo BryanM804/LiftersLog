@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, SyntheticEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"

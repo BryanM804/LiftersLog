@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import getLabelForDate from "../api/getLabelForDate";
 import createNewLabel from "../api/createNewLabel";
 import Loading from "../../../components/Loading";

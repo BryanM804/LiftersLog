@@ -24,6 +24,8 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
     const [logActivity, setLogActivity] = useState(true)
     const [labelActivity, setLabelActivity] = useState(true)
     const [splitsMovements, setSplitsMovements] = useState(true)
+    const [xpAnimation, setXpAnimation] = useState(true)
+    const [liftRecords, setLiftRecords] = useState(true)
 
     const [profileImage, setProfileImage] = useState<File | null>(null)
 
@@ -40,7 +42,7 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
         }
     })
 
-    const { data, error, isLoading } = useQuery({
+    const { data } = useQuery({
         queryKey: ["preferences"],
         queryFn: getUserPreferences
     });
@@ -51,11 +53,13 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
             setLogActivity(data.logActivity)
             setLabelActivity(data.labelActivity)
             setSplitsMovements(data.splitsMovements)
+            setXpAnimation(data.xpAnimation)
+            setLiftRecords(data.liftRecords)
         }
     }, [data])
 
     function handleSave() {
-        preferenceMutation.mutate({ noteActivity, logActivity, labelActivity, splitsMovements})
+        preferenceMutation.mutate({ noteActivity, logActivity, labelActivity, splitsMovements, xpAnimation, liftRecords})
         
         if (profileImage) {
             const formData = new FormData();
@@ -68,14 +72,26 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
     }
 
     function handlePreferenceChange(pref: string) {
-        if (pref === "noteActivity") {
-            setNoteActivity(!noteActivity)
-        } else if (pref === "logActivity") {
-            setLogActivity(!logActivity)
-        } else if (pref === "labelActivity") {
-            setLabelActivity(!labelActivity)
-        } else if (pref === "splitsMovements") {
-            setSplitsMovements(!splitsMovements)
+        // This all will change soon to be more friendly to adding more preferences
+        switch (pref) {
+            case "noteActivity":
+                setNoteActivity(!noteActivity)
+                break;
+            case "logActivity":
+                setLogActivity(!logActivity)
+                break;
+            case "labelActivity":
+                setLabelActivity(!labelActivity)
+                break;
+            case "splitsMovements":
+                setSplitsMovements(!splitsMovements)
+                break;
+            case "xpAnimation":
+                setXpAnimation(!xpAnimation)
+                break;
+            case "liftRecords":
+                setLiftRecords(!liftRecords)
+                break;
         }
     }
 
@@ -90,6 +106,8 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
                 logActivity={logActivity}
                 labelActivity={labelActivity}
                 splitsMovements={splitsMovements}
+                xpAnimation={xpAnimation}
+                liftRecords={liftRecords}
                 onChange={handlePreferenceChange}/>
             <button className="floatingButton menuButton"
                 style={{marginRight: "0.5rem"}}

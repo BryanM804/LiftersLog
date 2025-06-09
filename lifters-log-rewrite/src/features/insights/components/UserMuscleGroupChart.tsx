@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { isMobile } from "react-device-detect";
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import getUserGraphData from "../api/getUserGraphData";
-import Loading from "../../../components/Loading";
-import ServerError from "../../../components/ServerError";
 import { useEffect, useState } from "react";
 
 type UserMuscleGroupChartProps = {
@@ -14,7 +12,7 @@ function UserMuscleGroupChart({ timeframe }: UserMuscleGroupChartProps) {
 
     const [formattedData, setFormattedData] = useState<{ avg: string, mgroup: string} | null>(null)
 
-    const { data, isLoading, error } = useQuery({
+    const { data } = useQuery({
         queryKey: ["insightsGraph", timeframe],
         queryFn: getUserGraphData
     })

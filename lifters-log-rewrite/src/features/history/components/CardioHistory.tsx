@@ -18,7 +18,7 @@ type CardioHistoryProps = {
 function CardioHistory ({ movement, time, distance, note, cardioid }: CardioHistoryProps) {
 
     const { isHovering, hoverHandlers } = useHoverTouch();
-    const { isHeld, holdHandlers } = useLongPress(() => setShowDelete(true));
+    const { holdHandlers } = useLongPress(() => setShowDelete(true));
     const [showDelete, setShowDelete] = useState(false);
 
     const queryClient = useQueryClient();

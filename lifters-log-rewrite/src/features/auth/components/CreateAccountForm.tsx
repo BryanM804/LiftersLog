@@ -19,11 +19,12 @@ function CreateAccountForm() {
         onSuccess: (response) => {
             if (response.message == "Success") {
                 setStatusUpdate("Account Successfully Created!");
-            } else if (response.error == "Username taken.") {
-                setStatusUpdate("Username already in use.")
             } else {
                 setStatusUpdate("Error creating account.")
             }
+        },
+        onError: (error) => {
+            setStatusUpdate(error.message)
         }
     });
 

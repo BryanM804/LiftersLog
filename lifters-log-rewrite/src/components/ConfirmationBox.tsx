@@ -1,4 +1,4 @@
-import { CSSProperties, StyleHTMLAttributes, SyntheticEvent } from "react";
+import { CSSProperties, SyntheticEvent } from "react";
 
 type ConfirmationBoxProps = {
     confirmFn: (e: SyntheticEvent) => void;

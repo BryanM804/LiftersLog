@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useEffect } from "react";
+import { ChangeEvent, SyntheticEvent } from "react";
 import { useMovement } from "../contexts/MovementContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import getMovements from "../api/getMovements";

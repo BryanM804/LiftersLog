@@ -19,7 +19,7 @@ type ChatUserProps = {
 function ChatUser({ username, room }: ChatUserProps) {
 
     const { isHovering, hoverHandlers } = useHoverTouch();
-    const { isHeld, holdHandlers } = useLongPress(() => setIsDeleting(true));
+    const { holdHandlers } = useLongPress(() => setIsDeleting(true));
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handlers = isMobile ? holdHandlers : hoverHandlers;

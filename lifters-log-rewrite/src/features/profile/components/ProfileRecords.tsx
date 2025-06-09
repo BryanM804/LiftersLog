@@ -25,7 +25,7 @@ function ProfileRecords({ editable, username }: ProfileRecordsProps) {
             {
                 data.map((record: {weight: number, type: string}) =>
                     <div key={record.type}> 
-                        <div style={{fontWeight: "bold"}}>{record.type.substring(0, 1).toUpperCase() + record.type.substring(1)}</div>
+                        <div style={{fontWeight: "bold", textDecoration: "underline"}}>{record.type.substring(0, 1).toUpperCase() + record.type.substring(1)}</div>
                         {
                             editable ?
                                 <RecordChanger type={record.type} initWeight={record.weight} />

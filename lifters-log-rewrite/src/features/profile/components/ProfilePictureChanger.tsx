@@ -9,7 +9,7 @@ type ProfilePictureChangerProps = {
     setImage: (f: File) => void;
 }
 
-function ProfilePictureChanger({ imageURL, size, image, setImage }: ProfilePictureChangerProps) {
+function ProfilePictureChanger({ imageURL, size, setImage }: ProfilePictureChangerProps) {
 
     const [preview, setPreview] = useState<string | null>(null)
 

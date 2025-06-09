@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import ChatRoom from "../types/ChatRoom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addChatMessage from "../api/addChatMessage";

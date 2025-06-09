@@ -2,7 +2,7 @@
 
 Future Changes will be documented here
 
-## Alpha [0.1.0] - 6/7/2025
+## Alpha [0.1.0] - 6/9/2025
 ### Release
 Initital release with the following basic features:
 - Logging

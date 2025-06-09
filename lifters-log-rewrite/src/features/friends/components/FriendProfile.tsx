@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import ConfirmationBox from "../../../components/ConfirmationBox";
 import unfriendUser from "../api/unfriendUser";
+import getFriendPreferences from "../api/getFriendPreferences";
 
 type FriendProfileProps = {
     username: string;
@@ -29,6 +30,12 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
         staleTime: Infinity
     });
     const { data, error, isLoading } = query
+    const friendPrefsQuery = useQuery({
+        queryKey: ["preferences", username],
+        queryFn: getFriendPreferences,
+        enabled: isOpen
+    })
+    const { data: friendPrefs, isLoading: friendPrefsLoading, error: friendPrefsError } = friendPrefsQuery
 
     const removeFriendMutation = useMutation({
         mutationFn: unfriendUser,
@@ -52,9 +59,28 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
 
     if (!isOpen) return <></>
 
-    if (isLoading) return <Loading />
+    if (isLoading || friendPrefsLoading) {
+        return (
+            <>
+                <div className="backgroundDim" onClick={cancelFn} ></div>
+                <div className="friendProfileContainer center">
+                    <Loading />
+                </div>
+            </>
+        )
+    }
 
-    if (error) return <ServerError error={error} />
+    if (error || friendPrefsError) {
+        return (
+            <>
+                <div className="backgroundDim" onClick={cancelFn} ></div>
+                <div className="friendProfileContainer center">
+                    {/* friendPrefsError as error should be fine even though typescript thinks it could be null */}
+                    { error ? <ServerError error={error} /> : <ServerError error={friendPrefsError as Error} /> }
+                </div>
+            </>
+        )   
+    }
 
     return (
         <>
@@ -73,9 +99,14 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
                     <div className="profileDescription">
                         <ProfileStats stats={data}/>
                     </div>
-                    <div className="userRecords">
-                        <ProfileRecords username={username} />
-                    </div>
+                    {
+                        friendPrefs.liftRecords ? 
+                            <div className="userRecords">
+                                <ProfileRecords username={username} />
+                            </div>
+                        : <></>
+                    }
+                    
                 </div>
                 {
                     unfriending &&

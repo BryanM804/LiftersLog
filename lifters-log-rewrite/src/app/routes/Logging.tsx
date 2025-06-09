@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import CardioMenu from "../../features/logging/components/CardioMenu";
 import useSwipe from "../../hooks/useSwipe";
 import { isDesktop } from "react-device-detect";
-import { motion, AnimatePresence, useAnimation } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import FadePopup from "../../components/FadePopup";
 import { useDate } from "../../features/history/contexts/DateContextProvider";
 import { Container, Engine } from "@tsparticles/engine"
@@ -17,8 +17,9 @@ import { loadAbsorbersPlugin } from "@tsparticles/plugin-absorbers"
 import { initParticlesEngine, Particles } from "@tsparticles/react"
 import { loadSlim } from "@tsparticles/slim"
 import XPBarAnimator from "../../features/logging/components/XPBarAnimator";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { XPCOLOR } from "../../utils/constants";
+import getUserPreferences from "../../features/profile/api/getUserPreferences";
 
 function Logging() {
 
@@ -29,6 +30,7 @@ function Logging() {
     const [index, setIndex] = useState(0)
     const [direction, setDirection] = useState(1) // 1 for right, -1 for left
     const [particlesReady, setParticlesReady] = useState(false)
+    const animateXp = useRef<boolean>(true)
 
     const { } = useSwipe({
         onSwipeLeft: () => {
@@ -40,6 +42,16 @@ function Logging() {
             setDirection(1)
         }
     })
+
+    const { data } = useQuery({
+        queryKey: ["preferences"],
+        queryFn: getUserPreferences
+    })
+    useEffect(() => {
+        if (data?.xpAnimation != null) {
+            animateXp.current = data.xpAnimation
+        }
+    }, [data])
 
     function handleDesktopSwitchChange() {
         setIndex(index == 1 ? 0 : 1)
@@ -180,7 +192,9 @@ function Logging() {
             })
         };
 
-        tryEmit();
+        if (animateXp.current) {
+            tryEmit();
+        }
     }
 
     function LogScreen() {
