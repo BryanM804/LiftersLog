@@ -22,8 +22,8 @@ function Friend({ username, level, imageURL, lastSeen }: FriendProps) {
 
     // Check previous expanded state
     useEffect(() => {
-        if (localStorage.getItem(username+"friendCard")) {
-            setExpanded(localStorage.getItem(username+"FriendCard") == "expanded")
+        if (localStorage.getItem(username+"FriendCard")) {
+            setExpanded(localStorage.getItem(username+"FriendCard") === "expanded")
         }
     }, [])
 

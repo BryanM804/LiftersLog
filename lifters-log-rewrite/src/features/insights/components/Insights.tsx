@@ -21,15 +21,61 @@ function Insights() {
 
     const [timeframe, setTimeframe] = useState("")
     const [metric, setMetric] = useState("")
+    const [initialized, setInitialized] = useState(false)
 
     useEffect(() => {
-        if (debouncedMovement != "") {
-            if (timeframe == "") setTimeframe("Recent")
-            if (metric == "") setMetric("Average")
-        } else if (timeframe == "" || timeframe == "Week") {
-            setTimeframe("Recent")
+        const storedTimeframe = localStorage.getItem("graphTimeframe")
+        const storedMetric = localStorage.getItem("graphMetric")
+
+        // Restore stored timeframe
+        if (storedTimeframe) {
+            if (movement != "" && movementTimeframes.includes(storedTimeframe)) {
+                setTimeframe(storedTimeframe)
+            } else if (movement == "" && userTimeframes.includes(storedTimeframe)) {
+                setTimeframe(storedTimeframe)
+            }
+        } else {
+            localStorage.setItem("graphTimeframe", timeframe)
         }
+
+        // Restore stored metric
+        if (storedMetric) {
+            if (metrics.includes(storedMetric)) {
+                setMetric(storedMetric)
+            }
+        } else {
+            localStorage.setItem("graphMetric", metric)
+        }
+
+        // Need initialized because the debouncedMovement useEffect was overriding this 
+        // since it was reading the states before they finished setting
+        setInitialized(true)
+    }, [])
+
+    useEffect(() => {
+        if (!initialized) return
+
+        if (debouncedMovement != "") {
+            if (timeframe === "" || timeframe === "Week") {
+                setTimeframe("Recent")
+                localStorage.setItem("graphTimeframe", "Recent")
+            }
+            if (metric === "") {
+                setMetric("Average")
+                localStorage.setItem("graphMetric", "Average")
+            }
+        } 
     }, [debouncedMovement])
+
+    function changeMetric(newMetric: string) {
+        localStorage.setItem("graphMetric", newMetric)
+        setMetric(newMetric)
+    }
+
+    function changeTimeframe(newTimeframe: string) {
+        localStorage.setItem("graphTimeframe", newTimeframe)
+        setTimeframe(newTimeframe)
+    }
 
     return (
         <>
@@ -39,8 +85,8 @@ function Insights() {
             <div className="insightMovementPickerContainer">
                 <MovementPicker placeholder="Select Movement" className="insightMovementPicker" clearButtonClassName="insightClearButton"/>
             </div>
-            <ItemPicker placeholder="Timeframe" options={debouncedMovement === "" ? userTimeframes : movementTimeframes} selected={timeframe} setSelected={setTimeframe} />
-            { debouncedMovement != "" && timeframe != "Today" && <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={setMetric} /> }
+            <ItemPicker placeholder="Timeframe" options={debouncedMovement === "" ? userTimeframes : movementTimeframes} selected={timeframe} setSelected={changeTimeframe} />
+            { debouncedMovement != "" && timeframe != "Today" && <ItemPicker placeholder="Metric" options={metrics} selected={metric} setSelected={changeMetric} /> }
         </div>
         <HalfGap />
         {
@@ -51,7 +97,7 @@ function Insights() {
                     timeframe={timeframe}
                     metric={metric}
                 />
-                <MovementInsights />
+                <MovementInsights timeframe={timeframe} />
                 </>
             :
                 <>

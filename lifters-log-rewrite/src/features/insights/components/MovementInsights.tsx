@@ -6,15 +6,17 @@ import ServerError from "../../../components/ServerError"
 import StatCard from "./StatCard"
 import useDebounce from "../../../hooks/useDebounce"
 
+type MovementInsightsProps = {
+    timeframe: string;
+}
 
-
-function MovementInsights() {
+function MovementInsights({ timeframe }: MovementInsightsProps) {
 
     const { movement } = useMovement()
     const debouncedMovement = useDebounce(movement, 300)
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ["insights", debouncedMovement],
+        queryKey: ["insights", debouncedMovement, timeframe],
         queryFn: getMovementInsights,
     })
 
@@ -23,7 +25,7 @@ function MovementInsights() {
 
     return (
         <>
-            <div style={{width: "100%", marginTop: "2.75rem"}}>
+            <div style={{width: "100%", marginTop: "2.75rem" }}>
                 <h5 style={{marginBottom: "0"}}>{debouncedMovement}</h5>
                 <hr className="darkFont"/>
             </div>

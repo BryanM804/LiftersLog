@@ -48,6 +48,11 @@ function HistoryLabel() {
 
     function handleLabelSubmit(e: SyntheticEvent) {
         e.preventDefault();
+        if (data?.label && newLabel == data.label) { // This would duplicate the label for no reason
+            setChangingLabel(false)
+            return
+        } 
+
         labelMutation.mutate({label: newLabel, date: displayDate});
     }
 

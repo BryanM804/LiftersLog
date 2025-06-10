@@ -47,7 +47,7 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
                 setGraphTitle(`${graphPrefix} Best ${movement}`)
                 break
         }
-    }, [metric, timeframe])
+    }, [metric, timeframe, movement]) // This movement is debounced before it is sent here
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["graph", movement, timeframe, metric],
@@ -68,7 +68,7 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
     return (
         <>
         <div className="graphContainer">
-            <h4 style={{textAlign: "center"}}>{graphTitle}</h4>
+            <h4 style={{textAlign: "center", marginBottom: "0.25rem"}}>{graphTitle}</h4>
             <ResponsiveContainer height="100%" width="100%">
                 <LineChart 
                     data={data}
