@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authenticateUser from "../api/authenticateUser";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 
@@ -14,6 +15,7 @@ function LoginForm() {
     const [serverError, setServerError] = useState(false);
     const navigate = useNavigate();
     const signIn = useSignIn();
+    const isAuth = useIsAuthenticated();
 
     const authMutation = useMutation({
         mutationFn: authenticateUser,
@@ -28,6 +30,12 @@ function LoginForm() {
                         userid: response.userid
                     }
                 });
+                if (rememberMe) {
+                    localStorage.setItem("rememberMe", "true")
+                } else {
+                    localStorage.setItem("rememeberMe", "false")
+                }
+
                 navigate("/welcome");
             }
         },
@@ -39,6 +47,15 @@ function LoginForm() {
             }
         }
     })
+
+    useEffect(() => {
+        // Check local storage for remember me
+        const remembered = localStorage.getItem("rememberMe");
+
+        if (remembered && remembered === "true" && isAuth) {
+            navigate("/welcome")
+        }
+    }, [])
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();

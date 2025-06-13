@@ -1,7 +1,6 @@
 import "../../features/logging/logging.css";
 import RecentHistory from "../../features/logging/components/RecentHistory";
 import NoteSection from "../../features/logging/components/NoteSection";
-import AuthChecker from "../../components/AuthChecker";
 import LogMenu from "../../features/logging/components/LogMenu";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -224,7 +223,6 @@ function Logging() {
 
     return (
         <>
-        <AuthChecker />
         {
             particlesReady ?
             <div style={{pointerEvents: "none", touchAction: "none"}}>

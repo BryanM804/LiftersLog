@@ -2,6 +2,14 @@
 
 Future Changes will be documented here
 
+## Alpha [0.1.2] - 6/00/2025
+
+### Login
+- Fixed randomly logging out when navigating between pages due to relogging in after being logged out from timeout.
+- Remember me now remembers you
+### Insights
+- Fixed graph timeframe dropdown not changing automatically when switching between user chart and movement chart
+
 ## Alpha [0.1.1] - 6/10/2025
 
 ### History 

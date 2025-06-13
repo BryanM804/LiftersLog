@@ -1,5 +1,4 @@
 import LogoutButton from "../../features/profile/components/LogoutButton";
-import AuthChecker from "../../components/AuthChecker";
 import UserProfile from "../../features/profile/components/UserProfile";
 import "../../features/profile/profile.css";
 import "../../styles/xpbar.css"
@@ -8,7 +7,6 @@ import ProfileScreenFooter from "../../features/profile/components/ProfileScreen
 function Profile() {
     return (
         <div className="mainContentPane">
-            <AuthChecker />
             <UserProfile />
             <LogoutButton />
             <ProfileScreenFooter />

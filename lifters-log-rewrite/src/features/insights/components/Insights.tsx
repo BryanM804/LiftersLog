@@ -64,7 +64,10 @@ function Insights() {
                 setMetric("Average")
                 localStorage.setItem("graphMetric", "Average")
             }
-        } 
+        } else if (timeframe == "Today") {
+            setTimeframe("Week")
+            localStorage.setItem("graphTimeframe", "Week")
+        }
     }, [debouncedMovement])
 
     function changeMetric(newMetric: string) {
