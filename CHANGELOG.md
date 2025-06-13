@@ -2,7 +2,7 @@
 
 Future Changes will be documented here
 
-## Alpha [0.1.2] - 6/00/2025
+## Alpha [0.1.2] - 6/13/25
 
 ### Login
 - Fixed randomly logging out when navigating between pages due to relogging in after being logged out from timeout.
