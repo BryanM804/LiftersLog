@@ -5,10 +5,10 @@ export const PLACEHOLDERUSERDATA = {
 };
 
 export const XPBAR_ANIMATION_TIME = 1
-export const XPPARTICLE_DIVISOR = 50
+export const XPPARTICLE_DIVISOR = 35
 
 export const XPCOLOR = "#2dfc5a"
 
 export const WELCOME_DELAY = 1.25
 
-export const VERSION_NUMBER = "0.1.2"
+export const VERSION_NUMBER = "0.1.3"

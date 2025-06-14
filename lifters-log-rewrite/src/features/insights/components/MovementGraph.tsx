@@ -17,7 +17,9 @@ type MovementGraphProps = {
 function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
 
     const [lineLabel, setLineLabel] = useState("Total")
+    const [subLineLabel, setSubLineLabel] = useState("Right Total")
     const [graphTitle, setGraphTitle] = useState("Average Weight Graph")
+    const [isSplitGraph, setIsSplitGraph] = useState(false);
 
     useEffect(() => {
         let graphPrefix = ""
@@ -35,24 +37,50 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
 
         switch (metric) {
             case "Average":
-                setLineLabel("Median Set Total")
+                if (isSplitGraph) {
+                    setSubLineLabel("Median Right Total")
+                    setLineLabel("Median Left Total")
+                } else {
+                    setLineLabel("Median Set Total")
+                }
                 setGraphTitle(`${graphPrefix} Average ${movement}`)
                 break
             case "Max":
-                setLineLabel("Max Weight")
+                if (isSplitGraph) {
+                    setSubLineLabel("Max Right Weight")
+                    setLineLabel("Max Left Weight")
+                } else {
+                    setLineLabel("Max Weight")
+                }
                 setGraphTitle(`${graphPrefix} Max ${movement}`)
                 break
             case "Best":
-                setLineLabel("Best Set Total")
+                if (isSplitGraph) {
+                    setSubLineLabel("Best Right Total")
+                    setLineLabel("Best Left Total")
+                } else {
+                    setLineLabel("Best Set Total")
+                }
                 setGraphTitle(`${graphPrefix} Best ${movement}`)
                 break
         }
-    }, [metric, timeframe, movement]) // This movement is debounced before it is sent here
+    }, [metric, timeframe, movement, isSplitGraph]) // This movement is debounced before it is sent here
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["graph", movement, timeframe, metric],
         queryFn: getGraphData
     })
+
+    useEffect(() => {
+        if (data) {
+            const match = data.find((graphPoint: {date: string, value: number, subValue?: number}) => graphPoint.subValue != null && graphPoint.subValue != 0)
+            if (match) {
+                setIsSplitGraph(true)
+            } else {
+                setIsSplitGraph(false)
+            }
+        }
+    }, [data])
 
     if (isLoading) return <Loading />
     if (error) return <ServerError error={error} />
@@ -92,20 +120,44 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
                         name={lineLabel}
                         dataKey="value"
                         type="natural"
-                        stroke="#5ba5f0"
+                        stroke={ isSplitGraph ? "#f03030" : "#5ba5f0"}
                         strokeWidth={2}
                         dot={false}
                     />
                     {
+                        isSplitGraph &&
+                        <Line
+                            name={subLineLabel}
+                            dataKey="subValue"
+                            type="natural"
+                            strokeWidth={2}
+                            stroke="#309eff"
+                            dot={false}
+                        />
+                    }
+                    {
                         timeframe === "Today" &&
+                        <>
                         <Line 
-                            name="Recent Performance"
+                            name={ isSplitGraph ? "Recent Left Performance" : "Recent Performance" }
                             dataKey="baseline"
                             type="natural"
                             strokeWidth={2}
-                            stroke="#647087"
+                            stroke={ isSplitGraph ? "#961e1e" : "#647087" }
                             dot={false}
                         />
+                        {
+                            isSplitGraph &&
+                            <Line 
+                                name="Recent Right Performance"
+                                dataKey="subBaseline"
+                                type="natural"
+                                strokeWidth={2}
+                                stroke="#1c5a91"
+                                dot={false}
+                            />
+                        }
+                        </>
                     }
                 </LineChart>
             </ResponsiveContainer>

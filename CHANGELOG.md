@@ -2,6 +2,13 @@
 
 Future Changes will be documented here
 
+## Alpha [0.1.3] - 6/14/25
+### Insights
+- Actually fixed graph timeframes
+- Graphs now show 1 line for each side of split movements
+### Logging
+- Increased XP orb amount
+
 ## Alpha [0.1.2] - 6/13/25
 ### Login
 - Fixed randomly logging out when navigating between pages due to relogging in after being logged out from timeout.

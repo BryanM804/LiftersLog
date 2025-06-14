@@ -64,11 +64,11 @@ function Insights() {
                 setMetric("Average")
                 localStorage.setItem("graphMetric", "Average")
             }
-        } else if (timeframe == "Today") {
+        } else if (timeframe == "Today" || timeframe == "") {
             setTimeframe("Week")
             localStorage.setItem("graphTimeframe", "Week")
         }
-    }, [debouncedMovement])
+    }, [debouncedMovement, initialized])
 
     function changeMetric(newMetric: string) {
         localStorage.setItem("graphMetric", newMetric)
