@@ -15,3 +15,4 @@ This is a workout tracker web app written in Typescript with a ReactJS frontend 
 This readme is still WIP
 
 - [Changelog](./CHANGELOG.md)
+- [Link to Live Site](https://lifterslog.xyz/)
