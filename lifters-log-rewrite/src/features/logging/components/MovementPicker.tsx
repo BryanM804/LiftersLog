@@ -56,10 +56,9 @@ function MovementPicker({ onClear, label, className, clearButtonClassName, place
             { label && 
                 <>
                     <label htmlFor="movement">{label}</label>
-                    <br />
                 </> 
             }
-            <div style={{position: "relative"}} >
+            <div style={{position: "relative", width: "100%"}} >
                 <input 
                     type="text" 
                     className={`longTextInput movementPicker ${className && className}`}

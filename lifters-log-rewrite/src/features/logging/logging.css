@@ -1,17 +1,30 @@
-.logGridContainer {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(40px, 250px));
-    grid-template-rows: repeat(auto-fill, 1fr);
-    gap: 0.5rem;
+.logButtonsContainer {
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: repeat(2, minmax(40px, 250px));
+    grid-template-rows: repeat(auto-fill, 1fr); */
+    width: 825px;
+    gap: 0.25rem;
     position: relative;
-}
-.gridItem {
-    padding: 0rem;
     text-align: center;
+    align-items: center;
 }
-.gridItemSpan {
-    grid-column: span 2;
-    text-align: center;
+
+.logFlexRow {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    align-items: center;
+    width: 100%;
+}
+
+.movementPicker {
+    width: 90%;
+}
+
+.syncActive {
+    background-color: #444;
+    border: 1px solid rgb(60, 200, 60);
 }
 
 .recentHistoryList {
@@ -30,11 +43,6 @@
 }
 .recentHistorySpan {
     grid-column: span 3;
-}
-
-.movementPicker {
-    width: 70%;
-    position: relative;
 }
 
 input::-webkit-calendar-picker-indicator {
@@ -136,8 +144,9 @@ input::-webkit-calendar-picker-indicator {
 }
 
 @media (max-width: 768px) {
-    .logGridContainer {
+    .logButtonsContainer {
         font-size: 1.3rem;
+        width: 90vw;
     }
 
     .recentHistory {
@@ -150,10 +159,5 @@ input::-webkit-calendar-picker-indicator {
 
     .note {
         user-select: none;
-    }
-
-    .movementPicker {
-        max-width: 500px;
-        width: 75%;
     }
 }

@@ -2,6 +2,18 @@
 
 Future Changes will be documented here
 
+## Alpha [0.2.0] - 00/00/25
+### General
+- Site can now be installed as a PWA app on Android devices
+- Various UI elements should now scale better on different devices
+
+### Profile
+- Adjusted UI
+- Changed Cardio Time to display in hours and minutes instead of only minutes
+
+### Logging
+- Added a sync button that can be toggled to sync the inputs for weight and reps of split movements
+
 ## Alpha [0.1.3] - 6/14/25
 ### Insights
 - Actually fixed graph timeframes

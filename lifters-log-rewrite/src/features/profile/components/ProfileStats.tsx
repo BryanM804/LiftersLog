@@ -11,12 +11,19 @@ type ProfileStatsProps = {
     }
 }
 
+function getCardioDisplayTime(cardioMinutes: number) {
+    if (cardioMinutes < 60) {
+        return `${cardioMinutes}m`
+    } else {
+        return `${Math.floor(cardioMinutes / 60)}h ${cardioMinutes % 60}m`
+    }
+}
+
 function ProfileStats({ stats }: ProfileStatsProps) {
 
     return (
         <>
         <span style={{fontWeight: "bold"}}>Level {stats.level}</span>
-        <br />
         <XpBar value={stats.xp} max={stats.level * 1500}/>
         <div style={{fontWeight: "bold", textDecoration: "underline"}}>Weight Lifted</div>
         {stats.totalweight} lbs
@@ -25,7 +32,7 @@ function ProfileStats({ stats }: ProfileStatsProps) {
         {stats.totalsets}
         <br />
         <div style={{fontWeight: "bold", textDecoration: "underline"}}>Cardio Time</div>
-        {stats.totalcardiotime} Minutes
+        {getCardioDisplayTime(stats.totalcardiotime)}
         <br />
         <div style={{fontWeight: "bold", textDecoration: "underline"}}>Cardio Distance</div>
         {stats.totalcardiodistance} Miles

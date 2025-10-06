@@ -40,8 +40,10 @@ function RecordChanger({ type, initWeight }: RecordChangerProps) {
             <>
                 <input className="smallTextInput" style={{width: "25%"}} type="text" onChange={updateNewWeight} value={newWeight >= 0 ? newWeight : ""} />
                 <HalfGap />
-                <button className="smallFloatingButton smallMenuButton" onClick={changeRecord}>Confirm</button>
-                <button className="smallFloatingButton smallMenuButton" onClick={() => setIsChanging(false)}>Cancel</button>
+                <div style={{display: "flex", flexDirection: "row", justifySelf: "center"}}>
+                    <button className="smallFloatingButton smallMenuButton" onClick={changeRecord}>Confirm</button>
+                    <button className="smallFloatingButton smallMenuButton" onClick={() => setIsChanging(false)}>Cancel</button>
+                </div>
             </>
         )
     }
@@ -55,7 +57,7 @@ function RecordChanger({ type, initWeight }: RecordChangerProps) {
                     "N/A"
             }
             <a onClick={() => setIsChanging(true)}>
-                <img src={editPic} height={20} width={20} className="editButton" />
+                <img src={editPic} height={20} width={20} className="editButton" style={{position: "absolute"}}/>
             </a>
         </>
     )

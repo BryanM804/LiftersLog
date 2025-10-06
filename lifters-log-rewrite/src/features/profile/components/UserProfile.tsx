@@ -39,20 +39,27 @@ function UserProfile() {
         <div className="userProfileContainer">
             <h3>{authUser && authUser.username}<hr /></h3>
             <div className="profileContainer">
-                <div className="profilePictureContainer">
-                    <ProfilePicture imageURL={data.pfpurl} size={pfpSize}/>
-                    <button className="floatingButton menuButton"
-                        style={{width: pfpSize, margin: "0.25rem", marginLeft: "0"}}
-                        onClick={() => setIsEditing(true)}
-                    >
-                    Edit Profile
-                    </button>
+                <div className="profileTopHalf">
+                    <div className="profilePictureContainer">
+                        <ProfilePicture imageURL={data.pfpurl} size={pfpSize}/>
+                        <button className="floatingButton menuButton"
+                            style={{width: pfpSize, margin: "0.25rem", marginLeft: "0"}}
+                            onClick={() => setIsEditing(true)}
+                        >
+                        Edit Profile
+                        </button>
+                    </div>
+                    <div className="profileDescription">
+                        <ProfileStats stats={data}/>
+                    </div>
                 </div>
-                <div className="profileDescription">
-                    <ProfileStats stats={data}/>
-                </div>
-                <div className="userRecords">
-                    <ProfileRecords editable={true} />
+                <div className="profileBottomHalf">
+                    <br />
+                    <span style={{opacity: "70%"}}>Records</span>
+                    <hr style={{opacity: "50%"}} />
+                    <div className="userRecords">
+                        <ProfileRecords editable={true} />
+                    </div>
                 </div>
             </div>
         </div>

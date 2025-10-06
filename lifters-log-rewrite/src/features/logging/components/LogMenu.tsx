@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, SyntheticEvent, useEffect, useState } from "react"
 import MovementPicker from "./MovementPicker"
 import SetInput from "./SetInput"
 import LogButton from "./LogButton"
@@ -10,6 +10,7 @@ import addNewSet from "../api/addNewSet"
 import { XPPARTICLE_DIVISOR } from "../../../utils/constants"
 import { useDate } from "../../history/contexts/DateContextProvider"
 import getBodyweightMovements from "../api/getBodyweightMovements"
+import SyncButton from "./SyncButton"
 
 type LogMenuProps = {
     onLogSuccess: (xpParticleMultiplier: number) => void;
@@ -37,6 +38,7 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
     const [userSplits, setUserSplits] = useState(true)
     const [splitMovement, setSplitMovement] = useState(false)
     const [invalidLog, setInvalidLog] = useState(false)
+    const [syncedInputs, setSyncedInputs] = useState(false)
     
     // Queries/Mutations
     const { data: splitMovements } = useQuery({
@@ -104,16 +106,45 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
         if (id === "repInput") {
             const val = input.length === 0 ? 0 : parseInt(input)
             setReps(val)
+            if (splitMovement && syncedInputs)
+                setSubReps(val)
         } else if (id === "subRepInput") {
             const val = input.length === 0 ? 0 : parseInt(input)
             setSubReps(val)
+            if (splitMovement && syncedInputs)
+                setReps(val)
         } else if (id === "weightInput") {
             const val = parseAndRound(input)
             setWeight(val)
+            if (splitMovement && syncedInputs)
+                setSubWeight(val)
         } else if (id === "subWeightInput") {
             const val = parseAndRound(input)
             setSubWeight(val)
+            if (splitMovement && syncedInputs)
+                setWeight(val)
         }
+
+    }
+
+    function changeSyncState(e: SyntheticEvent) {
+        e.preventDefault();
+
+        // When enabling sync, sync the current inputs. Priority goes to left side if both have text
+        if (!syncedInputs) {
+            if (reps > 0 ) {
+                setSubReps(reps)
+            } else if (subReps > 0) {
+                setReps(subReps)
+            }
+            if (weight > 0) {
+                setSubWeight(weight)
+            } else if (subWeight > 0) {
+                setWeight(subWeight)
+            }
+        }
+
+        setSyncedInputs(!syncedInputs)
     }
 
     function clearInputs() {
@@ -165,35 +196,36 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
     return (
         <>
         <form onSubmit={handleLogSubmit} noValidate={true}>
-            <div className="logGridContainer">
-                <div className="gridItemSpan">
-                    <MovementPicker onClear={clearInputs} label="Exercise"/>
-                </div>
+            <div className="logButtonsContainer">
+                <MovementPicker onClear={clearInputs} label="Exercise"/>
                 {
-                    splitMovement && 
-                    <>
-                        <div className="gridItem" style={{textAlign: "center"}}>Left<hr /></div>
-                        <div className="gridItem" style={{textAlign: "center"}}>Right<hr /></div>
-                    </>
+                    splitMovement ?
+                        <>
+                            <div className="logFlexRow">
+                                <div className="gridItem" style={{textAlign: "center", flex: 1}}>Left<hr /></div>
+                                <div className="gridItem" style={{textAlign: "center", flex: 1}}>Right<hr /></div>
+                            </div>
+                            <div style={{position: "relative", width: "100%"}}>
+                                <div className="logFlexRow">
+                                    <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
+                                    <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
+                                </div>
+                                <SyncButton syncState={syncedInputs} onSyncToggle={changeSyncState} />
+                                <div className="logFlexRow">
+                                    <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
+                                    <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
+                                </div>
+                            </div>
+                        </>
+                    :
+                        <>
+                            <div className="logFlexRow">
+                                <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
+                                <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
+                            </div>
+                        </>
                 }
-                <div className="gridItem">
-                    <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
-                </div>
-                {
-                    splitMovement && 
-                    <div className="gridItem">
-                        <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
-                    </div>
-                }
-                <div className="gridItem">
-                    <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
-                </div>
-                {
-                    splitMovement && 
-                    <div className="gridItem">
-                        <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
-                    </div>
-                }
+                
                 <LogButton invalidLog={invalidLog} />
             </div>
         </form>

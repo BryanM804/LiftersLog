@@ -8,7 +8,7 @@ type LogButtonProps = {
 function LogButton({ invalidLog }: LogButtonProps) {
 
     return (
-        <div style={{textAlign: "center"}} className="gridItemSpan">
+        <div style={{textAlign: "center", width: "100%"}}>
             <button 
                 type="submit" 
                 className={invalidLog ? "floatingButton redButton" : "floatingButton"} 
