@@ -4,6 +4,7 @@ import addNewNote from "../api/addNewNote";
 import { useMovement } from "../contexts/MovementContextProvider";
 import { Tooltip } from "react-tooltip";
 import ToggleSwitch from "../../../components/ToggleSwitch";
+import PopupMenu from "../../../components/PopupMenu";
 
 
 function AddNoteButton() {
@@ -43,9 +44,11 @@ function AddNoteButton() {
         <>
             {
                 addingNote && 
-                <>
-                <div className="backgroundDim" onClick={() => setAddingNote(false)}></div>
-                <div className="addNote">
+                <PopupMenu
+                    title="Add Note"
+                    onSubmit={handleAddNote}
+                    onCancel={() => setAddingNote(false)}
+                >
                     <form className="addNoteForm">
                         <textarea className="longTextInput noteTextBox" id="noteInput" value={noteText} onChange={changeNoteText}/>
                         <br />
@@ -55,11 +58,8 @@ function AddNoteButton() {
                                 />
                         </div>
                         <Tooltip id="sticky" place="top" content={tooltipText} className="niceTooltip"/>
-                        <button className="smallFloatingButton smallMenuButton" onClick={handleAddNote} style={{marginTop: "1rem"}}>Save</button>
-                        <button className="smallFloatingButton smallMenuButton" onClick={() => setAddingNote(false)} style={{marginTop: "1rem"}}>Cancel</button>
                     </form>
-                </div>
-                </>
+                </PopupMenu>
             }
             <button className="addNoteButton" onClick={() => setAddingNote(!addingNote)}>+</button>
         </>

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import useLongPress from "../../../hooks/useLongPress";
-import TextInputPopup from "../../../components/TextInputPopup";
 import { useDate } from "../contexts/DateContextProvider";
 import FadePopup from "../../../components/FadePopup";
+import PopupMenu from "../../../components/PopupMenu";
 
 const ERROR_DURATION = 1.5
 
@@ -15,6 +15,7 @@ function HistoryButton({ direction }: HistoryButtonProps) {
     const extraClass = direction == "back" ? "leftHistoryButton" : "rightHistoryButton"
 
     const [changingDate, setChangingDate] = useState(false)
+    const [enteredDate, setEnteredDate] = useState("")
     const [invalidDateEntry, setInvalidDateEntry] = useState(false)
 
     const { historyDate, setHistoryDate, selectableDates, selectedIndex, setSelectedIndex } = useDate()
@@ -44,7 +45,7 @@ function HistoryButton({ direction }: HistoryButtonProps) {
         
     }
 
-    function jumpToDate(enteredDate: string) {
+    function jumpToDate() {
         const parsedDate = Date.parse(enteredDate)
         if (!isNaN(parsedDate)) {
             setHistoryDate(new Date(parsedDate))
@@ -63,7 +64,21 @@ function HistoryButton({ direction }: HistoryButtonProps) {
                 invalidDateEntry && <FadePopup text="Invalid date" duration={ERROR_DURATION} />
             }
             {
-                changingDate && <TextInputPopup message="Jump to date" confirmFn={jumpToDate} cancelFn={() => setChangingDate(false)}/>
+                changingDate && 
+                    <PopupMenu
+                        title="Jump to Date"
+                        text="Enter a date to view its history."
+                        onSubmit={jumpToDate}
+                        onCancel={() => setChangingDate(false)}
+                        confirmButtonText="Go"
+                    >
+                        <input
+                            type="text"
+                            value={enteredDate}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setEnteredDate(e.target.value)}
+                            className="smallTextInput"
+                        />
+                    </PopupMenu>
             }
             <button 
                 className={"floatingButton " + extraClass} 

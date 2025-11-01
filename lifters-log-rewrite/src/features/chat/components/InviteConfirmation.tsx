@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import ChatRoom from "../types/ChatRoom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addChatMessage from "../api/addChatMessage";
 import changeUserChatPermission from "../api/changeUserChatPermission";
-import TextInputPopup from "../../../components/TextInputPopup";
 import FadePopup from "../../../components/FadePopup";
+import PopupMenu from "../../../components/PopupMenu";
 
 type InviteConfirmationProps = {
     cancelFn: () => void;
@@ -41,10 +41,9 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
         }
     })
 
-    function handleConfirmation(username: string) {
-        if (username != "") {
-            inviteUserMutation.mutate({ username: username, chatPermission: true, roomid: room.roomid });
-            setInvitedUser(username)
+    function handleConfirmation() {
+        if (invitedUser != "") {
+            inviteUserMutation.mutate({ username: invitedUser, chatPermission: true, roomid: room.roomid });
         }
     }
     
@@ -53,7 +52,20 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
             {
                 error && <FadePopup text={error} duration={ERROR_DURATION} />
             }
-            <TextInputPopup message="Invite User" inputPlaceholder="Username" confirmFn={handleConfirmation} cancelFn={cancelFn} />
+            <PopupMenu
+                title="Invite User"
+                onSubmit={handleConfirmation}
+                onCancel={cancelFn}
+                confirmButtonText="Invite"
+            >
+                <input 
+                    type="text"
+                    value={invitedUser}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setInvitedUser(e.target.value)}
+                    placeholder="Username"
+                    className="smallTextInput"
+                />
+            </PopupMenu>
         </>
     )
 }

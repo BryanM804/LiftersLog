@@ -44,14 +44,14 @@ function CardioLogButton({ movement, time, distance, note, onLogSuccess }: Cardi
     }
 
     return (
-        <div className="gridItemSpan">
+        <div style={{textAlign: "center", width: "100%"}}>
             <button 
                 className={invalidLog ? "floatingButton redButton" : "floatingButton"}
                 onClick={handleClick}
-                style={{width: "75%"}}
                 id="logButton"
+                style={{width: "75%"}}
             >
-            Log
+                Log
             </button>
         </div>
     )

@@ -6,6 +6,7 @@ Future Changes will be documented here
 ### General
 - Site can now be installed as a PWA app on Android devices
 - Various UI elements should now scale better on different devices
+- Various menus adjusted for better usability on mobile devices
 
 ### Profile
 - Adjusted UI
@@ -13,6 +14,9 @@ Future Changes will be documented here
 
 ### Logging
 - Added a sync button that can be toggled to sync the inputs for weight and reps of split movements
+
+### Chat
+- Chat now utilizes websockets (like it always should have). Now significantly more responsive.
 
 ## Alpha [0.1.3] - 6/14/25
 ### Insights

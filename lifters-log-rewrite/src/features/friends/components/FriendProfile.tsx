@@ -10,6 +10,7 @@ import { isMobile } from "react-device-detect";
 import ConfirmationBox from "../../../components/ConfirmationBox";
 import unfriendUser from "../api/unfriendUser";
 import getFriendPreferences from "../api/getFriendPreferences";
+import { createPortal } from "react-dom";
 
 type FriendProfileProps = {
     username: string;
@@ -57,7 +58,7 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
         removeFriendMutation.mutate(username)
     }
 
-    if (!isOpen) return <></>
+    if (!isOpen) return null
 
     if (isLoading || friendPrefsLoading) {
         return (
@@ -82,23 +83,28 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
         )   
     }
 
-    return (
+    return createPortal(
         <>
             <div className="backgroundDim" onClick={cancelFn} ></div>
-            <div className="friendProfileContainer center">
+            <div className="friendProfileContainer">
                 <button 
-                    className="transparentButton" 
-                    style={{position: "absolute", right: "1rem", color: "white", fontSize: "1rem"}}
+                        className="transparentButton" 
+                    style={{position: "absolute", right: "1rem", top: "1rem", color: "white", fontSize: "1rem"}}
                     onClick={cancelFn}
-                >X</button>
+                >
+                    X
+                </button>
                 <h3>{username}<hr /></h3>
-                <div className="profileContainer">
+                <div className="profileTopHalf" style={{gap: "0.5rem"}}>
                     <div className="profilePictureContainer">
                         <ProfilePicture imageURL={data.pfpurl} size={pfpSize}/>
                     </div>
                     <div className="profileDescription">
                         <ProfileStats stats={data}/>
                     </div>
+                </div>
+                <div className="profileBottomHalf">
+                    <hr style={{opacity: "50%"}} />
                     {
                         friendPrefs.liftRecords ? 
                             <div className="userRecords">
@@ -106,7 +112,6 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
                             </div>
                         : <></>
                     }
-                    
                 </div>
                 {
                     unfriending &&
@@ -117,9 +122,11 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
                         className="unfriendConfirmation"
                     />
                 }
-                <button className="smallFloatingButton smallMenuButton unfriendButton" onClick={() => setUnfriending(true)}>Unfriend</button>
+                <br />
+                <button className="smallFloatingButton" onClick={() => setUnfriending(true)}>Unfriend</button>
             </div>
-        </>
+        </>,
+        document.body
     )
 }
 

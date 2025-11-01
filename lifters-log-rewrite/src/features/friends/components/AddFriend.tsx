@@ -1,14 +1,15 @@
 import { useMutation } from "@tanstack/react-query"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import sendFriendRequest from "../api/sendFriendRequest"
-import TextInputPopup from "../../../components/TextInputPopup"
 import FadePopup from "../../../components/FadePopup"
+import PopupMenu from "../../../components/PopupMenu"
 
 const ERROR_DURATION = 1.5
 
 function AddFriend() {
 
     const [addingFriend, setAddingFriend] = useState(false)
+    const [friendUsername, setFriendUsername] = useState("");
 
     const [error, setError] = useState<string | null>(null)
 
@@ -25,9 +26,9 @@ function AddFriend() {
         }
     });
 
-    function handleConfirmation(username: string) {
-        if (username.length > 0)
-            addFriendMutation.mutate({ username: username })
+    function handleConfirmation() {
+        if (friendUsername.length > 0)
+            addFriendMutation.mutate({ username: friendUsername })
     }
 
     if (addingFriend) {
@@ -36,7 +37,14 @@ function AddFriend() {
                 {
                     error && <FadePopup text={error} duration={ERROR_DURATION}/>
                 }
-                <TextInputPopup message="Add Friend" inputPlaceholder="Username" confirmFn={handleConfirmation} cancelFn={() => setAddingFriend(false)} />
+                <PopupMenu
+                    title="Add Friend"
+                    onSubmit={handleConfirmation}
+                    onCancel={() => setAddingFriend(false)}
+                    confirmButtonText="Send"
+                >
+                    <input type="text" value={friendUsername} className="smallTextInput" onChange={(e: ChangeEvent<HTMLInputElement>) => setFriendUsername(e.target.value)} placeholder="Username" />
+                </PopupMenu>
             </>
         )
     }

@@ -5,6 +5,8 @@ import ServerError from "../../../components/ServerError";
 import ChatMessage from "./ChatMessage";
 import { useEffect, useRef, useState } from "react";
 import ChatRoom from "../types/ChatRoom";
+import ChatMessageType from "../types/ChatMessage";
+import { socket } from "../../../utils/socket";
 
 type ChatMessageListProps = {
     room: ChatRoom;
@@ -12,15 +14,32 @@ type ChatMessageListProps = {
 
 function ChatMessageList({ room }: ChatMessageListProps) {
 
-    const { data, error, isLoading } = useQuery({
+    const [chatMessages, setChatMessages] = useState<ChatMessageType[]>([])
+
+    const { data: chatHistory, error, isLoading } = useQuery({
         queryKey: ["chat", room.roomid],
-        queryFn: getChatMessages,
-        refetchInterval: 3000
+        queryFn: getChatMessages
     })
 
     const messageList = useRef<HTMLUListElement>(null);
 
     const [scrollAtBottom, setScrollAtBottom] = useState(true);
+
+    // Load initial chat history
+    useEffect(() => {
+        setChatMessages(chatHistory)
+    }, [chatHistory])
+
+    // Set handlers on the socket for any incoming chat messages
+    useEffect(() => {
+        socket.on("message", (newMessage: ChatMessageType) => {
+            setChatMessages((prev) => [...prev, newMessage])
+        })
+
+        return () => {
+            socket.off("message")
+        }
+    }, [])
 
     useEffect(() => {
         // Set the scrollbar to the bottom when a new message appears
@@ -28,7 +47,7 @@ function ChatMessageList({ room }: ChatMessageListProps) {
         if (messageList.current && scrollAtBottom) {
             messageList.current.scrollTop = messageList.current.scrollHeight
         }
-    }, [data])
+    }, [chatMessages])
 
     function handleScrollPosition() {
         if (messageList.current) {
@@ -47,8 +66,8 @@ function ChatMessageList({ room }: ChatMessageListProps) {
         <>
             <ul className="chatMessageList" ref={messageList} onScroll={handleScrollPosition}>
                 {
-                    data.length > 0 ?
-                    data.map((msg: {message: string; time: string; cid: number; date: string; Account: {username: string}}) => 
+                    chatMessages?.length > 0 ?
+                    chatMessages.map((msg: ChatMessageType) => 
                         <ChatMessage 
                             msg={msg.message} 
                             author={msg.Account.username} 

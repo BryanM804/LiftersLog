@@ -16,9 +16,11 @@ function ConfirmationBox({ confirmFn, cancelFn, className, text, style }: Confir
         <>
         <div className="backgroundDim" style={{zIndex: "100"}} onClick={cancelFn}></div>
         <div className={"confirmationBox " + className} style={style}>
-            <div className="confirmationText">{showText}</div>
-            <button className="smallFloatingButton smallMenuButton" onClick={confirmFn}>✅</button>
-            <button className="smallFloatingButton smallMenuButton" onClick={cancelFn}>❌</button>
+            <p>{showText}</p>
+            <div style={{display: "flex", flexDirection: "row"}}>
+                <button className="smallFloatingButton confirmationButton" onClick={confirmFn}>Confirm</button>
+                <button className="smallFloatingButton" onClick={cancelFn}>Cancel</button>
+            </div>
         </div>
         </>
     )

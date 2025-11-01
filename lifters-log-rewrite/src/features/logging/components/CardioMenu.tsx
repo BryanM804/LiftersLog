@@ -40,51 +40,49 @@ function CardioMenu({ onLogSuccess }: CardioMenuProps) {
 
     return (
         <form>
-            <div className="logGridContainer">
-                <div className="gridItemSpan">
-                    <label htmlFor="cardioMovement">Exercise</label>
-                    <br />
-                    <input type="text" id="cardioMovement" 
-                        className="longTextInput movementPicker"
-                        style={{width: "75%"}}
-                        value={cardioMovement}
-                        onChange={handleChange}
-                        />
-                </div>
-                <div className="gridItem">
-                    <label htmlFor="cardioTime">Time</label>
-                    <br />
-                    <input type="number" id="cardioTime"
-                        className="smallTextInput setInput"
-                        value={cardioTime}
-                        onChange={handleChange}
-                        />
-                </div>
-                <div className="gridItem">
-                <label htmlFor="cardioDistance">Distance</label>
-                <br />
-                <input type="number" id="cardioDistance"
-                    className="smallTextInput setInput"
-                    value={cardioDistance}
+            <div className="logButtonsContainer">
+                <label htmlFor="cardioMovement">Exercise</label>
+                <input type="text" id="cardioMovement" 
+                    className="longTextInput movementPicker"
+                    style={{width: "75%"}}
+                    value={cardioMovement}
                     onChange={handleChange}
                     />
+                <div className="logFlexRow">
+                    <div style={{flex: 1}}>
+                        <label htmlFor="cardioTime">Time</label>
+                        <br />
+                        <input type="number" id="cardioTime"
+                            className="smallTextInput setInput"
+                            value={cardioTime}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div style={{flex: 1}}>
+                        <label htmlFor="cardioDistance">Distance</label>
+                        <br />
+                        <input type="number" id="cardioDistance"
+                            className="smallTextInput setInput"
+                            value={cardioDistance}
+                            onChange={handleChange}
+                        />
+                    </div>
                 </div>
-                <div className="gridItemSpan">
                 <label htmlFor="cardioNote">Note</label>
-                <br />
                 <textarea id="cardioNote"
                     className="longTextInput noteTextBox"
                     placeholder="(Optional for more info)"
                     value={cardioNote}
                     onChange={handleChange}
-                    />
-                <CardioLogButton 
-                    movement={cardioMovement}
-                    time={cardioTime === "" ? 0 : cardioTime}
-                    distance={cardioDistance === "" ? 0.0 : cardioDistance}
-                    note={cardioNote}
-                    onLogSuccess={onLogSuccess}
                 />
+                <div className="logFlexRow">
+                    <CardioLogButton 
+                        movement={cardioMovement}
+                        time={cardioTime === "" ? 0 : cardioTime}
+                        distance={cardioDistance === "" ? 0.0 : cardioDistance}
+                        note={cardioNote}
+                        onLogSuccess={onLogSuccess}
+                    />
                 </div>
             </div>
         </form>

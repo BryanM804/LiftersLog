@@ -13,13 +13,14 @@ function SyncButton({ syncState, onSyncToggle }: SyncButtonProps) {
                 className={`floatingButton ${syncState && "syncActive"}`}
                 onClick={onSyncToggle}
                 style={{
-                    fontSize: "1.3rem", 
+                    fontSize: "1.2rem", 
                     opacity: `${syncState ? "100%" : "75%"}`, 
                     border: `${syncState ? "" : "1px solid #555"}`,
                     position: "absolute",
                     top: "50%",
                     left: "50%",
-                    transform: "translateX(-50%) translateY(-50%)"
+                    transform: "translateX(-50%) translateY(-50%)",
+                    textAlign: "center"
                 }}
             >
                 ↔

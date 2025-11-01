@@ -8,6 +8,7 @@ import UserData from "../../../types/UserData";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import ChatRoomMenu from "./ChatRoomMenu";
 import ChatRoom from "../types/ChatRoom";
+import { socket } from "../../../utils/socket";
 
 type ChatTopperProps = {
     title?: string;
@@ -40,10 +41,16 @@ function Chat() {
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
 
     useEffect(() => {
+        socket.connect();
+        
         const prevChatRoom = localStorage.getItem("activeChatRoom")
         if (prevChatRoom) {
-            setActiveChatRoom(JSON.parse(prevChatRoom));
-            setInChatRoom(true);
+            handleChatroomChange(JSON.parse(prevChatRoom))
+        }
+
+        return () => {
+            socket.off("message")
+            socket.disconnect()
         }
     }, [])
 
@@ -54,6 +61,9 @@ function Chat() {
     }
 
     function handleChatroomChange(r: ChatRoom) {
+        socket.connect()
+        socket.emit("enter room", r.roomid)
+
         setActiveChatRoom(r);
         setInChatRoom(true);
         localStorage.setItem("activeChatRoom", JSON.stringify(r));

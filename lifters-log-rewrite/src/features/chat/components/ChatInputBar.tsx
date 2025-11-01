@@ -5,6 +5,7 @@ import ChatRoom from "../types/ChatRoom";
 import sendArrow from "../../../assets/send-arrow.png";
 import { isMobile } from "react-device-detect";
 import FadePopup from "../../../components/FadePopup";
+import { socket } from "../../../utils/socket";
 
 type ChatInputBarProps = {
     room: ChatRoom;
@@ -20,8 +21,11 @@ function ChatInputBar({ room }: ChatInputBarProps) {
 
     const chatMutation = useMutation({
         mutationFn: addChatMessage,
-        onSuccess: () => {
+        onSuccess: (data: {message: string, newMessageId: number}) => {
             queryClient.invalidateQueries({ queryKey: ["chat"] });
+
+            socket.emit("message", { roomId: room.roomid, msgId: data.newMessageId });
+
             setChatMessage("");
         },
         onError: (error: Error) => {
