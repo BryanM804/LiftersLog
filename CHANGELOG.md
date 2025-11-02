@@ -16,7 +16,8 @@ Future Changes will be documented here
 - Added a sync button that can be toggled to sync the inputs for weight and reps of split movements
 
 ### Chat
-- Chat now utilizes websockets (like it always should have). Now significantly more responsive.
+- Chat now utilizes websockets (like it always should have) and is now significantly more responsive
+- You can now reply to another user's message in chat rooms
 
 ## Alpha [0.1.3] - 6/14/25
 ### Insights
@@ -27,7 +28,7 @@ Future Changes will be documented here
 
 ## Alpha [0.1.2] - 6/13/25
 ### Login
-- Fixed randomly logging out when navigating between pages due to relogging in after being logged out from timeout.
+- Fixed randomly logging out when navigating between pages due to relogging in after being logged out from timeout
 - Remember me now remembers you
 ### Insights
 - Fixed graph timeframe dropdown not changing automatically when switching between user chart and movement chart

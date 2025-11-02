@@ -10,9 +10,11 @@ import { socket } from "../../../utils/socket";
 
 type ChatMessageListProps = {
     room: ChatRoom;
+    setReplyingMessageId: (rid: number) => void;
+    setReplyingMessageText: (text: string) => void;
 }
 
-function ChatMessageList({ room }: ChatMessageListProps) {
+function ChatMessageList({ room, setReplyingMessageId, setReplyingMessageText }: ChatMessageListProps) {
 
     const [chatMessages, setChatMessages] = useState<ChatMessageType[]>([])
 
@@ -69,11 +71,16 @@ function ChatMessageList({ room }: ChatMessageListProps) {
                     chatMessages?.length > 0 ?
                     chatMessages.map((msg: ChatMessageType) => 
                         <ChatMessage 
+                            cid={msg.cid}
                             msg={msg.message} 
                             author={msg.Account.username} 
                             time={msg.time} 
                             date={msg.date}
-                            key={msg.cid}/>
+                            key={msg.cid}
+                            repliesTo={msg.ReplyTo ? `${msg.ReplyTo.Account.username}: ${msg.ReplyTo.message}` : undefined}
+                            setReplyingMessageId={setReplyingMessageId}
+                            setReplyingMessageText={setReplyingMessageText}
+                        />
                     )
                     :
                     <li className="darkFont">It's empty in here... Send a message to get chatting {":)"}</li>

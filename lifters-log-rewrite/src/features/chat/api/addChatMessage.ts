@@ -4,6 +4,7 @@ import { SERVER_URL } from "../../../utils/constants";
 type NewChatMessage = {
     text: string;
     roomid: number;
+    repliesTo?: number;
 }
 
 async function addChatMessage(newChatMessage: NewChatMessage) {

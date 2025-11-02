@@ -4,6 +4,7 @@ type ChatMessageType = {
     cid: number;
     date: string;
     Account: {username: string};
+    ReplyTo?: {message: string, Account: {username: string}}
 }
 
 export default ChatMessageType
