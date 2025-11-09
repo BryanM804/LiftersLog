@@ -24,7 +24,7 @@ function ChatTopper({ title, children }: ChatTopperProps) {
                     title ? title : "Chat"
                 }
                 </h3>
-                <hr />
+                <hr style={{width: "100%", marginBottom: "0"}}/>
                 {children}
             </div>
         </>
@@ -132,7 +132,7 @@ function Chat() {
                 <ChatHeaderButtons type="roomList" onCreateChatRoom={() => setCreatingChatRoom(true)}/>
                 <ChatRoomList 
                     setActiveChatRoom={handleChatroomChange}
-                    />
+                />
             </div>
         </ChatTopper>
     )

@@ -46,12 +46,12 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
     if (type == "inRoom") {
         return (
             <div className="headerButtons">
-                <button className="floatingButton menuButton" onClick={onBackClick}>Back</button>
+                <button className="floatingButton" onClick={onBackClick}>Back</button>
                 {
                     isOwner &&
                     <>
-                        <button className="floatingButton menuButton" onClick={onEditChatRoom}>Edit Room</button>
-                        <button className="floatingButton menuButton" onClick={() => setInvitingUser(true)}>Invite User</button>
+                        <button className="floatingButton" onClick={onEditChatRoom}>Edit Room</button>
+                        <button className="floatingButton" onClick={() => setInvitingUser(true)}>Invite User</button>
                         {
                             (invitingUser && room) &&
                             <InviteConfirmation cancelFn={() => setInvitingUser(false)} room={room} />
@@ -60,7 +60,7 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
                 }
                 {
                     (!isOwner && room && room.roomid != 1) &&
-                    <button className="floatingButton menuButton" onClick={() => setIsLeaving(true)}>Leave Chat</button>
+                    <button className="floatingButton" onClick={() => setIsLeaving(true)}>Leave Chat</button>
                 }
                 {
                     isLeaving &&
@@ -71,7 +71,7 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
     } else if (type == "roomList") {
         return (
             <div className="headerButtons">
-                <button className="floatingButton menuButton" onClick={onCreateChatRoom}>Create Room</button>
+                <button className="floatingButton" onClick={onCreateChatRoom}>Create Room</button>
             </div>
         )
     }

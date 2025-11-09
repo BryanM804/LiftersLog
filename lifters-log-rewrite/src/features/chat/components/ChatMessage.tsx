@@ -10,7 +10,7 @@ type ChatMessageProps = {
     author: string;
     time: string;
     date: string;
-    repliesTo?: string;
+    repliesTo?: {author: string, message: string};
     setReplyingMessageId: (rid: number) => void;
     setReplyingMessageText: (text: string) => void;
 }
@@ -20,6 +20,8 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
     const { isHovering, hoverHandlers } = useHoverTouch();
 
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
+
+    const isUsersMessage = author == authUser.username
 
     const today = new Date()
     const messageDate = new Date(Date.parse(date + "T00:00:00"))
@@ -33,7 +35,30 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
 
     return (
         <>
-        <li className="chatMessage" {...hoverHandlers}>
+        <li className={`chatMessage ${isUsersMessage ? "userChatMessage" : ""}`} {...hoverHandlers}>
+            <span style={{fontWeight: "bold"}}>{author}</span>
+            {
+                repliesTo &&
+                    <div className={`repliedMessage ${isUsersMessage ? "userRepliedMessage" : ""}`}>
+                        <span style={{fontWeight: "bold"}}>{repliesTo.author}</span>
+                        <br />
+                        {repliesTo.message}
+                    </div>
+            }
+            <div
+                style={{paddingLeft: "0.3rem"}}
+            >
+                {msg}
+            </div>
+            {
+                !isUsersMessage &&
+                    <button
+                        className="replyButton"
+                        onClick={setActiveReply}
+                    >
+                        Reply
+                    </button>
+            }
             {
                 isHovering &&
                 <TimeSubtext className="chatMessageTime">
@@ -44,19 +69,6 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
                             time
                     }
                 </TimeSubtext>
-            }
-            {
-                repliesTo &&
-                    <p>"{repliesTo}"</p>
-            }
-            <span style={{fontWeight: "bold"}}>{author}</span>: {msg}
-            {
-                author != authUser.username &&
-                    <button
-                        onClick={setActiveReply}
-                    >
-                        Reply
-                    </button>
             }
         </li>
         </>

@@ -5,6 +5,7 @@ type NewChatMessage = {
     text: string;
     roomid: number;
     repliesTo?: number;
+    pingedUsers?: string[];
 }
 
 async function addChatMessage(newChatMessage: NewChatMessage) {

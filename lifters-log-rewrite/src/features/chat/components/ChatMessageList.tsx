@@ -16,7 +16,8 @@ type ChatMessageListProps = {
 
 function ChatMessageList({ room, setReplyingMessageId, setReplyingMessageText }: ChatMessageListProps) {
 
-    const [chatMessages, setChatMessages] = useState<ChatMessageType[]>([])
+    const [chatMessages, setChatMessages] = useState<ChatMessageType[]>([]);
+    const [scrollAtBottom, setScrollAtBottom] = useState(true);
 
     const { data: chatHistory, error, isLoading } = useQuery({
         queryKey: ["chat", room.roomid],
@@ -25,15 +26,13 @@ function ChatMessageList({ room, setReplyingMessageId, setReplyingMessageText }:
 
     const messageList = useRef<HTMLUListElement>(null);
 
-    const [scrollAtBottom, setScrollAtBottom] = useState(true);
-
     // Load initial chat history
     useEffect(() => {
         setChatMessages(chatHistory)
     }, [chatHistory])
 
     // Set handlers on the socket for any incoming chat messages
-    useEffect(() => {
+    useEffect(() => {       
         socket.on("message", (newMessage: ChatMessageType) => {
             setChatMessages((prev) => [...prev, newMessage])
         })
@@ -77,7 +76,7 @@ function ChatMessageList({ room, setReplyingMessageId, setReplyingMessageText }:
                             time={msg.time} 
                             date={msg.date}
                             key={msg.cid}
-                            repliesTo={msg.ReplyTo ? `${msg.ReplyTo.Account.username}: ${msg.ReplyTo.message}` : undefined}
+                            repliesTo={msg.ReplyTo ? { author: msg.ReplyTo.Account.username, message: msg.ReplyTo.message} : undefined}
                             setReplyingMessageId={setReplyingMessageId}
                             setReplyingMessageText={setReplyingMessageText}
                         />
