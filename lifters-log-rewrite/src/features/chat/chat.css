@@ -11,10 +11,30 @@
     flex-direction: column;
 }
 
-.headerButtons {
+.chatHeaderBar {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 0.75rem;
+    align-content: center;
+    background-color: #444;
+    border-radius: 999px;
+    margin-top: 0.25rem;
+    height: 3rem;
+}
+
+.chatHeaderButton {
+    background-color: transparent;
+    border-radius: 999px;
+    padding: 1rem 1.5rem;
+    border: none;
+    display: none;
+    color: white;
+    background-color: #444;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.chatHeaderButton:active {
+    background-color: #555;
 }
 
 .chatRoomListContainer {
@@ -72,7 +92,7 @@
     width: fit-content;
     position: relative;
     padding: 0.3rem;
-    padding-right: 2rem;
+    padding-right: 1rem;
     margin: 0.25rem 0rem;
     background-color: #111;
     border-radius: 14px;
@@ -99,14 +119,6 @@
 .userRepliedMessage {
     border-left: 0.2rem solid #bbb;
     opacity: 80%;
-}
-.replyButton {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-    background-color: transparent;
-    border: none;
-    color: white;
 }
 
 .chatMessageTime {
@@ -155,18 +167,14 @@
 
 .roomMenuTextArea {
     resize: none;
-    width: 12rem;
+    width: 90%;
     height: 6rem;
+    align-self: center;
 }
 
 .chatRoomMenu {
-    text-align: center;
-    display: grid;
-    grid-template-columns: repeat(2);
-}
-
-.chatMenuUserListContainer {
-    grid-column: 2;
+    display: flex;
+    flex-direction: column;
 }
 
 .userList {
@@ -180,7 +188,7 @@
 }
 
 .chatUser {
-    padding: 0.2rem;
+    padding: 0.5rem;
     border-radius: 12px;
     margin: 0.2rem 0;
     background-color: #555;
@@ -226,13 +234,6 @@
         padding: 0.75rem 1.25rem;
     }
 
-    .chatRoomMenu {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: scroll;
-    }
-
     .chatMenuUserListContainer {
         display: flex;
         flex-direction: column;
@@ -250,10 +251,6 @@
 
     .leaveConfirmation {
         top: 0.75rem;
-    }
-
-    .chatRoomMenu {
-        grid-template-columns: 60% 40%;
     }
 
     .chatSubMenu {

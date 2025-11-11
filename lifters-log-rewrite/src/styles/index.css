@@ -244,6 +244,7 @@ nav {
     width: 100vw;
     height: 100vh;
     background-color: rgb(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
     z-index: 2;
 }
 

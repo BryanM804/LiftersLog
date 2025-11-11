@@ -82,38 +82,47 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
 
     return (
         <div className="chatRoomMenu">
-            <div>
-                <button className="floatingButton menuButton" onClick={cancelFunction} style={{position: "absolute", top: "0", left: "5%"}}>Back</button>
-                <br /><br />
-                <label htmlFor="chatRoomName">Room Name</label><br />
+                <button className="floatingButton" onClick={cancelFunction}>Back</button>
+                <label htmlFor="chatRoomName">Room Name</label>
                 <input id="chatRoomName" type="text" className="smallTextInput" value={roomName} onChange={handleTextChange} />
-                <br />
-                <label htmlFor="chatRoomDescription">Description</label><br />
+                <label htmlFor="chatRoomDescription">Description</label>
                 <textarea id="chatRoomDescription" className="longTextInput roomMenuTextArea" value={roomDescription} onChange={handleDescChange} />
-                <br />
                 <div className={ showingError ? "warningText" : "hidden"}>
                     { "Sorry, could not create chat room.\n" + hasError }
                 </div>
-                <div style={{position: "relative"}}>
+                <div>
                     {
                         type === "create" ?
-                        <>
-                            <button className="floatingButton menuButton" onClick={handleSubmit}>Create</button>
-                        </>
+                        <div
+                            style={{display: "flex", flexDirection: "row", alignSelf: "center", justifyContent: "center", gap: "1rem"}}
+                        >
+                            <button className="floatingButton menuButton" onClick={handleSubmit}>
+                                Create
+                            </button>
+                        </div>
                         :
-                        <div>
-                            <button className="floatingButton menuButton" 
-                                onClick={handleSubmit}
-                                style={{marginRight: "0.35rem"}}>Confirm</button>
-                            <button className="floatingButton menuButton" onClick={() => setIsDeleting(true)}>Delete Room</button> 
+                        <div
+                            style={{display: "flex", flexDirection: "row", alignSelf: "center", justifyContent: "center", gap: "1rem"}}
+                        >
+                            <button className="floatingButton menuButton" onClick={handleSubmit}>
+                                Confirm
+                            </button>
+                            <button className="floatingButton menuButton" onClick={() => setIsDeleting(true)}>
+                                Delete Room
+                            </button> 
                         </div>
                     }
-                    {
-                        isDeleting &&
-                        <ConfirmationBox className="center" confirmFn={handleDelete} cancelFn={() => setIsDeleting(false)} />
-                    }
                 </div>
-            </div>
+                {
+                    isDeleting &&
+                    <ConfirmationBox 
+                        className="center" 
+                        style={{ top: "5rem" }} 
+                        text="Are you sure you want to delete this room? All messages will be permanently lost!"
+                        confirmFn={handleDelete} 
+                        cancelFn={() => setIsDeleting(false)} 
+                    />
+                }
             {
                 (type === "edit" && isLoading) ? <Loading /> :
                 (type === "edit" && error) ? <ServerError /> :

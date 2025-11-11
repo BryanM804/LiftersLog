@@ -3,6 +3,8 @@ import TimeSubtext from "../../../components/TimeSubtext";
 import useHoverTouch from "../../../hooks/useHoverTouch";
 import UserData from "../../../types/UserData";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
+import { motion, PanInfo, useMotionValue } from "framer-motion";
+import { useEffect } from "react";
 
 type ChatMessageProps = {
     cid: number;
@@ -18,8 +20,8 @@ type ChatMessageProps = {
 function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessageId, setReplyingMessageText }: ChatMessageProps) {
 
     const { isHovering, hoverHandlers } = useHoverTouch();
-
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
+    const x = useMotionValue(0);
 
     const isUsersMessage = author == authUser.username
 
@@ -28,6 +30,17 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
     // Date.parse() parses UTC strings then converts them to your timezone which can mess up dates
     // Adding a time makes it parse it in local time
 
+    useEffect(() => {
+        const unsubscribe = x.on("change", (latest) => {
+            if (latest < 0)
+                x.set(0)
+            else if (latest > 50)
+                x.set(50)
+        })
+
+        return unsubscribe
+    }, [x])
+
     function setActiveReply() {
         setReplyingMessageId(cid)
         setReplyingMessageText(`${author}: ${msg}`)
@@ -35,7 +48,15 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
 
     return (
         <>
-        <li className={`chatMessage ${isUsersMessage ? "userChatMessage" : ""}`} {...hoverHandlers}>
+        <motion.li 
+            className={`chatMessage ${isUsersMessage ? "userChatMessage" : ""}`} 
+            {...hoverHandlers}
+            style={{ x }}
+            drag={ isUsersMessage ? false : "x" }
+            dragConstraints={{ left: 0, right: 0 }}
+            dragDirectionLock={true}
+            onDragEnd={(_, info) => { if (info.offset.x > 50) setActiveReply()}}
+        >
             <span style={{fontWeight: "bold"}}>{author}</span>
             {
                 repliesTo &&
@@ -51,15 +72,6 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
                 {msg}
             </div>
             {
-                !isUsersMessage &&
-                    <button
-                        className="replyButton"
-                        onClick={setActiveReply}
-                    >
-                        Reply
-                    </button>
-            }
-            {
                 isHovering &&
                 <TimeSubtext className="chatMessageTime">
                     { 
@@ -70,7 +82,7 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo, setReplyingMessa
                     }
                 </TimeSubtext>
             }
-        </li>
+        </motion.li>
         </>
     )
 }

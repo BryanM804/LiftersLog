@@ -89,7 +89,7 @@ function FriendProfile({ username, isOpen, cancelFn }: FriendProfileProps) {
             <div className="friendProfileContainer">
                 <button 
                         className="transparentButton" 
-                    style={{position: "absolute", right: "1rem", top: "1rem", color: "white", fontSize: "1rem"}}
+                    style={{position: "absolute", right: "1rem", top: "1rem", color: "rgb(180, 60, 60)", fontSize: "1rem"}}
                     onClick={cancelFn}
                 >
                     X

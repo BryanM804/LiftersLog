@@ -7,7 +7,7 @@ type TimeSubtextProps = {
 
 function TimeSubtext({ children, className }: TimeSubtextProps) {
     return(
-        <span className={"darkFont smallText " + className} >[{children}]</span>
+        <span className={"darkFont smallText " + className} >{children}</span>
     )
 }
 

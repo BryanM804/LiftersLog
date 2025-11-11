@@ -26,9 +26,6 @@ function Welcome() {
             const permissions = await Notification.requestPermission();
             if (permissions != "granted") return
 
-            console.log(import.meta.env.VITE_PUBLIC_VAPID_KEY)
-            console.log(urlBase64ToUint8Array(import.meta.env.VITE_PUBLIC_VAPID_KEY))
-
             const subscription = await reg.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_PUBLIC_VAPID_KEY ?? "")

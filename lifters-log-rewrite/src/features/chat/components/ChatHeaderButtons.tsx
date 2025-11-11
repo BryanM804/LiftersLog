@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { ReactNode, SyntheticEvent, useEffect, useState } from "react";
 import ChatRoom from "../types/ChatRoom";
 import InviteConfirmation from "./InviteConfirmation";
 import ConfirmationBox from "../../../components/ConfirmationBox";
@@ -7,6 +7,8 @@ import changeUserChatPermission from "../api/changeUserChatPermission";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import UserData from "../../../types/UserData";
 import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
+
 
 type ChatHeaderButtonsProps = {
     onBackClick?: (e: SyntheticEvent) => void;
@@ -18,12 +20,25 @@ type ChatHeaderButtonsProps = {
 }
 
 function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOwner, type, room }: ChatHeaderButtonsProps) {
+    const OPENING_DURATION = 0.25;
+
+    const initialDiv = {
+        width: "5%",
+        transform: "translateX(50vw)"
+    };
+    const animateDiv = {
+        width: "100%",
+        transform: "translateX(0vw)"
+    }
 
     const [invitingUser, setInvitingUser] = useState(false)
     const [isLeaving, setIsLeaving] = useState(false)
+    const [barOpen, setBarOpen] = useState(false)
 
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
     const queryClient = useQueryClient();
+    const buttonControls = useAnimation();
+
 
     const leaveMutation = useMutation({
         mutationFn: changeUserChatPermission,
@@ -31,6 +46,26 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
             queryClient.invalidateQueries({ queryKey: ["chatrooms"] })
         }
     })
+
+    useEffect(() => {
+        function showButtons() {
+            buttonControls.start({
+                display: "block",
+                transition: { duration: 0 }
+            })
+        }
+
+        if (barOpen) {
+            showButtons()
+        } else {
+            setTimeout(() => {
+                showButtons()
+                setBarOpen(true);
+            }, OPENING_DURATION * 1000)
+        }
+
+        // The update on isOwner is so that the extra buttons don't stay invisible
+    }, [isOwner])
 
     function leaveChat(e: SyntheticEvent) {
         if (room)
@@ -45,34 +80,51 @@ function ChatHeaderButtons({ onBackClick, onCreateChatRoom, onEditChatRoom, isOw
     
     if (type == "inRoom") {
         return (
-            <div className="headerButtons">
-                <button className="floatingButton" onClick={onBackClick}>Back</button>
-                {
-                    isOwner &&
-                    <>
-                        <button className="floatingButton" onClick={onEditChatRoom}>Edit Room</button>
-                        <button className="floatingButton" onClick={() => setInvitingUser(true)}>Invite User</button>
+            <>
+                <AnimatePresence>
+                    <motion.div
+                        className="chatHeaderBar"
+                        initial={initialDiv}
+                        animate={animateDiv}
+                        transition={{ duration: OPENING_DURATION }}
+                    >
+                        <motion.button animate={buttonControls} className="chatHeaderButton" onClick={onBackClick}>Back</motion.button>
                         {
-                            (invitingUser && room) &&
-                            <InviteConfirmation cancelFn={() => setInvitingUser(false)} room={room} />
+                            isOwner &&
+                            <>
+                                <motion.button animate={buttonControls} className="chatHeaderButton" onClick={onEditChatRoom}>Edit Room</motion.button>
+                                <motion.button animate={buttonControls} className="chatHeaderButton" onClick={() => setInvitingUser(true)}>Invite User</motion.button>
+                            </>
                         }
-                    </>
-                }
+                        {
+                            (!isOwner && room && room.roomid != 1) &&
+                            <motion.button animate={buttonControls} className="chatHeaderButton" onClick={() => setIsLeaving(true)}>Leave Chat</motion.button>
+                        }
+                        
+                    </motion.div>
+                </AnimatePresence>
                 {
-                    (!isOwner && room && room.roomid != 1) &&
-                    <button className="floatingButton" onClick={() => setIsLeaving(true)}>Leave Chat</button>
+                    (invitingUser && room) &&
+                    <InviteConfirmation cancelFn={() => setInvitingUser(false)} room={room} />
                 }
                 {
                     isLeaving &&
-                    <ConfirmationBox className="leaveConfirmation" confirmFn={leaveChat} cancelFn={() => setIsLeaving(false)} />
+                    <ConfirmationBox className="leaveConfirmation" text="Are you sure you want to leave?" confirmFn={leaveChat} cancelFn={() => setIsLeaving(false)} />
                 }
-            </div>
+            </>
         )
     } else if (type == "roomList") {
         return (
-            <div className="headerButtons">
-                <button className="floatingButton" onClick={onCreateChatRoom}>Create Room</button>
-            </div>
+            <AnimatePresence>
+                <motion.div
+                    className="chatHeaderBar"
+                    initial={initialDiv}
+                    animate={animateDiv}
+                    transition={{ duration: OPENING_DURATION }}
+                >
+                    <motion.button animate={buttonControls} className="chatHeaderButton" onClick={onCreateChatRoom}>Create Room</motion.button>
+                </motion.div>
+            </AnimatePresence>
         )
     }
     

@@ -41,24 +41,25 @@ function ChatUser({ username, room }: ChatUserProps) {
     }
 
     return (
-        <li className="chatUser"
-            // style={{position: "relative"}} 
-            {...handlers}
-            >
-            {username}
-            {
-                // Make sure the user can't delete themself and make a phantom chat room
-                username != authUser.username && <DeleteButton onDelete={handleDelete} show={isHovering} />
-            }
+        <>
+            <li className="chatUser"
+                {...handlers}
+                >
+                {username}
+                {
+                    // Make sure the user can't delete themself and make a phantom chat room
+                    username != authUser.username && <DeleteButton onDelete={handleDelete} show={isHovering} />
+                }
+            </li>
             {
                 isDeleting && username != authUser.username && 
                 <ConfirmationBox className="center chatUserDeleteConfirm" 
                     confirmFn={handleDelete} 
                     cancelFn={() => setIsDeleting(false)}
                     text={`Remove ${username} from the chatroom?`}
-                    />
+                />
             }
-        </li>
+        </>
     )
 }
 
