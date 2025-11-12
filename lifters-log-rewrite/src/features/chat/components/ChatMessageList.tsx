@@ -10,11 +10,9 @@ import { socket } from "../../../utils/socket";
 
 type ChatMessageListProps = {
     room: ChatRoom;
-    setReplyingMessageId: (rid: number) => void;
-    setReplyingMessageText: (text: string) => void;
 }
 
-function ChatMessageList({ room, setReplyingMessageId, setReplyingMessageText }: ChatMessageListProps) {
+function ChatMessageList({ room }: ChatMessageListProps) {
 
     const [chatMessages, setChatMessages] = useState<ChatMessageType[]>([]);
     const [scrollAtBottom, setScrollAtBottom] = useState(true);
@@ -68,19 +66,60 @@ function ChatMessageList({ room, setReplyingMessageId, setReplyingMessageText }:
             <ul className="chatMessageList" ref={messageList} onScroll={handleScrollPosition}>
                 {
                     chatMessages?.length > 0 ?
-                    chatMessages.map((msg: ChatMessageType) => 
-                        <ChatMessage 
-                            cid={msg.cid}
-                            msg={msg.message} 
-                            author={msg.Account.username} 
-                            time={msg.time} 
-                            date={msg.date}
-                            key={msg.cid}
-                            repliesTo={msg.ReplyTo ? { author: msg.ReplyTo.Account.username, message: msg.ReplyTo.message} : undefined}
-                            setReplyingMessageId={setReplyingMessageId}
-                            setReplyingMessageText={setReplyingMessageText}
-                        />
-                    )
+                    chatMessages.map((msg: ChatMessageType) => {
+                        let repliesTo;
+
+                        if (msg.ReplyTo) {
+                            repliesTo = { 
+                                author: msg.ReplyTo.Account.username, 
+                                message: msg.ReplyTo.message, 
+                                type: msg.replyType 
+                            }
+                        } else if (msg.LiftReply) {
+                            const { movement, weight, reps, subweight, subreps } = msg.LiftReply
+
+                            repliesTo = { 
+                                author: `${msg.LiftReply.Account.username} logged ${movement}`, 
+                                message: `${subweight ? "L: " : ""}${weight}lbs for ${reps} reps${subweight ? `\nR: ${subweight}lbs for ${subreps} reps` : ""}`, 
+                                type: msg.replyType 
+                            }
+                        } else if (msg.NoteReply) {
+                            repliesTo = { 
+                                author: `${msg.NoteReply.Account.username} added a note to ${msg.NoteReply.movement}`, 
+                                message: msg.NoteReply.text, 
+                                type: msg.replyType 
+                            }
+                        } else if (msg.CardioReply) {
+                            const { movement, cardiotime, distance, note } = msg.CardioReply
+                            repliesTo = { 
+                                author: `${msg.CardioReply.Account.username} logged ${movement}`, 
+                                message: `${cardiotime} minutes${distance ? `, ${distance} miles.` : ""}${note ? `\n${note}` : ""}`, 
+                                type: msg.replyType 
+                            }
+                        } else if (msg.LabelReply) {
+                            const { label, date } = msg.LabelReply;
+                            const localeDate = new Date(date).toLocaleDateString();
+                            repliesTo = { 
+                                author: `${msg.LabelReply.Account.username} set a label for ${localeDate}`, 
+                                message: `"${label}"`, 
+                                type: msg.replyType 
+                            }
+                        } else {
+                            repliesTo = undefined;
+                        }
+
+                        return (
+                            <ChatMessage 
+                                cid={msg.cid}
+                                msg={msg.message} 
+                                author={msg.Account.username} 
+                                time={msg.time} 
+                                date={msg.date}
+                                key={msg.cid}
+                                repliesTo={repliesTo}
+                            />
+                        )
+                    })
                     :
                     <li className="darkFont">It's empty in here... Send a message to get chatting {":)"}</li>
                 }

@@ -38,9 +38,6 @@ function Chat() {
     const [creatingChatRoom, setCreatingChatRoom] = useState(false)
     const [editingChatRoom, setEditingChatRoom] = useState(false)
 
-    const [replyingMessageId, setReplyingMessageId] = useState(0);
-    const [replyingMessageText, setReplyingMessageText] = useState("");
-
     const authUser = useAuthUser<UserData>() || PLACEHOLDERUSERDATA;
 
     useEffect(() => {
@@ -70,11 +67,6 @@ function Chat() {
         setActiveChatRoom(r);
         setInChatRoom(true);
         localStorage.setItem("activeChatRoom", JSON.stringify(r));
-    }
-
-    function clearReply() {
-        setReplyingMessageId(0)
-        setReplyingMessageText("")
     }
 
     if (creatingChatRoom) {
@@ -112,14 +104,9 @@ function Chat() {
                     />
                     <ChatMessageList 
                         room={activeChatRoom}
-                        setReplyingMessageId={setReplyingMessageId}
-                        setReplyingMessageText={setReplyingMessageText}
                     />
                     <ChatInputBar 
                         room={activeChatRoom} 
-                        replyingMessageId={replyingMessageId}
-                        replyingMessageText={replyingMessageText}
-                        clearReply={clearReply}
                     />
                 </div>
             </ChatTopper>

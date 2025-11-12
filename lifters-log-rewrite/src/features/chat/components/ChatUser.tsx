@@ -30,7 +30,7 @@ function ChatUser({ username, room }: ChatUserProps) {
     const removeUserMutation = useMutation({
         mutationFn: changeUserChatPermission,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["chatUsers"] })
+            queryClient.invalidateQueries({ queryKey: ["chatUsers"], exact: false })
         }
     })
 

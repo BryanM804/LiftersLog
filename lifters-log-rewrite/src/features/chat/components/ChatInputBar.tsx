@@ -7,19 +7,18 @@ import { isMobile } from "react-device-detect";
 import FadePopup from "../../../components/FadePopup";
 import { socket } from "../../../utils/socket";
 import getUsersWithAccess from "../api/getUsersWithAccess";
+import { useReplying } from "../contexts/ChatReplyContext";
 
 type ChatInputBarProps = {
     room: ChatRoom;
-    replyingMessageId: number;
-    replyingMessageText: string;
-    clearReply: () => void;
 }
 
 const ERROR_DURATION = 1.5
 
-function ChatInputBar({ room, replyingMessageId, replyingMessageText, clearReply }: ChatInputBarProps) {
+function ChatInputBar({ room }: ChatInputBarProps) {
     const [chatMessage, setChatMessage] = useState("");
     const [error, setError] = useState("")
+    const { replyingId, replyingText, replyType, originalUser, clearReply } = useReplying();
 
     const queryClient = useQueryClient();
 
@@ -54,24 +53,36 @@ function ChatInputBar({ room, replyingMessageId, replyingMessageText, clearReply
         e.preventDefault();
         if (chatMessage === "") return
 
-        const pendingChatMessage: {text: string, roomid: number, repliesTo?: number, pingedUsers?: string[]} = {
+        const pendingChatMessage: {text: string, roomid: number, repliesTo?: number, pingedUsers?: string[], replyType?: string} = {
             text: chatMessage,
             roomid: room.roomid
         }
 
-        if (replyingMessageId > 0) {
-            pendingChatMessage.repliesTo = replyingMessageId;
+        if (replyingId > 0) {
+            pendingChatMessage.repliesTo = replyingId;
+            pendingChatMessage.replyType = replyType;
         }
 
         if (userList) {
-            for (const user of userList) {
-                const possibleUsername = user.Account.username;
+            const usernames = userList.map((account: { Account: {username: string}}) => account.Account.username);
+
+            for (const user of usernames) {
                 const prevPingedUsers = pendingChatMessage.pingedUsers
 
-                if (chatMessage.includes(`@${possibleUsername}`)) {
-                    pendingChatMessage.pingedUsers = prevPingedUsers ? [...prevPingedUsers, possibleUsername] : [possibleUsername];
+                if (chatMessage.includes(`@${user}`)) {
+                    pendingChatMessage.pingedUsers = prevPingedUsers ? [...prevPingedUsers, user] : [user];
                 }
             }
+
+            if (originalUser != "" && !usernames.includes(originalUser)) {
+                setError(`${originalUser} is not a member of this chat!`)
+                setTimeout(() => {
+                    setError("")
+                }, ERROR_DURATION * 1000)
+                return;
+            }
+        } else {
+            return;
         }
 
         chatMutation.mutate(pendingChatMessage)
@@ -90,7 +101,7 @@ function ChatInputBar({ room, replyingMessageId, replyingMessageText, clearReply
                 error && <FadePopup text={error} duration={ERROR_DURATION} />
             }
             {
-                replyingMessageId != 0 &&
+                replyingId != 0 &&
                 <>
                     <div className="replyingToPrompt">
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
@@ -108,7 +119,7 @@ function ChatInputBar({ room, replyingMessageId, replyingMessageText, clearReply
                             </button>
                         </div>
                         <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                            {replyingMessageText}
+                            {replyingText}
                         </div>
                     </div>
                 </>

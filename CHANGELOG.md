@@ -18,6 +18,7 @@ Future Changes will be documented here
 ### Chat
 - Chat now utilizes websockets (like it always should have) and is now significantly more responsive
 - Added the ability to reply to another user's message in chat rooms
+- Added the ability to reply to a friend's activity in chat rooms if they are a member of the room
 - Added the ability to ping other users in chat
 - Added push noifications which can be toggled for replies and pings in chat (You must manually add the site to home screen on iOS for this to work)
 - Redesigned the visuals for the chat

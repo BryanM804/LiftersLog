@@ -5,6 +5,7 @@ type NewChatMessage = {
     text: string;
     roomid: number;
     repliesTo?: number;
+    replyType?: string;
     pingedUsers?: string[];
 }
 

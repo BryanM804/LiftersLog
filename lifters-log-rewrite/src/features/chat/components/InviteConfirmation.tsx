@@ -31,6 +31,7 @@ function InviteConfirmation({ cancelFn, room }: InviteConfirmationProps) {
         mutationFn: changeUserChatPermission,
         onSuccess: () => {
             addChatMessageMutation.mutate({ roomid: room.roomid, text: `Added ${invitedUser} to ${room.name}.` })
+            queryClient.invalidateQueries({ queryKey: ["chatUsers"], exact: false })
             cancelFn();
         },
         onError: (error: Error) => {

@@ -91,7 +91,7 @@
     margin: 0;
     padding: 0;
     max-height: 14rem;
-    overflow: auto;
+    overflow-x: hidden;
     scrollbar-color: #888 transparent;
 }
 
@@ -104,16 +104,16 @@
     position: relative;
 }
 .noteActivity {
-    border-left: 4px solid rgb(193, 237, 71);
+    border-left: 0.2rem solid rgb(193, 237, 71);
 }
 .logActivity {
-    border-left: 4px solid rgb(96, 181, 96);
+    border-left: 0.2rem solid rgb(96, 181, 96);
 }
 .labelActivity {
-    border-left: 4px solid rgb(125, 164, 255);
+    border-left: 0.2rem solid rgb(125, 164, 255);
 }
 .cardioActivity {
-    border-left: 4px solid rgb(231, 53, 21);
+    border-left: 0.2rem solid rgb(231, 53, 21);
 }
 
 .activityItemHover {

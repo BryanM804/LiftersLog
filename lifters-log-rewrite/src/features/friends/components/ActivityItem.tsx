@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import useHoverTouch from "../../../hooks/useHoverTouch";
+import { motion, useMotionValue } from "framer-motion";
+import { useReplying } from "../../chat/contexts/ChatReplyContext";
 
 type ActivityItemProps = {
+    id: number;
     username: string;
     date: string;
     time: string;
@@ -17,88 +20,112 @@ type ActivityItemProps = {
     cardionote?: string;
 }
 
-function ActivityItem({ username, date, time, exercise, weight, subWeight, reps, subReps, note, label, cardiotime, distance, cardionote }: ActivityItemProps) {
+function ActivityItem({ id, username, date, time, exercise, weight, subWeight, reps, subReps, note, label, cardiotime, distance, cardionote }: ActivityItemProps) {
 
     // Should always either have a weight and reps, note, or label as non null values
 
     // Today ones should show time, recent should show date
 
+    const { setReplyingId, setReplyingText, setReplyType, setOriginalUser } = useReplying();
+
     const { isHovering, hoverHandlers } = useHoverTouch();
     const [showTime, setShowTime] = useState(true)
+    const x = useMotionValue(0);
+
+    let title: string = "";
+    let body;
+    let activityType: "lift" | "label" | "note" | "cardio";
+    let activityClass;
+    let replyingText = "";
+
+    if (weight && reps) {
+        title = `${username} logged ${exercise}`
+        body = (
+            <>
+                <li className="activityNote">{ subWeight && subReps ? "L: " : "" }{weight}lbs for {reps} reps</li>
+                {
+                    subWeight && subReps ? <li className="activityNote">R: {weight}lbs for {reps} reps</li>
+                    :
+                    <></>
+                }
+            </>
+        );
+        activityType = "lift"
+        activityClass = "logActivity"
+        replyingText = `${title}: ${ subWeight ? "L: " : "" }${weight}lbs for ${reps} reps${subWeight ? ` R: ${weight}lbs for ${reps} reps` : ""}`
+    } else if (note) {
+        title = `${username} added a note to ${exercise}`
+        body = (
+            <li className="activityNote">"{note}"</li>
+        )
+        activityType = "note"
+        activityClass = "noteActivity"
+        replyingText = `${title}: ${note}`
+    } else if (label) {
+        title = `${username} set a label for ${date}`
+        body = (
+            <li className="activityNote">"{label}"</li>
+        )
+        activityType = "label"
+        activityClass = "labelActivity"
+        replyingText = `${title}: ${label}`
+    } else if (cardiotime) {
+        title = `${username} logged ${exercise}`
+        body = (
+            <>
+                <li className="activityNote">{cardiotime} minutes{ distance && `, ${distance} miles` }</li>
+                {
+                    cardionote &&
+                    <li className="activityNote">{cardionote}</li>
+                }
+            </>
+        )
+        activityType = "cardio"
+        activityClass = "cardioActivity"
+        replyingText = `${title}: ${cardiotime} minutes${ distance && `, ${distance} miles`}`
+    }
+
+    useEffect(() => {
+        const unsubscribe = x.on("change", (latest) => {
+            if (latest < 0)
+                x.set(0)
+            else if (latest > 50)
+                x.set(50)
+        })
+
+        return unsubscribe
+    }, [x])
     
     useEffect(() => {
         const today = new Date().toLocaleDateString();
         setShowTime(today == date);
     }, [])
 
-    if (weight && reps) {
-        return (
-            <li className="activityItem logActivity" {...hoverHandlers}>
-                <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
-                    [{showTime ? time : date}]
-                </div>
-                {username} logged {exercise}
-                <ul style={{paddingLeft: "1rem"}}>
-                    <li className="activityNote">{ subWeight && subReps ? "L: " : "" }{weight}lbs for {reps} reps</li>
-                    {
-                        subWeight && subReps ? <li className="activityNote">R: {weight}lbs for {reps} reps</li>
-                        :
-                        <></>
-                        // The fragment is just because && shorthand can render 0s or false in random places sometimes
-                        // this is one of them
-                    }
-                </ul>
-            </li>
-        )
+    function setActiveReply() {
+        setReplyingId(id);
+        setReplyingText(replyingText);
+        setReplyType(activityType)
+        setOriginalUser(username)
     }
 
-    if (note) {
-        return (
-            <li className="activityItem noteActivity" {...hoverHandlers}>
-                <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
-                    [{showTime ? time : date}]
-                </div>
-                {username} added a note to {exercise}
-                <ul style={{paddingLeft: "1rem"}}>
-                    <li className="activityNote">"{note}"</li>
-                </ul>
-            </li>
-        )
-    }
-
-    if (label) {
-        return (
-            <li className="activityItem labelActivity" {...hoverHandlers}>
-                <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
-                    [{showTime ? time : date}]
-                </div>
-                {username} set a label for {date}
-                <ul style={{paddingLeft: "1rem"}}>
-                    <li className="activityNote">"{label}"</li>
-                </ul>
-            </li>
-        )
-    }
-
-    if (cardiotime) {
-        return (
-            <li className="activityItem cardioActivity" {...hoverHandlers}>
-                <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
-                    [{showTime ? time : date}]
-                </div>
-                {username} logged {exercise}
-                <ul style={{paddingLeft: "1rem"}}>
-                    <li className="activityNote">{cardiotime} minutes{ distance && `, ${distance} miles` }</li>
-                    {
-                        cardionote &&
-                        <li className="activityNote">{cardionote}</li>
-                    }
-                </ul>
-            </li>
-        )
-    }
-    
-    return (<></>)
+    return (
+        <motion.li 
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(_, info) => { if (info.offset.x > 50) setActiveReply()}}
+            style={{ x }}
+            className={`activityItem ${activityClass}`} 
+            {...hoverHandlers}
+        >
+            <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
+                [{showTime ? time : date}]
+            </div>
+            {title}
+            <ul style={{paddingLeft: "1rem"}}>
+                {body}   
+            </ul>
+        </motion.li>
+    )
 }
 
 export default ActivityItem

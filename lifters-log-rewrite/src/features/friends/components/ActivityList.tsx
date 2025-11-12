@@ -45,7 +45,9 @@ function ActivityList({ timeframe, friend, active }: ActivityListProps) {
             <ul className="activityList">
             {
                 data.map((entry: ActivityEntry) => 
-                    <ActivityItem key={entry.id} 
+                    <ActivityItem 
+                        key={entry.id} 
+                        id={entry.id}
                         username={entry.username}
                         exercise={entry.movement}
                         weight={entry.weight}
