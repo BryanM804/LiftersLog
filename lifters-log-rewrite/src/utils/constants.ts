@@ -11,4 +11,4 @@ export const XPCOLOR = "#2dfc5a"
 
 export const WELCOME_DELAY = 1.25
 
-export const VERSION_NUMBER = "0.1.3"
+export const VERSION_NUMBER = "0.2.0"

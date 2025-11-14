@@ -51,7 +51,7 @@ function ChatInputBar({ room }: ChatInputBarProps) {
 
     function handleChatSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        if (chatMessage === "") return
+        if (chatMessage === "" || isLoading || listError) return
 
         const pendingChatMessage: {text: string, roomid: number, repliesTo?: number, pingedUsers?: string[], replyType?: string} = {
             text: chatMessage,

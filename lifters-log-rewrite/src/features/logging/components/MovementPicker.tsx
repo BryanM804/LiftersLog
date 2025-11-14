@@ -1,9 +1,9 @@
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent } from "react";
 import { useMovement } from "../contexts/MovementContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import getMovements from "../api/getMovements";
 import ServerError from "../../../components/ServerError";
-import { isMobile } from "react-device-detect";
+import useDoublePress from "../../../hooks/useDoublePress";
 
 type MovementPickerProps = {
     onClear?: VoidFunction;
@@ -18,9 +18,11 @@ type Movement = {
     exerciseid: number;
 }
 
-function MovementPicker({ onClear, label, className, clearButtonClassName, placeholder }: MovementPickerProps) {
+function MovementPicker({ onClear, label, className, placeholder }: MovementPickerProps) {
 
     const { movement, setMovement } = useMovement();
+
+    const { doublePressHandlers } = useDoublePress(clearText)
 
     // Stale time is infinity because they will refetch on element reload anyway and there will rarely ever be a new movement
     const { data: movements, error, isLoading } = useQuery({
@@ -33,9 +35,7 @@ function MovementPicker({ onClear, label, className, clearButtonClassName, place
         setMovement(e.target.value);
     }
     
-    function clearText(e: SyntheticEvent) {
-        // Not sure why you need to prevent default on a plain button
-        e.preventDefault();
+    function clearText() {
         setMovement("")
         if (onClear) onClear();
     }
@@ -68,18 +68,8 @@ function MovementPicker({ onClear, label, className, clearButtonClassName, place
                     onChange={handleMovementChange} 
                     value={movement}
                     placeholder={placeholder && placeholder} 
+                    {...doublePressHandlers}
                 />
-                {
-                    isMobile && 
-                    <button 
-                        className={`smallFloatingButton transparentButton clearMovementButton ${clearButtonClassName && clearButtonClassName}`}
-                        type="button"
-                        onClick={clearText}
-                        style={{fontWeight: "bold", fontSize: "1rem"}}
-                        >
-                            X
-                        </button>
-                }
             </div>
         </>
     )

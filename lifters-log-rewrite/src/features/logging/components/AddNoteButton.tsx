@@ -5,6 +5,7 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import { Tooltip } from "react-tooltip";
 import ToggleSwitch from "../../../components/ToggleSwitch";
 import PopupMenu from "../../../components/PopupMenu";
+import { useDate } from "../../history/contexts/DateContextProvider";
 
 
 function AddNoteButton() {
@@ -17,6 +18,7 @@ function AddNoteButton() {
     
     const queryClient = useQueryClient();
     const { movement } = useMovement();
+    const { historyDate } = useDate();
 
     const noteMutation = useMutation({
         mutationFn: addNewNote,
@@ -36,7 +38,7 @@ function AddNoteButton() {
     function handleAddNote(e: SyntheticEvent) {
         e.preventDefault();
         if (noteText.length > 0 && movement != "") {
-            noteMutation.mutate({ movement: movement, text: noteText, sticky: stickyNote });
+            noteMutation.mutate({ movement: movement, text: noteText, sticky: stickyNote, date: historyDate.toDateString()});
         }
     }
 

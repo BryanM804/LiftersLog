@@ -69,13 +69,7 @@ function Friend({ username, level, imageURL, lastSeen }: FriendProps) {
             <div className={`expansionArrow ${expanded && "expanded"}`}>{"<"}</div>
             <div className={`activityExpand ${expanded && "expanded"}`}>
                 <div className="activityContainer">
-                    <span style={{fontWeight: "bold"}}>Today</span>
-                    <hr />
-                    <ActivityList friend={username} timeframe="today" active={expanded}/>
-                    <br />
-                    <span style={{fontWeight: "bold"}}>Recent</span>
-                    <hr />
-                    <ActivityList friend={username} timeframe="recent" active={expanded}/>
+                    <ActivityList friend={username} active={expanded}/>
                 </div>
             </div>
         </li>

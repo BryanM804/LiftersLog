@@ -59,16 +59,16 @@ function FriendRequest({ username, imageURL }: FriendRequestProps) {
             >
                 <h3 ref={usernameRef} className="friendUsername">{username}</h3>
                 <hr style={{marginBottom: "0", marginTop: "0.2rem", opacity: "25%"}} />
-                <p className="friendSubtext">
-                    <button className="smallFloatingButton requestButton" 
+                <div style={{display: "flex", flexDirection: "row", alignContent: "center", gap: "0.75rem"}}>
+                    <button className="floatingButton requestButton confirmationButton" 
                         onClick={handleResolution}
                         id="acceptRequest"
-                    >✅</button>
-                    <button className="smallFloatingButton requestButton" 
+                    >Accept</button>
+                    <button className="floatingButton requestButton" 
                         onClick={handleResolution}
                         id="denyRequest"
-                    >❌</button>
-                </p>
+                    >Deny</button>
+                </div>
             </div>
         </li>
         </>

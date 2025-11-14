@@ -13,15 +13,22 @@ Future Changes will be documented here
 - Changed Cardio Time to display in hours and minutes instead of only minutes
 
 ### Logging
-- Added a sync button that can be toggled to sync the inputs for weight and reps of split movements
+- Added a sync button that can be toggled to sync the inputs for weight and reps for both sides of split movements
+- Fixed notes not saving to the correct "logging to" date when logging to a previous date
+- Fixed notes section not displaying the correct notes when logging to a previous date
+- Removed the clear button, you can now clear the inputs by double tapping on the movement input box
 
 ### Chat
 - Chat now utilizes websockets (like it always should have) and is now significantly more responsive
 - Added the ability to reply to another user's message in chat rooms
 - Added the ability to reply to a friend's activity in chat rooms if they are a member of the room
 - Added the ability to ping other users in chat
-- Added push noifications which can be toggled for replies and pings in chat (You must manually add the site to home screen on iOS for this to work)
+- Added push noifications for replies and pings in chat (You must manually add the site to home screen on iOS for this to work)
 - Redesigned the visuals for the chat
+
+### Friends
+- Cleaned up friend profile UI a bit
+- Friend activity no longer shows as Today and Recent and instead shows the last 30 entries grouped by dates
 
 ## Alpha [0.1.3] - 6/14/25
 ### Insights

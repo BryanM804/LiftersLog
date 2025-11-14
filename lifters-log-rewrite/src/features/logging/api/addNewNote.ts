@@ -5,6 +5,7 @@ type NewNote = {
     movement: string;
     text: string;
     sticky: boolean;
+    date: string;
 }
 
 async function addNewNote(newNote: NewNote) {

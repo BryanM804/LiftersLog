@@ -7,19 +7,18 @@ import { useEffect, useState } from "react"
 import ActivityItem from "./ActivityItem"
 
 type ActivityListProps = {
-    timeframe: string;
     friend: string;
     active: boolean;
 }
 
-function ActivityList({ timeframe, friend, active }: ActivityListProps) {
+function ActivityList({ friend, active }: ActivityListProps) {
 
     const [noActivity, setNoActivity] = useState(true)
 
     const { data, error, isLoading } = useQuery({
-        queryKey: ["activity", timeframe, friend],
+        queryKey: ["activity", friend],
         queryFn: getFriendActivity,
-        refetchInterval: 5000,
+        refetchInterval: 10000,
         enabled: active
     })
 
@@ -44,25 +43,33 @@ function ActivityList({ timeframe, friend, active }: ActivityListProps) {
         <div className="activityContainer">
             <ul className="activityList">
             {
-                data.map((entry: ActivityEntry) => 
-                    <ActivityItem 
-                        key={entry.id} 
-                        id={entry.id}
-                        username={entry.username}
-                        exercise={entry.movement}
-                        weight={entry.weight}
-                        subWeight={entry.subweight}
-                        reps={entry.reps}
-                        subReps={entry.subreps}
-                        note={entry.text}
-                        label={entry.label}
-                        date={entry.date}
-                        time={entry.time}
-                        cardiotime={entry.cardiotime}
-                        cardionote={entry.note}
-                        distance={entry.distance}
-                    />
-                )
+                data.map((entryGroup: {date: string, items: [ActivityEntry]}) => (
+                    <div key={entryGroup.date}>
+                        <h5 style={{margin: "0"}}>{entryGroup.date}</h5>
+                        <hr />
+                        {
+                            entryGroup.items.map((entry: ActivityEntry) => 
+                                <ActivityItem 
+                                    key={entry.id} 
+                                    id={entry.id}
+                                    username={entry.username}
+                                    exercise={entry.movement}
+                                    weight={entry.weight}
+                                    subWeight={entry.subweight}
+                                    reps={entry.reps}
+                                    subReps={entry.subreps}
+                                    note={entry.text}
+                                    label={entry.label}
+                                    date={entry.date}
+                                    time={entry.time}
+                                    cardiotime={entry.cardiotime}
+                                    cardionote={entry.note}
+                                    distance={entry.distance}
+                                />
+                            )
+                        }
+                    </div>
+                ))
             }
             </ul>
         </div>

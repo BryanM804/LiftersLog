@@ -1,4 +1,4 @@
-import { ReactNode, SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import ChatRoom from "../types/ChatRoom";
 import InviteConfirmation from "./InviteConfirmation";
 import ConfirmationBox from "../../../components/ConfirmationBox";

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useHoverTouch from "../../../hooks/useHoverTouch";
 import { motion, useMotionValue } from "framer-motion";
 import { useReplying } from "../../chat/contexts/ChatReplyContext";
@@ -29,7 +29,6 @@ function ActivityItem({ id, username, date, time, exercise, weight, subWeight, r
     const { setReplyingId, setReplyingText, setReplyType, setOriginalUser } = useReplying();
 
     const { isHovering, hoverHandlers } = useHoverTouch();
-    const [showTime, setShowTime] = useState(true)
     const x = useMotionValue(0);
 
     let title: string = "";
@@ -95,11 +94,6 @@ function ActivityItem({ id, username, date, time, exercise, weight, subWeight, r
 
         return unsubscribe
     }, [x])
-    
-    useEffect(() => {
-        const today = new Date().toLocaleDateString();
-        setShowTime(today == date);
-    }, [])
 
     function setActiveReply() {
         setReplyingId(id);
@@ -118,7 +112,7 @@ function ActivityItem({ id, username, date, time, exercise, weight, subWeight, r
             {...hoverHandlers}
         >
             <div className={`activityItemHover smallText ${isHovering ? "" : "hidden"}`}>
-                [{showTime ? time : date}]
+                {time}
             </div>
             {title}
             <ul style={{paddingLeft: "1rem"}}>
