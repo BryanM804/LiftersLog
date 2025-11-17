@@ -3,15 +3,16 @@
 
 type LogButtonProps = {
     invalidLog: boolean;
+    className?: string;
 }
 
-function LogButton({ invalidLog }: LogButtonProps) {
+function LogButton({ invalidLog, className }: LogButtonProps) {
 
     return (
         <div style={{textAlign: "center", width: "100%"}}>
             <button 
                 type="submit" 
-                className={invalidLog ? "floatingButton redButton" : "floatingButton"} 
+                className={`floatingButton ${invalidLog ? "redButton" : ""} ${className ? className : ""}`}
                 style={{width: "75%", zIndex: 1, position: "relative"}}
                 id="logButton"
             >Log</button>

@@ -17,6 +17,15 @@ Future Changes will be documented here
 - Fixed notes not saving to the correct "logging to" date when logging to a previous date
 - Fixed notes section not displaying the correct notes when logging to a previous date
 - Removed the clear button, you can now clear the inputs by double tapping on the movement input box
+- Set inputs now remember the weight and reps of your last logged set
+- Added focus mode (experimental)
+  - Tap and hold anywhere on the logging screen for 3 seconds to toggle
+  - Swiping up/down on the right half of the screen increases/decreases reps (+/- 1)
+  - Swiping up/down on the left half of the screen increases/decreases weight (+/- 5)
+  - Timer at the bottom of the screen shows the time since the last recorded set (rest timer)
+  - Buttons/inputs have increased size
+  - Notes section is disabled
+  - Recent history only shows the sets for the current selected exercise
 
 ### Chat
 - Chat now utilizes websockets (like it always should have) and is now significantly more responsive

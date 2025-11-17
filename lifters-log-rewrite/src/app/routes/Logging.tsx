@@ -19,6 +19,7 @@ import XPBarAnimator from "../../features/logging/components/XPBarAnimator";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { XPCOLOR } from "../../utils/constants";
 import getUserPreferences from "../../features/profile/api/getUserPreferences";
+import FocusMode from "../../features/logging/components/FocusMode";
 
 function Logging() {
 
@@ -118,7 +119,7 @@ function Logging() {
             particlesRef.current = container as EmitterContainer
     }
 
-    function handleLogSuccess(xpParticleMultiplier: number) {
+    function handleLogSuccess(xpParticleMultiplier?: number) {
         // emit particle
 
         const tryEmit = () => {
@@ -200,9 +201,11 @@ function Logging() {
         return (
             <>
                 <FadePopup text="Lifts" />
-                <LogMenu onLogSuccess={handleLogSuccess}/>
-                <NoteSection />
-                <RecentHistory />
+                <FocusMode>
+                    <LogMenu onLogSuccess={handleLogSuccess}/>
+                    <NoteSection />
+                    <RecentHistory />
+                </FocusMode>
                 <XPBarAnimator />
             </>
         )

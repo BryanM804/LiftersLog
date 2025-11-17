@@ -11,12 +11,14 @@ import { XPPARTICLE_DIVISOR } from "../../../utils/constants"
 import { useDate } from "../../history/contexts/DateContextProvider"
 import getBodyweightMovements from "../api/getBodyweightMovements"
 import SyncButton from "./SyncButton"
+import FocusValueChanger from "./FocusValueChanger"
 
 type LogMenuProps = {
-    onLogSuccess: (xpParticleMultiplier: number) => void;
+    onLogSuccess?: (xpParticleMultiplier?: number) => void;
+    focused?: boolean;
 }
 
-function LogMenu({ onLogSuccess }: LogMenuProps) {
+function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
 
     // Contexts
     const {
@@ -54,11 +56,6 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
         queryKey: ["bodyweightMovements"],
         queryFn: getBodyweightMovements
     })
-    useEffect(() => {
-        if (userPreferences) {
-            setUserSplits(userPreferences.splitsMovements)
-        }
-    }, [userPreferences])
     const setMutation = useMutation({
         mutationFn: addNewSet,
         onSuccess: () => {
@@ -67,7 +64,12 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
             let xpNumber = ((weight * reps) + (subWeight * subReps))
             if (xpNumber <= 0)
                 xpNumber = 500
-            onLogSuccess(xpNumber / XPPARTICLE_DIVISOR)
+            onLogSuccess?.(xpNumber / XPPARTICLE_DIVISOR)
+
+            localStorage.setItem(`${movement}weight`, weight.toString())
+            localStorage.setItem(`${movement}rep`, reps.toString())
+            localStorage.setItem(`${movement}subWeight`, subWeight.toString())
+            localStorage.setItem(`${movement}subRep`, subReps.toString())
         }
     });
 
@@ -91,44 +93,9 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
         return false
     }
 
-    function parseAndRound(s: string) {
-        if (s.length === 0) {
-            return 0.0
-        }
-
-        return parseFloat(parseFloat(s).toFixed(2));
-    }
-
-    function handleChange(e: ChangeEvent<HTMLInputElement>) {
-        const id = e.target.id
-        const input = e.target.value
-
-        if (id === "repInput") {
-            const val = input.length === 0 ? 0 : parseInt(input)
-            setReps(val)
-            if (splitMovement && syncedInputs)
-                setSubReps(val)
-        } else if (id === "subRepInput") {
-            const val = input.length === 0 ? 0 : parseInt(input)
-            setSubReps(val)
-            if (splitMovement && syncedInputs)
-                setReps(val)
-        } else if (id === "weightInput") {
-            const val = parseAndRound(input)
-            setWeight(val)
-            if (splitMovement && syncedInputs)
-                setSubWeight(val)
-        } else if (id === "subWeightInput") {
-            const val = parseAndRound(input)
-            setSubWeight(val)
-            if (splitMovement && syncedInputs)
-                setWeight(val)
-        }
-
-    }
-
     function changeSyncState(e: SyntheticEvent) {
         e.preventDefault();
+        if (focused) return;
 
         // When enabling sync, sync the current inputs. Priority goes to left side if both have text
         if (!syncedInputs) {
@@ -144,6 +111,8 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
             }
         }
 
+        localStorage.setItem("syncState", (!syncedInputs).toString());
+
         setSyncedInputs(!syncedInputs)
     }
 
@@ -155,11 +124,21 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
     }
 
     useEffect(() => {
+        if (userPreferences) {
+            setUserSplits(userPreferences.splitsMovements)
+        }
+    }, [userPreferences])
+
+    useEffect(() => {
         if (movement && isSplittableMovement(movement)) {
             // Rare edge case that someone can disable splitting and then tap a split set
             // that would then set the subReps/subWeight without showing it
             if (userSplits || subReps > 0 || subWeight > 0) {
                 setSplitMovement(true)
+
+                const syncState = localStorage.getItem("syncState")
+
+                if (syncState && syncState === "true") setSyncedInputs(true)
             }
         } else {
             setSplitMovement(false)
@@ -167,6 +146,13 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
             setSubWeight(0)
         }
     }, [movement, subReps, subWeight])
+
+    useEffect(() => {
+        if (focused && splitMovement) {
+            setSubReps(reps)
+            setSubWeight(weight)
+        }
+    }, [reps, weight])
 
     // Submission Logic
 
@@ -196,37 +182,119 @@ function LogMenu({ onLogSuccess }: LogMenuProps) {
     return (
         <>
         <form onSubmit={handleLogSubmit} noValidate={true}>
-            <div className="logButtonsContainer">
-                <MovementPicker onClear={clearInputs} label="Exercise"/>
+            <div className={`logButtonsContainer ${focused ? "focused" : ""}`}>
+                <MovementPicker 
+                    onClear={clearInputs} 
+                    label={`${focused ? "" : "Exercise"}`}
+                    placeholder={ focused ? "Exercise" : undefined}    
+                />
                 {
                     splitMovement ?
                         <>
                             <div className="logFlexRow">
-                                <div className="gridItem" style={{textAlign: "center", flex: 1}}>Left<hr /></div>
-                                <div className="gridItem" style={{textAlign: "center", flex: 1}}>Right<hr /></div>
+                                <div className={`gridItem ${focused ? "focused" : ""}`} style={{textAlign: "center", flex: 1}}>Left<hr /></div>
+                                <div className={`gridItem ${focused ? "focused" : ""}`} style={{textAlign: "center", flex: 1}}>Right<hr /></div>
                             </div>
                             <div style={{position: "relative", width: "100%"}}>
-                                <div className="logFlexRow">
-                                    <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
-                                    <SetInput type="weight" onChange={handleChange} id="subWeightInput" value={subWeight}/>
+                                <div className={`logFlexRow ${focused ? "focused" : ""}`}>
+                                    <SetInput 
+                                        className={focused ? "focused" : ""} 
+                                        type="weight"
+                                        id="weightInput" 
+                                        syncedInputs={syncedInputs}
+                                        splitMovement={splitMovement}
+                                        labeled={!focused}
+                                        placeholder={ focused ? "lbs" : undefined}  
+                                    />
+                                    <SetInput 
+                                        className={focused ? "focused" : ""} 
+                                        type="subWeight" 
+                                        id="subWeightInput" 
+                                        syncedInputs={syncedInputs}
+                                        splitMovement={splitMovement}
+                                        labeled={!focused}
+                                        placeholder={ focused ? "lbs" : undefined}
+                                    />
                                 </div>
-                                <SyncButton syncState={syncedInputs} onSyncToggle={changeSyncState} />
-                                <div className="logFlexRow">
-                                    <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
-                                    <SetInput type="rep" onChange={handleChange} id="subRepInput" value={subReps}/>
+                                {
+                                    !focused && <SyncButton syncState={syncedInputs} onSyncToggle={changeSyncState} />
+                                }
+                                <div className={`logFlexRow ${focused ? "focused" : ""}`}>
+                                    <SetInput 
+                                        className={focused ? "focused" : ""} 
+                                        type="rep" 
+                                        id="repInput" 
+                                        syncedInputs={syncedInputs}
+                                        splitMovement={splitMovement}
+                                        labeled={!focused}
+                                        placeholder={ focused ? "Reps" : undefined}
+                                    />
+                                    <SetInput 
+                                        className={focused ? "focused" : ""} 
+                                        type="subRep" 
+                                        id="subRepInput" 
+                                        syncedInputs={syncedInputs}
+                                        splitMovement={splitMovement}
+                                        labeled={!focused}
+                                        placeholder={ focused ? "Reps" : undefined}
+                                    />
                                 </div>
                             </div>
                         </>
                     :
                         <>
-                            <div className="logFlexRow">
-                                <SetInput type="weight" onChange={handleChange} id="weightInput" value={weight}/>
-                                <SetInput type="rep" onChange={handleChange} id="repInput" value={reps}/>
+                            <div className={`logFlexRow ${focused ? "focused" : ""}`}>
+                                <div style={{flexDirection: "column"}}>
+                                    <FocusValueChanger
+                                        focused={focused}
+                                        value={weight}
+                                        setValue={setWeight}
+                                        amount={5}
+                                    />
+                                    <SetInput 
+                                        className={focused ? "focused" : ""} 
+                                        type="weight" 
+                                        id="weightInput" 
+                                        syncedInputs={syncedInputs}
+                                        splitMovement={splitMovement}
+                                        labeled={!focused}
+                                        placeholder={ focused ? "lbs" : undefined}
+                                    />
+                                    <FocusValueChanger
+                                        focused={focused}
+                                        value={weight}
+                                        setValue={setWeight}
+                                        amount={-5}
+                                    />
+                                </div>
+                                <div style={{flexDirection: "column"}}>
+                                    <FocusValueChanger
+                                        focused={focused}
+                                        value={reps}
+                                        setValue={setReps}
+                                        amount={1}
+                                    />
+                                    <SetInput 
+                                        className={focused ? "focused" : ""} 
+                                        type="rep" 
+                                        id="repInput" 
+                                        syncedInputs={syncedInputs}
+                                        splitMovement={splitMovement}
+                                        labeled={!focused}
+                                        placeholder={ focused ? "Reps" : undefined}
+                                    />
+                                    <FocusValueChanger
+                                        focused={focused}
+                                        value={reps}
+                                        setValue={setReps}
+                                        amount={-1}
+                                    />
+                                </div>
                             </div>
                         </>
                 }
                 
-                <LogButton invalidLog={invalidLog} />
+                <LogButton invalidLog={invalidLog} className={focused ? "focusedLogButton" : ""}/>
             </div>
         </form>
         </>

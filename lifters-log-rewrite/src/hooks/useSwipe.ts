@@ -3,38 +3,53 @@ import { useEffect, useRef } from "react";
 type UseSwipeProps = {
     onSwipeLeft?: () => void;
     onSwipeRight?: () => void;
+    onSwipeUp?: (x?: number) => void;
+    onSwipeDown?: (x?: number) => void;
     threshold?: number;
 }
 
-function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 50}: UseSwipeProps) {
+function useSwipe({ onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold = 50}: UseSwipeProps) {
 
-    const touchStart = useRef<null | number>(null)
-    const touchEnd = useRef<null | number>(null)
+    const touchStartX = useRef<null | number>(null)
+    const touchEndX = useRef<null | number>(null)
+    const touchStartY = useRef<null | number>(null)
+    const touchEndY = useRef<null | number>(null)
     // const [swiping, setSwiping] = useState(false)
     // The swiping state was causing re-renders of the logging screen, will hopefully
     // find a fix if necessary later
 
     useEffect(() => {
         function handleTouchStart(e: TouchEvent) {
-            touchEnd.current = null;
-            touchStart.current = e.targetTouches[0].clientX
+            touchEndX.current = null;
+            touchEndY.current = null;
+            touchStartX.current = e.targetTouches[0].clientX
+            touchStartY.current = e.targetTouches[0].clientY
             // setSwiping(true)
         }
 
         function handleTouchMove(e: TouchEvent) {
-            touchEnd.current = e.targetTouches[0].clientX
+            touchEndX.current = e.targetTouches[0].clientX
+            touchEndY.current = e.targetTouches[0].clientY
         }
 
         function handleTouchEnd() {
-            if (!touchStart.current || !touchEnd.current) return
+            if (!touchStartX.current || !touchEndX.current || !touchStartY.current || !touchEndY.current) return
 
-            const swipeDistance = touchEnd.current - touchStart.current
+            const hSwipeDistance = touchEndX.current - touchStartX.current
+            const vSwipeDistance = touchEndY.current - touchStartY.current
 
-            if (Math.abs(swipeDistance) >= threshold) {
-                if (swipeDistance > 0)
+            if (Math.abs(hSwipeDistance) >= threshold) {
+                if (hSwipeDistance > 0)
                     onSwipeRight?.()
                 else
                     onSwipeLeft?.()
+            }
+
+            if (Math.abs(vSwipeDistance) >= threshold) {
+                if (vSwipeDistance > 0) 
+                    onSwipeDown?.(touchStartX.current)
+                else
+                    onSwipeUp?.(touchStartX.current)
             }
 
             // setSwiping(false)
@@ -49,7 +64,7 @@ function useSwipe({ onSwipeLeft, onSwipeRight, threshold = 50}: UseSwipeProps) {
             document.removeEventListener("touchend", handleTouchEnd)
             document.removeEventListener("touchmove", handleTouchMove)
         }
-    }, [onSwipeLeft, onSwipeRight, threshold])
+    }, [onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold])
     
     //return { swiping }
     return {}

@@ -17,10 +17,12 @@ type HistoryRowProps = {
     setid: number;
     subWeight?: number;
     subReps?: number;
+    className?: string;
+    timeClassName?: string;
 }
 
 
-function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight}: HistoryRowProps) {
+function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight, className, timeClassName }: HistoryRowProps) {
 
     const {
         setMovement,
@@ -58,8 +60,8 @@ function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight}: 
     }
 
     return (
-        <li id={setid.toString()} className="historyItem" {...handlers} onClick={handleClick}>
-            <TimeSubtext className="historyItemTime">{time}</TimeSubtext>
+        <li id={setid.toString()} className={`historyItem ${className ? className : ""}`} {...handlers} onClick={handleClick}>
+            <TimeSubtext className={`historyItemTime ${timeClassName ? timeClassName : ""}`}>{time}</TimeSubtext>
             {
                 subWeight && subReps ?
                     <>
