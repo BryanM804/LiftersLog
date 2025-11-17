@@ -3,5 +3,6 @@ import { SERVER_URL } from "./constants";
 
 export const socket = io(SERVER_URL, {
     autoConnect: false,
-    withCredentials: true
+    withCredentials: true,
+    transports: ["websocket"]
 })

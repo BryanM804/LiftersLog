@@ -31,6 +31,8 @@ function Welcome() {
                 applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_PUBLIC_VAPID_KEY ?? "")
             })
 
+            console.log(import.meta.env.VITE_PUBLIC_VAPID_KEY ?? "")
+
             // Might change to a mutation later to verify that the server received the subscription
             await fetch(`${SERVER_URL}/notifications/subscribe`, {
                 method: "POST",

@@ -3,7 +3,7 @@ console.log("SERVICE WORKER LOADED")
 self.addEventListener("push", (event) => {
     const data = event.data.json();
     const options = {
-        body: data.body,
+        body: data.body.toString(),
         icon: "/icon192.png",
         badge: "/icon72.png"
     };
