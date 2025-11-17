@@ -2,7 +2,7 @@
 
 Future Changes will be documented here
 
-## Alpha [0.2.0] - 00/00/25
+## Alpha [0.2.0] - 11/17/25
 ### General
 - Site can now be installed as a PWA app
 - Various UI elements should now scale better on different devices
