@@ -29,10 +29,12 @@ function FocusMode({ children }: FocusModeProps) {
     async function animateUp(startX: number, startY: number) {
         upControls.set({ x: startX, y: startY, visibility: "visible", opacity: "50%" })
         await upControls.start({ y: startY - 300, opacity: 0, transition: { duration: 0.5 }});
+        upControls.set({ visibility: "hidden" })
     }
     async function animateDown(startX: number, startY: number) {
         downControls.set({ x: startX, y: startY, visibility: "visible", opacity: "50%" })
         await downControls.start({ y: startY + 300, opacity: 0, transition: { duration: 0.5 }});
+        downControls.set({ visibility: "hidden" })
     }
 
     const {} = useSwipe({
@@ -71,7 +73,9 @@ function FocusMode({ children }: FocusModeProps) {
 
         window.addEventListener("resize", handleResize)
 
-        return () => window.removeEventListener("resize", handleResize)
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
     }, [])
 
     useEffect(() => {

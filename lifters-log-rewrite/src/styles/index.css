@@ -5,6 +5,7 @@ html, body {
     touch-action: manipulation;
     height: 100vh;
     scrollbar-width: none;
+    overscroll-behavior-y: contain;
 }
 
 :root {
