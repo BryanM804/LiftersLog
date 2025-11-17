@@ -11,6 +11,7 @@ import { useEffect } from "react";
 type Note = {
     text: string;
     noteid: number;
+    sticky: boolean;
 }
 
 function NoteSection() {
@@ -48,7 +49,7 @@ function NoteSection() {
                 <ul style={{gridColumn: "span 3"}}>
                     {
                     data.map((note: Note) => 
-                        <Note text={note.text} key={note.noteid} noteid={note.noteid}/>
+                        <Note text={note.text} key={note.noteid} noteid={note.noteid} sticky={note.sticky} />
                     )
                     }
                 </ul>

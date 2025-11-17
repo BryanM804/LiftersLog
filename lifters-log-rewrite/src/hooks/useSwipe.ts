@@ -3,8 +3,8 @@ import { useEffect, useRef } from "react";
 type UseSwipeProps = {
     onSwipeLeft?: () => void;
     onSwipeRight?: () => void;
-    onSwipeUp?: (x?: number) => void;
-    onSwipeDown?: (x?: number) => void;
+    onSwipeUp?: (x?: number, y?: number) => void;
+    onSwipeDown?: (x?: number, y?: number) => void;
     threshold?: number;
 }
 
@@ -47,9 +47,9 @@ function useSwipe({ onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold
 
             if (Math.abs(vSwipeDistance) >= threshold) {
                 if (vSwipeDistance > 0) 
-                    onSwipeDown?.(touchStartX.current)
+                    onSwipeDown?.(touchStartX.current, touchStartY.current)
                 else
-                    onSwipeUp?.(touchStartX.current)
+                    onSwipeUp?.(touchStartX.current, touchStartY.current)
             }
 
             // setSwiping(false)

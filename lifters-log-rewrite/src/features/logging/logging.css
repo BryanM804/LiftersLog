@@ -152,7 +152,7 @@ input::-webkit-calendar-picker-indicator {
 
 .focusedLogButton {
     font-size: 1.5rem;
-    min-width: 85vw;
+    
 }
 
 .focusedHistory {
@@ -165,7 +165,7 @@ input::-webkit-calendar-picker-indicator {
     width: 100%;
     padding: 0;
     max-height: 40vh;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .focusedHistoryRow {
@@ -203,5 +203,9 @@ input::-webkit-calendar-picker-indicator {
 
     .note {
         user-select: none;
+    }
+
+    .focusedLogButton {
+        min-width: 85vw;
     }
 }

@@ -20,7 +20,9 @@ function SyncButton({ syncState, onSyncToggle }: SyncButtonProps) {
                     top: "50%",
                     left: "50%",
                     transform: "translateX(-50%) translateY(-50%)",
-                    textAlign: "center"
+                    display: "flex",
+                    justifyContent: "center",
+                    alignSelf: "center"
                 }}
             >
                 ↔

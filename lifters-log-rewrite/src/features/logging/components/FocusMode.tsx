@@ -6,6 +6,8 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import FocusedSetHistory from "./FocusedSetHistory";
 import FocusTimer from "./FocusTimer";
 import { useAnimation, motion } from "framer-motion";
+import upArrow from "../../../assets/UpArrow.png"
+import downArrow from "../../../assets/DownArrow.png"
 
 type FocusModeProps = {
     children: ReactNode;
@@ -20,8 +22,21 @@ function FocusMode({ children }: FocusModeProps) {
 
     const { reps, weight, setReps, setWeight } = useMovement()
     const { isHolding, holdHandlers } = useLongPress(() => setFocusModeEnabled(!focusModeEnabled), 2250);
+    const controls = useAnimation();
+    const upControls = useAnimation();
+    const downControls = useAnimation();
+
+    async function animateUp(startX: number, startY: number) {
+        upControls.set({ x: startX, y: startY, visibility: "visible", opacity: "50%" })
+        await upControls.start({ y: startY - 300, opacity: 0, transition: { duration: 0.5 }});
+    }
+    async function animateDown(startX: number, startY: number) {
+        downControls.set({ x: startX, y: startY, visibility: "visible", opacity: "50%" })
+        await downControls.start({ y: startY + 300, opacity: 0, transition: { duration: 0.5 }});
+    }
+
     const {} = useSwipe({
-        onSwipeUp: (x) => {
+        onSwipeUp: (x, y) => {
             if (!x || !focusModeEnabled) return
 
             if (x > (width / 2)) {
@@ -31,8 +46,10 @@ function FocusMode({ children }: FocusModeProps) {
                 // Left side
                 setWeight(weight + 5)
             }
+
+            if (y) animateUp(x, y)
         },
-        onSwipeDown: (x) => {
+        onSwipeDown: (x, y) => {
             if (!x || !focusModeEnabled) return
 
             if (x > (width / 2)) {
@@ -42,9 +59,10 @@ function FocusMode({ children }: FocusModeProps) {
                 // Left side
                 setWeight(weight > 0 ? weight - 5 : weight)
             }
+
+            if (y) animateDown(x, y)
         }
     })
-    const controls = useAnimation();
 
     useEffect(() => {
         function handleResize() {
@@ -102,6 +120,24 @@ function FocusMode({ children }: FocusModeProps) {
                 focusModeEnabled ?
                 <>
                     <LogMenu focused={true} onLogSuccess={handleLogSuccess}/>
+                    <motion.img 
+                        id="upArrowAnimation"
+                        src={upArrow}
+                        height={48}
+                        width={48}
+                        style={{ position: "absolute", margin: "none", left: 0, top: 0}}
+                        initial={{ visibility: "hidden"}}
+                        animate={upControls}
+                    />
+                    <motion.img 
+                        id="downArrowAnimation"
+                        src={downArrow}
+                        height={48}
+                        width={48}
+                        style={{ position: "absolute", margin: "none", left: 0, top: 0 }}
+                        initial={{ visibility: "hidden"}}
+                        animate={downControls}
+                    />
                     <FocusedSetHistory />
                     <FocusTimer lastSetTime={lastLogTime} />
                 </>

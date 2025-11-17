@@ -7,9 +7,10 @@ type PopupMenuProps = {
     onCancel: (e: SyntheticEvent) => void;
     confirmButtonText?: string;
     children: ReactNode;
+    buttonChildren?: ReactNode;
 }
 
-function PopupMenu({ title, text, onSubmit, onCancel, confirmButtonText, children }: PopupMenuProps) {
+function PopupMenu({ title, text, onSubmit, onCancel, confirmButtonText, children, buttonChildren }: PopupMenuProps) {
 
     return (
         <>
@@ -31,6 +32,7 @@ function PopupMenu({ title, text, onSubmit, onCancel, confirmButtonText, childre
                     >
                         Cancel
                     </button>
+                    {buttonChildren && buttonChildren}
                     <button
                         onClick={onSubmit}
                         className="floatingButton confirmationButton"

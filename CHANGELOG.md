@@ -22,10 +22,14 @@ Future Changes will be documented here
   - Tap and hold anywhere on the logging screen for 3 seconds to toggle
   - Swiping up/down on the right half of the screen increases/decreases reps (+/- 1)
   - Swiping up/down on the left half of the screen increases/decreases weight (+/- 5)
+    - Swiping down does not seem to work well if you do not have the app installed. Using the webpage the browsers refresh
+      captures the downward swipe
   - Timer at the bottom of the screen shows the time since the last recorded set (rest timer)
   - Buttons/inputs have increased size
   - Notes section is disabled
   - Recent history only shows the sets for the current selected exercise
+- Fixed sticky toggle in the add note menu desyncing if you toggled it without saving the note
+- Added the ability to edit existing notes
 
 ### Chat
 - Chat now utilizes websockets (like it always should have) and is now significantly more responsive

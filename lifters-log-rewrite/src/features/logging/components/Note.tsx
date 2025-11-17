@@ -5,17 +5,20 @@ import useHoverTouch from "../../../hooks/useHoverTouch";
 import useLongPress from "../../../hooks/useLongPress";
 import { isMobile } from "react-device-detect";
 import { useState } from "react";
-import ConfirmationBox from "../../../components/ConfirmationBox";
+import PopupMenu from "../../../components/PopupMenu";
+import NoteMenu from "./NoteMenu";
 
 
 type NoteProps = {
     text: string;
     noteid: number;
+    sticky: boolean;
 }
 
-function Note({ text, noteid }: NoteProps) {
+function Note({ text, noteid, sticky }: NoteProps) {
 
     const [deleting, setDeleting] = useState(false);
+    const [editing, setEditing] = useState(false);
 
     const { isHovering, hoverHandlers } = useHoverTouch();
     const { holdHandlers } = useLongPress(() => {setDeleting(true)});
@@ -35,22 +38,46 @@ function Note({ text, noteid }: NoteProps) {
         deleteMutation.mutate(noteid);
     }
 
+    function handleEdit() {
+        setDeleting(false);
+        setEditing(true);
+    }
+
     return (
-        <div className="note" {...handlers}>
-            <li>
-                {text}
-                {
-                    isMobile ?
-                        deleting && 
-                        <ConfirmationBox text="Delete this note?" 
-                            confirmFn={handleDelete}
-                            cancelFn={() => setDeleting(false)}
-                            />
-                    :
-                        <DeleteButton show={isHovering} onDelete={handleDelete}/>
-                }
-            </li>
-        </div>
+        <>
+            <div className="note" {...handlers}>
+                <li>
+                    {text}
+                    {
+                        isMobile ?
+                            deleting && 
+                            <PopupMenu
+                                title="Change Note"
+                                onSubmit={handleDelete}
+                                confirmButtonText="Delete"
+                                onCancel={() => setDeleting(false)}
+                                buttonChildren={
+                                    <button 
+                                        className="floatingButton"
+                                        onClick={handleEdit}
+                                    >
+                                        Edit
+                                    </button>
+                                }
+                            >
+                                <p>Would you like to change this note?</p>
+                                <p style={{marginLeft: "1rem", fontStyle: "italic"}}>{text}</p>
+                            </PopupMenu>
+                        :
+                            <DeleteButton show={isHovering} onDelete={handleDelete}/>
+                    }
+                </li>
+            </div>
+            {
+                editing &&
+                <NoteMenu noteid={noteid} text={text} sticky={sticky} onCancel={() => setEditing(false)}/>
+            }
+        </>
     )
 }
 

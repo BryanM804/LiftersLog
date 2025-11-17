@@ -80,8 +80,7 @@ function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight, c
                         <ConfirmationBox 
                             confirmFn={handleDelete} 
                             cancelFn={() => setShowDelete(false)}
-                            text="Delete this set?"
-                            className="historyOffset"
+                            text={`Delete this set?\n ${movement}\n${subWeight ? "L: " : ""}${weight}lbs x ${reps} reps${subWeight ? `\nR: ${subWeight}lbs x ${subReps}reps` : ""}`}
                         />
             }
         </li>
