@@ -1,12 +1,15 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
 
 type MovementContextType = {
     movement: string;
+    exerciseid: number;
     reps: number;
     subReps: number;
     weight: number;
     subWeight: number;
+    inLibrary: boolean;
     setMovement: Dispatch<SetStateAction<string>>;
+    setExerciseId: Dispatch<SetStateAction<number>>;
     setReps: Dispatch<SetStateAction<number>>;
     setSubReps: Dispatch<SetStateAction<number>>;
     setWeight: Dispatch<SetStateAction<number>>;
@@ -22,15 +25,27 @@ const MovementContext = createContext<MovementContextType | undefined>(undefined
 function MovementContextProvider({ children }: MovementContextProviderProps) {
 
     const [movement, setMovement] = useState("");
+    const [exerciseid, setExerciseId] = useState(0);
     const [reps, setReps] = useState(0)
     const [subReps, setSubReps] = useState(0)
     const [weight, setWeight] = useState(0.0)
     const [subWeight, setSubWeight] = useState(0.0)
+    const [inLibrary, setInLibrary] = useState(false)
+
+    useEffect(() => {
+        if (exerciseid && exerciseid > 0) {
+            setInLibrary(true)
+        } else {
+            setInLibrary(false)
+        }
+    }, [exerciseid])
 
     return (
         <MovementContext.Provider value={{
             movement, 
-            setMovement, 
+            setMovement,
+            exerciseid,
+            setExerciseId, 
             reps, 
             setReps, 
             subReps, 
@@ -38,7 +53,8 @@ function MovementContextProvider({ children }: MovementContextProviderProps) {
             weight, 
             setWeight, 
             subWeight, 
-            setSubWeight
+            setSubWeight,
+            inLibrary
         }}>
             {children}
         </MovementContext.Provider>

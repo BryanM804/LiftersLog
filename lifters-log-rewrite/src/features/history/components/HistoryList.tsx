@@ -14,7 +14,8 @@ type HistoryListProps = {
 }
 
 type HistoryGroup = {
-    movement: string;
+    Exercise: {movement: string}
+    exerciseid: number;
 }
 
 function HistoryList({ className, placeholder, placeholderClass }: HistoryListProps) {
@@ -36,7 +37,7 @@ function HistoryList({ className, placeholder, placeholderClass }: HistoryListPr
             {
                 (data != null && data.length > 0) ? 
                 data.map((historyGroup: HistoryGroup) => 
-                    <HistoryGroup movement={historyGroup.movement} key={historyGroup.movement} />
+                    <HistoryGroup exerciseid={historyGroup.exerciseid} movement={historyGroup.Exercise.movement} key={historyGroup.exerciseid} />
                 )
                 :
                 placeholderText != "" ? <li className={"darkFont "+placeholderClass} style={{padding: "0.5rem"}}>{placeholderText}</li> : <></>

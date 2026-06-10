@@ -11,22 +11,24 @@ import { useDate } from "../contexts/DateContextProvider";
 
 type HistoryGroupProps = {
     movement: string;
+    exerciseid: number;
     onClick?: () => void;
 }
 
-function HistoryGroup({ movement, onClick }: HistoryGroupProps) {
+function HistoryGroup({ movement, exerciseid, onClick }: HistoryGroupProps) {
 
     const { 
         setMovement,
         setWeight,
         setSubWeight,
         setReps,
-        setSubReps
+        setSubReps,
+        setExerciseId
     } = useMovement()
     const { historyDate } = useDate()
     
     const { data, error, isLoading } = useQuery({
-        queryKey: ["history", "group", historyDate.toDateString(), movement],
+        queryKey: ["history", "group", historyDate.toDateString(), exerciseid],
         queryFn: getHistoryForDate
     });
 
@@ -36,6 +38,7 @@ function HistoryGroup({ movement, onClick }: HistoryGroupProps) {
         setSubWeight(0)
         setReps(0)
         setSubReps(0)
+        setExerciseId(exerciseid)
         onClick?.()
     }
 
@@ -54,7 +57,8 @@ function HistoryGroup({ movement, onClick }: HistoryGroupProps) {
                         // Even though the rows are all under a group, they need to know their movement
                         // so they can set the input boxes
                         <HistoryRow
-                            movement={historyItem.movement}
+                            movement={historyItem.Exercise.movement}
+                            exerciseid={historyItem.exerciseid}
                             time={historyItem.time}
                             weight={historyItem.weight}
                             subWeight={historyItem.subweight}

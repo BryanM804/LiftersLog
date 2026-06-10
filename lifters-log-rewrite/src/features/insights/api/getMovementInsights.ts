@@ -3,10 +3,12 @@ import { SERVER_URL } from "../../../utils/constants";
 import checkStatus from "../../../utils/api/checkStatus";
 
 
-async function getMovementInsights({ queryKey }: QueryFunctionContext<[string, string, string]>) {
-    const [, movement, timeframe] = queryKey
+async function getMovementInsights({ queryKey }: QueryFunctionContext<[string, number, string]>) {
+    const [, exerciseid, timeframe] = queryKey
 
-    const response = await fetch(`${SERVER_URL}/stats/${movement}/${timeframe}`, {
+    if (exerciseid < 1) return;
+
+    const response = await fetch(`${SERVER_URL}/stats/${exerciseid}/${timeframe}`, {
         method: "GET",
         credentials: "include"
     });

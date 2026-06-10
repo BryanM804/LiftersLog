@@ -3,10 +3,10 @@ import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 
-async function getNotesForMovement({ queryKey }: QueryFunctionContext<[string, string, string, string]>) {
-    const [, , movement, date] = queryKey
+async function getNotesForMovement({ queryKey }: QueryFunctionContext<[string, string, number, string]>) {
+    const [, , exerciseid, date] = queryKey
 
-    const response = await fetch(`${SERVER_URL}/note/${movement}/${date}/false`, {
+    const response = await fetch(`${SERVER_URL}/note/${exerciseid}/${date}/false`, {
         method: "GET",
         credentials: "include"
     });

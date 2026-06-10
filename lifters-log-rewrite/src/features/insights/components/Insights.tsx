@@ -16,7 +16,7 @@ const metrics = ["Average", "Max", "Best"]
 
 function Insights() {
 
-    const { movement } = useMovement()
+    const { movement, exerciseid } = useMovement()
     const debouncedMovement = useDebounce(movement, 300)
 
     const [timeframe, setTimeframe] = useState("")
@@ -55,7 +55,7 @@ function Insights() {
     useEffect(() => {
         if (!initialized) return
 
-        if (debouncedMovement != "") {
+        if (debouncedMovement != "" && exerciseid > 0) {
             if (timeframe === "" || timeframe === "Week") {
                 setTimeframe("Recent")
                 localStorage.setItem("graphTimeframe", "Recent")
@@ -93,10 +93,11 @@ function Insights() {
         </div>
         <HalfGap />
         {
-            movement != "" ?
+            movement != "" && exerciseid > 0 ?
                 <>
                 <MovementGraph 
                     movement={debouncedMovement}
+                    exerciseid={exerciseid}
                     timeframe={timeframe}
                     metric={metric}
                 />

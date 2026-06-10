@@ -2,7 +2,7 @@ import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewNote = {
-    movement: string;
+    exerciseid: number;
     text: string;
     sticky: boolean;
     date: string;

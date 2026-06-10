@@ -2,14 +2,14 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
-async function getNotesForMovement({ queryKey }: QueryFunctionContext<[string, string, string]>) {
-    const [, movement, activeDate] = queryKey
+async function getNotesForMovement({ queryKey }: QueryFunctionContext<[string, number, string]>) {
+    const [, exerciseid, activeDate] = queryKey
 
-    if (movement === "") {
+    if (!exerciseid) {
         return null;
     }
 
-    const response = await fetch(`${SERVER_URL}/note/${movement}/${activeDate}/true`, {
+    const response = await fetch(`${SERVER_URL}/note/${exerciseid}/${activeDate}/true`, {
         method: "GET",
         credentials: "include"
     });

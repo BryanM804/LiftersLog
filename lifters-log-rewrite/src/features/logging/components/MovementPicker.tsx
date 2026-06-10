@@ -20,7 +20,7 @@ type Movement = {
 
 function MovementPicker({ onClear, label, className, placeholder }: MovementPickerProps) {
 
-    const { movement, setMovement } = useMovement();
+    const { movement, setMovement, setExerciseId } = useMovement();
 
     const { doublePressHandlers } = useDoublePress(clearText)
 
@@ -33,10 +33,19 @@ function MovementPicker({ onClear, label, className, placeholder }: MovementPick
 
     function handleMovementChange(e: ChangeEvent<HTMLInputElement>) {
         setMovement(e.target.value);
+        
+        const selectedExercise = movements.find((ex: {movement: string; exerciseid: number}) => ex.movement.toLowerCase() === e.target.value.toLowerCase())
+        
+        if (selectedExercise) {
+            setExerciseId(selectedExercise.exerciseid)
+        } else {
+            setExerciseId(-1)
+        }
     }
     
     function clearText() {
         setMovement("")
+        setExerciseId(-1)
         if (onClear) onClear();
     }
 

@@ -2,10 +2,12 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import { SERVER_URL } from "../../../utils/constants";
 import checkStatus from "../../../utils/api/checkStatus";
 
-async function getGraphData({ queryKey }: QueryFunctionContext<[string, string, string, string]>) {
-    const [, movement, timeframe, metric] = queryKey
+async function getGraphData({ queryKey }: QueryFunctionContext<[string, number, string, string]>) {
+    const [, exerciseid, timeframe, metric] = queryKey
 
-    const response = await fetch(`${SERVER_URL}/graph/${movement}/${timeframe}/${metric}`, {
+    if (exerciseid < 1) return 
+
+    const response = await fetch(`${SERVER_URL}/graph/${exerciseid}/${timeframe}/${metric}`, {
         method: "GET",
         credentials: "include"
     })

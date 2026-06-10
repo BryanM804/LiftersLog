@@ -1,6 +1,7 @@
 type HistoryItem = {
     setid: number;
-    movement: string;
+    Exercise: {movement: string};
+    exerciseid: number;
     weight: number;
     reps: number;
     subweight?: number;

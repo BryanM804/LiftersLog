@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import getNotesForMovement from "../api/getNotesForMovement";
 import AddNoteButton from "./AddNoteButton";
 import ServerError from "../../../components/ServerError";
-import useDebounce from "../../../hooks/useDebounce";
 import { useDate } from "../../history/contexts/DateContextProvider";
 import { useEffect } from "react";
 
@@ -17,12 +16,11 @@ type Note = {
 function NoteSection() {
 
     const queryClient = useQueryClient();
-    const { movement } = useMovement();
+    const { exerciseid } = useMovement();
     const { historyDate } = useDate()
-    const debouncedMovement = useDebounce(movement, 300);
     
     const { data, error, isLoading } = useQuery({
-        queryKey: ["notes", debouncedMovement, historyDate.toDateString()],
+        queryKey: ["notes", exerciseid, historyDate.toDateString()],
         queryFn: getNotesForMovement
     })
 

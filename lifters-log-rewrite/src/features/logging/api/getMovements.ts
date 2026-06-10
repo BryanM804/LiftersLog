@@ -6,8 +6,10 @@ async function getMovements() {
     const response = await fetch(`${SERVER_URL}/movements`, {
         method: "GET"
     });
-    
-    return await checkStatus(response);
+
+    const result = await checkStatus(response)
+
+    return result
 }
 
 export default getMovements;
