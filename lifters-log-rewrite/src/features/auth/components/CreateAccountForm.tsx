@@ -1,14 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
-import { Tooltip } from "react-tooltip";
 import createNewUser from "../api/createNewUser";
+import { checkEmail, checkPassword, checkUsername } from "../../../utils/checkStrings";
 
 
 function CreateAccountForm() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [userid, setUserId] = useState("");
+    const [email, setEmail] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("")
     const [hasClickedConfirmPass, setHasClickedConfirmPass] = useState(false)
     const [passwordsMatch, setPasswordsMatch] = useState(true)
@@ -18,7 +18,7 @@ function CreateAccountForm() {
         mutationFn: createNewUser,
         onSuccess: (response) => {
             if (response.message == "Success") {
-                setStatusUpdate("Account Successfully Created!");
+                setStatusUpdate("Account Successfully Created! Please check your email to verify your account.");
             } else {
                 setStatusUpdate("Error creating account.")
             }
@@ -30,14 +30,19 @@ function CreateAccountForm() {
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        if (passwordsMatch && hasClickedConfirmPass && validatePassword()) {
-            newAccountMutation.mutate({username, password, userid});
-        }
-    }
 
-    function validatePassword() {
-        // TODO: add password requirements
-        return password.length >= 4;
+        if (!checkEmail(email)) {
+            setStatusUpdate("Invalid email format ex: yourname@domain.com")
+        }
+        if (!checkPassword(password)) {
+            setStatusUpdate("Invalid password, must be at least 4 characters")
+        }
+        if (!checkUsername(username)) {
+            setStatusUpdate("Invalid username, must be between 2 and 64 characters")
+        }
+        if (passwordsMatch && hasClickedConfirmPass) {
+            newAccountMutation.mutate({username, password, email});
+        }
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
@@ -51,8 +56,8 @@ function CreateAccountForm() {
             setConfirmedPassword(e.target.value)
             if (hasClickedConfirmPass)
                 setPasswordsMatch(password == e.target.value)
-        } else if (e.target.id == "id") {
-            setUserId(e.target.value)
+        } else if (e.target.id == "email") {
+            setEmail(e.target.value)
         }
     }
 
@@ -63,15 +68,9 @@ function CreateAccountForm() {
             <br />
             <input className="smallTextInput" type="text" id="username" onChange={handleTextChange} value={username}/>
             <br />
-            <label htmlFor="id" data-tooltip-id="idTooltip">Discord ID</label>
-            <Tooltip 
-                id="idTooltip" 
-                place="top" 
-                content="Enter your discord user ID if you want your data to sync from the discord bot. If you don't include this you CANNOT sync them later." 
-                className="niceTooltip"
-                />
+            <label htmlFor="id" data-tooltip-id="idTooltip">Email</label>
             <br />
-            <input className="smallTextInput" type="text" id="id" onChange={handleTextChange} value={userid} />
+            <input className="smallTextInput" type="text" id="email" onChange={handleTextChange} value={email} />
             <br />
             <label htmlFor="password">Password</label>
             <br />

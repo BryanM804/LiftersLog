@@ -1,7 +1,9 @@
 export const SERVER_URL = import.meta.env.VITE_API_URL
 export const PLACEHOLDERUSERDATA = {
     username: "",
-    userid: 0
+    userid: 0,
+    email: "",
+    verified: false
 };
 
 export const XPBAR_ANIMATION_TIME = 1

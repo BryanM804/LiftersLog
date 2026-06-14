@@ -8,6 +8,7 @@ import Social from './routes/Social'
 import Login from './routes/Login'
 import Welcome from './routes/Welcome'
 import AuthProtector from '../components/AuthProtector'
+import Verify from './routes/Verify'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
     <Navbar />
       <Routes>
         <Route path="/" element={<Login />}></Route>
+          <Route path="/verify/:token" element={<Verify />}></Route>
           <Route path="/welcome" element={
             <AuthProtector>
               <Welcome />

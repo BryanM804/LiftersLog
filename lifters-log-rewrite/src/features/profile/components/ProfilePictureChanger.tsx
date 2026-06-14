@@ -27,6 +27,7 @@ function ProfilePictureChanger({ imageURL, size, setImage }: ProfilePictureChang
             <label
                 htmlFor="profilePictureUpload"
                 className="smallFloatingButton smallMenuButton"
+                style={{ display: "flex", flexWrap: "nowrap", marginLeft: "0", maxWidth: "75%"}}
             >Change Profile Picture</label>
             <input hidden id="profilePictureUpload" type="file" accept="image/*" onChange={handleFileChange} />
         </div>

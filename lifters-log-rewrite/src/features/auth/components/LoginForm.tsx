@@ -27,7 +27,9 @@ function LoginForm() {
                     },
                     userState: {
                         username: response.username,
-                        userid: response.userid
+                        userid: response.userid,
+                        email: response.email,
+                        verified: response.verified
                     }
                 });
                 if (rememberMe) {

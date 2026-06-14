@@ -4,7 +4,7 @@ import { SERVER_URL } from "../../../utils/constants";
 type NewUser = {
     username: string;
     password: string;
-    userid: string;
+    email: string;
 }
 
 async function createNewUser(newUser: NewUser) {
