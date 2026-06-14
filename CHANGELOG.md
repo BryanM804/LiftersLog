@@ -6,6 +6,7 @@ Future Changes will be documented here
 ### General
 - Removed the ability to log a set with anything as a movement  
   *Note: This is to allow for custom exercise creation and much more refined features using exercises later down the line*
+- Optimized friend activity loading
 
 ## Alpha [0.2.0] - 11/17/25
 ### General

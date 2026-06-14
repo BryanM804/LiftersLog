@@ -4,25 +4,19 @@ import { motion, useMotionValue } from "framer-motion";
 import { useReplying } from "../../chat/contexts/ChatReplyContext";
 
 type ActivityItemProps = {
-    id: number;
+    activity_id: number;
+    ref_id: number;
+    userid: number;
     username: string;
+    type: "note" | "lift" | "cardio" | "label";
+    title: string;
+    subtitle: string;
     date: string;
     time: string;
-    exercise: string;
-    weight?: number;
-    subWeight?: number;
-    reps?: number;
-    subReps?: number;
-    note?: string;
-    label?: string;
-    cardiotime?: number;
-    distance?: number;
-    cardionote?: string;
+
 }
 
-function ActivityItem({ id, username, date, time, exercise, weight, subWeight, reps, subReps, note, label, cardiotime, distance, cardionote }: ActivityItemProps) {
-
-    // Should always either have a weight and reps, note, or label as non null values
+function ActivityItem({ activity_id, username, time, type, title, subtitle }: ActivityItemProps) {
 
     // Today ones should show time, recent should show date
 
@@ -31,57 +25,44 @@ function ActivityItem({ id, username, date, time, exercise, weight, subWeight, r
     const { isHovering, hoverHandlers } = useHoverTouch();
     const x = useMotionValue(0);
 
-    let title: string = "";
     let body;
-    let activityType: "lift" | "label" | "note" | "cardio";
     let activityClass;
     let replyingText = "";
 
-    if (weight && reps) {
-        title = `${username} logged ${exercise}`
-        body = (
-            <>
-                <li className="activityNote">{ subWeight && subReps ? "L: " : "" }{weight}lbs for {reps} reps</li>
-                {
-                    subWeight && subReps ? <li className="activityNote">R: {weight}lbs for {reps} reps</li>
-                    :
-                    <></>
-                }
-            </>
-        );
-        activityType = "lift"
+    if (type === "lift") {
+        if (subtitle.includes("\n")) {
+            const subtitles = subtitle.split("\n")
+            body = (
+                <>
+                    <li className="activityNote">{subtitles[0]}</li>
+                    <li className="activityNote">{subtitles[1]}</li>
+                </>
+            )
+        } else {
+            body = (
+                <li className="activityNote">{subtitle}</li>
+            )
+        }
         activityClass = "logActivity"
-        replyingText = `${title}: ${ subWeight ? "L: " : "" }${weight}lbs for ${reps} reps${subWeight ? ` R: ${weight}lbs for ${reps} reps` : ""}`
-    } else if (note) {
-        title = `${username} added a note to ${exercise}`
+        replyingText = `${title}: ${subtitle}`
+    } else if (type === "note") {
         body = (
-            <li className="activityNote">"{note}"</li>
+            <li className="activityNote">{subtitle}</li>
         )
-        activityType = "note"
         activityClass = "noteActivity"
-        replyingText = `${title}: ${note}`
-    } else if (label) {
-        title = `${username} set a label for ${date}`
+        replyingText = `${title}: ${subtitle}`
+    } else if (type === "label") {
         body = (
-            <li className="activityNote">"{label}"</li>
+            <li className="activityNote">{subtitle}</li>
         )
-        activityType = "label"
         activityClass = "labelActivity"
-        replyingText = `${title}: ${label}`
-    } else if (cardiotime) {
-        title = `${username} logged ${exercise}`
+        replyingText = `${title}: ${subtitle}`
+    } else if (type === "cardio") {
         body = (
-            <>
-                <li className="activityNote">{cardiotime} minutes{ distance && `, ${distance} miles` }</li>
-                {
-                    cardionote &&
-                    <li className="activityNote">{cardionote}</li>
-                }
-            </>
+            <li className="activityNote">{subtitle}</li>
         )
-        activityType = "cardio"
         activityClass = "cardioActivity"
-        replyingText = `${title}: ${cardiotime} minutes${ distance && `, ${distance} miles`}`
+        replyingText = `${title}: ${subtitle}`
     }
 
     useEffect(() => {
@@ -96,9 +77,9 @@ function ActivityItem({ id, username, date, time, exercise, weight, subWeight, r
     }, [x])
 
     function setActiveReply() {
-        setReplyingId(id);
+        setReplyingId(activity_id);
         setReplyingText(replyingText);
-        setReplyType(activityType)
+        setReplyType(type)
         setOriginalUser(username)
     }
 
