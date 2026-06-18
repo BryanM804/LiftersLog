@@ -14,6 +14,7 @@ import updateEmail from "../api/updateEmail";
 import { checkEmail, checkUsername } from "../../../utils/checkStrings";
 import FadePopup from "../../../components/FadePopup";
 import updateUsername from "../api/updateUsername";
+import requestPasswordChange from "../api/requestPasswordChange";
 
 type EditUserProfileProps = {
     pfpurl: string;
@@ -37,6 +38,7 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
     const [changingEmail, setChangingEmail] = useState(false)
     const [newEmail, setNewEmail] = useState("")
     const [updateMessage, setUpdateMessage] = useState("")
+    const [requestedPassword, setRequesedPassword] = useState(false);
 
     const [profileImage, setProfileImage] = useState<File | null>(null)
 
@@ -68,6 +70,15 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
             authUser.username = newUsername
             setUpdateMessage("Username changed! Some areas may take time to update.")
             setChangingUsername(false)
+        },
+        onError: (error: Error) => {
+            setUpdateMessage(error.message)
+        }
+    })
+    const changePasswordMutation = useMutation({
+        mutationFn: requestPasswordChange,
+        onSuccess: () => {
+            setUpdateMessage("Password change requested! Please check your email to finish changing your password.")
         },
         onError: (error: Error) => {
             setUpdateMessage(error.message)
@@ -135,13 +146,6 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
 
         setChangingUsername(true)
     }
-    function openPasswordChange() {
-        if (!authUser.verified) {
-            setUpdateMessage("You must verify your account first!")
-            return
-        }
-
-    }
 
     function handleEmailChange() {
         if (checkEmail(newEmail)) {
@@ -157,8 +161,13 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
             setUpdateMessage("Invalid username, usernames must be between 2 and 64 characters")
         }
     }
-    function handlePasswordChange() {
-
+    function handlePasswordRequest() {
+        if (!authUser.verified) {
+            setUpdateMessage("You must verify your account first!")
+            return
+        }
+        setRequesedPassword(true)
+        changePasswordMutation.mutate(authUser.email)
     }
 
     return (
@@ -201,7 +210,12 @@ function EditUserProfile({ pfpurl, cancelFn }: EditUserProfileProps) {
                                 </PopupMenu>
                             }
                         </div>
-                        <button className="floatingButton menuButton">Change Password</button>
+                        <button 
+                            className="floatingButton menuButton"
+                            onClick={handlePasswordRequest}    
+                        >
+                            Change Password
+                        </button>
                         <div>
                             {
                                 (authUser.email && authUser.email != "") && <span style={{fontWeight: "bold"}}>{authUser.email}</span>

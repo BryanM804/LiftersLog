@@ -10,7 +10,6 @@ function CreateAccountForm() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("")
-    const [hasClickedConfirmPass, setHasClickedConfirmPass] = useState(false)
     const [passwordsMatch, setPasswordsMatch] = useState(true)
     const [statusUpdate, setStatusUpdate] = useState("")
 
@@ -40,7 +39,7 @@ function CreateAccountForm() {
         if (!checkUsername(username)) {
             setStatusUpdate("Invalid username, must be between 2 and 64 characters")
         }
-        if (passwordsMatch && hasClickedConfirmPass) {
+        if (passwordsMatch && confirmedPassword != "") {
             newAccountMutation.mutate({username, password, email});
         }
     }
@@ -50,11 +49,11 @@ function CreateAccountForm() {
             setUsername(e.target.value)
         } else if (e.target.id == "password") {
             setPassword(e.target.value)
-            if (hasClickedConfirmPass)
+            if (confirmedPassword != "")
                 setPasswordsMatch(confirmedPassword == e.target.value)
         } else if (e.target.id == "confirmPassword") {
             setConfirmedPassword(e.target.value)
-            if (hasClickedConfirmPass)
+            if (confirmedPassword != "")
                 setPasswordsMatch(password == e.target.value)
         } else if (e.target.id == "email") {
             setEmail(e.target.value)
@@ -78,7 +77,7 @@ function CreateAccountForm() {
             <br />
             <label htmlFor="confirmPassword">Confirm Password</label>
             <br />
-            <input className="smallTextInput" type="password" id="confirmPassword" onClick={() => setHasClickedConfirmPass(true)} onChange={handleTextChange} value={confirmedPassword} />
+            <input className="smallTextInput" type="password" id="confirmPassword" onChange={handleTextChange} value={confirmedPassword} />
             <br />
             <div style={{textAlign: "center"}}>
                 <input className="floatingButton fullWidth" type="submit" value="Create Account" onClick={handleSubmit}/>

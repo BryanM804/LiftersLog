@@ -8,6 +8,7 @@ import createStore from 'react-auth-kit/createStore';
 import UserData from './types/UserData.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AuthProvider from 'react-auth-kit';
+import NotificationContextProvider from './app/contexts/NotificationContext.tsx';
 
 const queryClient = new QueryClient();
 
@@ -25,9 +26,11 @@ createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <MovementContextProvider>
         <DateContextProvider>
+        <NotificationContextProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
+        </NotificationContextProvider>
         </DateContextProvider>
         </MovementContextProvider>
       </QueryClientProvider>

@@ -9,15 +9,19 @@ import Login from './routes/Login'
 import Welcome from './routes/Welcome'
 import AuthProtector from '../components/AuthProtector'
 import Verify from './routes/Verify'
+import ChangePassword from './routes/ChangePassword'
+import BannerNotification from '../components/BannerNotification'
 
 function App() {
 
   return (
     <>
     <Navbar />
+    <BannerNotification />
       <Routes>
         <Route path="/" element={<Login />}></Route>
           <Route path="/verify/:token" element={<Verify />}></Route>
+          <Route path='/changePassword/:token' element={<ChangePassword />}></Route>
           <Route path="/welcome" element={
             <AuthProtector>
               <Welcome />
