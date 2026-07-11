@@ -1,8 +1,7 @@
-import { createContext, ReactNode, useContext, useRef, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import Notification from "../../types/Notification";
 
 type NotificationContextType = {
-    getNextNotification: () => Notification | null;
     addNotification: (n: Notification) => void;
     notifications: Notification[];
 }
@@ -15,26 +14,15 @@ type NotificationContextProps = {
 
 function NotificationContextProvider({ children }: NotificationContextProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
-    const displayedMessageRef = useRef(0)
 
     function addNotification(n: Notification) {
         setNotifications(prev => [...prev, n]);
-    }
-
-    function getNextNotification() {
-        if (notifications.length > displayedMessageRef.current + 1) {
-            displayedMessageRef.current++
-            return notifications[displayedMessageRef.current]
-        } else {
-            return null
-        }
     }
 
     return (
         <NotificationContext.Provider
             value={{
                 addNotification,
-                getNextNotification,
                 notifications
             }}
         >

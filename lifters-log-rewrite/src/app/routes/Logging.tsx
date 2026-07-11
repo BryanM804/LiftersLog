@@ -201,11 +201,9 @@ function Logging() {
         return (
             <>
                 <FadePopup text="Lifts" />
-                <FocusMode>
                     <LogMenu onLogSuccess={handleLogSuccess}/>
                     <NoteSection />
                     <RecentHistory />
-                </FocusMode>
                 <XPBarAnimator />
             </>
         )

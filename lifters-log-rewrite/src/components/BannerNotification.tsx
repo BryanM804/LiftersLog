@@ -1,6 +1,5 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNotifications } from "../app/contexts/NotificationContext";
-import Notification from "../types/Notification";
 
 function BannerNotification() {
     
@@ -8,36 +7,48 @@ function BannerNotification() {
     const [currentChildren, setCurrentChildren] = useState<ReactNode>(null);
     const [isVisible, setIsVisible] = useState(false)
 
-    const { getNextNotification, notifications } = useNotifications();
+    const indexRef = useRef(-1);
+    const intervalRef = useRef<number>(0)
+
+    const { notifications } = useNotifications();
 
     useEffect(() => {
         console.log("Notifications updated")
 
         if (!isVisible) {
-            const newNotification = getNextNotification()
-            if (newNotification) 
-                updateDisplayedNotification(newNotification)
-            else
-                setIsVisible(false)
+            setIsVisible(true)
+            if (intervalRef.current != 0)
+                clearTimeout(intervalRef.current)
+            updateDisplayedNotification()
+            intervalRef.current = setInterval(updateDisplayedNotification, 7500)
         }
     }, [notifications])
 
-    function updateDisplayedNotification(newNotification: Notification) {
-        setIsVisible(true)
-        setCurrentMessage(newNotification.message)
-        if (newNotification.children)
-            setCurrentChildren(newNotification.children)
+    function updateDisplayedNotification() {
+        if (indexRef.current + 1 < notifications.length - 1)
+            indexRef.current++
+        else if (notifications.length > 0)
+            indexRef.current = 0
+        else
+            setIsVisible(false)
+
+        const currentNotif = notifications[indexRef.current]
+        if (!currentNotif) return
+
+        setCurrentMessage(currentNotif.message)
+        if (currentNotif.children)
+            setCurrentChildren(currentNotif.children)
         else
             setCurrentChildren(null)
+
+        console.log("Notification switched")
     }
     
     function handleDismiss() {
-        const nextMessage = getNextNotification();
-
-        if (nextMessage) {
-            updateDisplayedNotification(nextMessage)
-        } else {
-            setIsVisible(false)
+        setIsVisible(false)
+        if (intervalRef.current != 0) {
+            clearInterval(intervalRef.current)
+            intervalRef.current = 0
         }
     }
 
@@ -47,11 +58,12 @@ function BannerNotification() {
                 position: "absolute",
                 top: "0",
                 backgroundColor: "#333",
-                height: "17%",
+                height: "7.5%",
                 width: "100%",
                 visibility: `${ isVisible ? "visible" : "hidden" }`,
                 display: "flex",
-                flexDirection: "row"
+                flexDirection: "row",
+                zIndex: "10"
             }}
         >
             {currentMessage}

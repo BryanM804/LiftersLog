@@ -13,4 +13,6 @@ export const XPCOLOR = "#2dfc5a"
 
 export const WELCOME_DELAY = 1.25
 
-export const VERSION_NUMBER = "0.2.0"
+export const VERSION_NUMBER = "0.3.0"
+
+export const MUSCLE_GROUPS = ["chest", "shoulders", "back", "quads", "hamstrings", "biceps", "triceps", "forearms", "abs", "glutes"]
