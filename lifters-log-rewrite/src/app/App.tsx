@@ -11,6 +11,10 @@ import AuthProtector from '../components/AuthProtector'
 
 function App() {
 
+  if (window.location.pathname === "/sw.js") {
+    return null;
+}
+
   return (
     <>
     <Navbar />
