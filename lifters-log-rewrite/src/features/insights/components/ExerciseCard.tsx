@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import getExericseInfo from "../api/getExerciseInfo";
 import { useEffect, useState } from "react";
+import getRecentExerciseActivity from "../api/getRecentExerciseActivity";
 
 type ExerciseCardProps = {
     exerciseid: number;
@@ -8,18 +9,28 @@ type ExerciseCardProps = {
     onCancel: () => void;
 }
 
+type RecentSet = {
+    weight: number;
+    reps: number;
+    subWeight?: number;
+    subReps?: number;
+    time: string;
+}
+
 function ExerciseCard({ exerciseid, movement, onCancel }: ExerciseCardProps) {
 
-    // This will query for the movement name even though there are ways I could get it without a query
-    // becuase later I will probably include more in that query
-
-    const [exerciseName, setExerciseName] = useState("Exercise")
+    const [exerciseName, setExerciseName] = useState(`${movement ? movement : "Exercise"}`)
     const [description, setDescription] = useState("")
 
     const { data, isLoading, error } = useQuery({
         queryFn: getExericseInfo,
         queryKey: ["exerciseInfo", exerciseid],
     });
+
+    const { data: recentSets, isLoading: recentSetsLoading, error: recentSetsError} = useQuery({
+        queryFn: getRecentExerciseActivity,
+        queryKey: ["recentSets", exerciseid]
+    })
 
     useEffect(() => {
         if (data) {
@@ -45,7 +56,26 @@ function ExerciseCard({ exerciseid, movement, onCancel }: ExerciseCardProps) {
                     description && <h5>{description}</h5>
                 }
                 <h4>Recent Sets<hr /></h4>
-                <p>placeholder</p>
+                <ul>
+                    {
+                        recentSets && recentSets.map((recentDateGroup: {date: string, items: RecentSet[]}) => {
+                            return (
+                                <div key={recentDateGroup.date}>
+                                    <h3>{recentDateGroup.date}<hr/ ></h3>
+                                    {
+                                        recentDateGroup.items.map((recentSet: RecentSet) => {
+                                            return (
+                                                <div>
+                                                    {recentSet.weight} reps x {recentSet.reps} lbs
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )
+                        })
+                    }
+                </ul>
                 <div style={{display: "flex", flexDirection: "row", gap: "3rem", justifySelf: "center", justifyContent: "space-between"}}>
                     <button
                         

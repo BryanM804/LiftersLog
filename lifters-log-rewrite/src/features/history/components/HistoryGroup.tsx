@@ -7,6 +7,9 @@ import Loading from "../../../components/Loading";
 import ItemNotes from "./ItemNotes";
 import { useMovement } from "../../logging/contexts/MovementContextProvider";
 import { useDate } from "../contexts/DateContextProvider";
+import useLongPress from "../../../hooks/useLongPress";
+import { useEffect, useState } from "react";
+import ExerciseCard from "../../insights/components/ExerciseCard";
 
 
 type HistoryGroupProps = {
@@ -16,6 +19,9 @@ type HistoryGroupProps = {
 }
 
 function HistoryGroup({ movement, exerciseid, onClick }: HistoryGroupProps) {
+
+    const [exerciseCardOpen, setExerciseCardOpen] = useState(false);
+    const [hasPendingClick, setHasPendingClick] = useState(false);
 
     const { 
         setMovement,
@@ -32,7 +38,24 @@ function HistoryGroup({ movement, exerciseid, onClick }: HistoryGroupProps) {
         queryFn: getHistoryForDate
     });
 
+    const { holdHandlers, isHolding, isHeld } = useLongPress(() => setExerciseCardOpen(true));
+
+    useEffect(() => {
+        if (isHeld && hasPendingClick) {
+            setHasPendingClick(false)
+        }
+
+        if (hasPendingClick && !isHolding && !isHeld) {
+            handleClick()
+            setHasPendingClick(false)
+        }
+    }, [isHolding, isHeld])
+
     function handleClick() {
+        if (isHolding) {
+            setHasPendingClick(true)
+            return
+        }
         setMovement(movement)
         setWeight(0)
         setSubWeight(0)
@@ -46,8 +69,17 @@ function HistoryGroup({ movement, exerciseid, onClick }: HistoryGroupProps) {
     if (error) return <ServerError error={error} />
 
     return (
+        <>
+        {
+            exerciseCardOpen && 
+            <ExerciseCard 
+                exerciseid={exerciseid}
+                movement={movement}
+                onCancel={() => setExerciseCardOpen(false)}
+            />
+        }
         <div className="historyGroup">
-            <div className="historyTitle" onClick={handleClick}>
+            <div className="historyTitle" onClick={handleClick} {...holdHandlers}>
                 {movement}
             </div>
             <hr />
@@ -72,6 +104,7 @@ function HistoryGroup({ movement, exerciseid, onClick }: HistoryGroupProps) {
             </ul>
             <ItemNotes movement={movement} />
         </div>
+        </>
     )
 }
 
