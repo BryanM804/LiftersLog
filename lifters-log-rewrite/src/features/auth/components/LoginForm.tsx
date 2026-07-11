@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import authenticateUser from "../api/authenticateUser";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useNotifications } from "../../../app/contexts/NotificationContext";
 
 
 function LoginForm() {
@@ -16,6 +17,7 @@ function LoginForm() {
     const navigate = useNavigate();
     const signIn = useSignIn();
     const isAuth = useIsAuthenticated();
+    const { addNotification } = useNotifications();
 
     const authMutation = useMutation({
         mutationFn: authenticateUser,
@@ -27,13 +29,20 @@ function LoginForm() {
                     },
                     userState: {
                         username: response.username,
-                        userid: response.userid
+                        userid: response.userid,
+                        email: response.email,
+                        verified: response.verified
                     }
                 });
                 if (rememberMe) {
                     localStorage.setItem("rememberMe", "true")
                 } else {
                     localStorage.setItem("rememeberMe", "false")
+                }
+
+                if (!response.verified) {
+                    addNotification({ message: "Please verify your email to secure your account and gain access to all features!" })
+                    console.log("notification added")
                 }
 
                 navigate("/welcome");

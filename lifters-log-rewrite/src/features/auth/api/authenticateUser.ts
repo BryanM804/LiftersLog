@@ -13,6 +13,7 @@ async function authenticateUser(userLogin: UserLogin) {
         body: JSON.stringify(userLogin),
         headers: {"Content-type": "application/json"}
     });
+    
     return await checkStatus(response);
 }
 

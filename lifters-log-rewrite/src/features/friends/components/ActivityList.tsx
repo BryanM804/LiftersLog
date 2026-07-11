@@ -50,21 +50,16 @@ function ActivityList({ friend, active }: ActivityListProps) {
                         {
                             entryGroup.items.map((entry: ActivityEntry) => 
                                 <ActivityItem 
-                                    key={entry.id} 
-                                    id={entry.id}
+                                    activity_id={entry.activity_id}
+                                    ref_id={entry.ref_id}
+                                    userid={entry.userid}
                                     username={entry.username}
-                                    exercise={entry.movement}
-                                    weight={entry.weight}
-                                    subWeight={entry.subweight}
-                                    reps={entry.reps}
-                                    subReps={entry.subreps}
-                                    note={entry.text}
-                                    label={entry.label}
+                                    type={entry.activity_type}
+                                    title={entry.title}
+                                    subtitle={entry.subtitle}
                                     date={entry.date}
                                     time={entry.time}
-                                    cardiotime={entry.cardiotime}
-                                    cardionote={entry.note}
-                                    distance={entry.distance}
+                                    key={entry.activity_id}
                                 />
                             )
                         }

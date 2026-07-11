@@ -8,13 +8,14 @@ import FadePopup from "../../../components/FadePopup";
 
 type MovementGraphProps = {
     movement: string;
+    exerciseid: number;
     timeframe: string;
     metric: string;
 }
 
 // This doesn't use the movement context in case I want to use a static graph elsewhere at some point in time
 
-function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
+function MovementGraph({ movement, exerciseid, timeframe, metric }: MovementGraphProps) {
 
     const [lineLabel, setLineLabel] = useState("Total")
     const [subLineLabel, setSubLineLabel] = useState("Right Total")
@@ -67,7 +68,7 @@ function MovementGraph({ movement, timeframe, metric }: MovementGraphProps) {
     }, [metric, timeframe, movement, isSplitGraph]) // This movement is debounced before it is sent here
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ["graph", movement, timeframe, metric],
+        queryKey: ["graph", exerciseid, timeframe, metric],
         queryFn: getGraphData
     })
 

@@ -12,6 +12,7 @@ import { useDate } from "../../history/contexts/DateContextProvider"
 import getBodyweightMovements from "../api/getBodyweightMovements"
 import SyncButton from "./SyncButton"
 import FocusValueChanger from "./FocusValueChanger"
+import NewExerciseMenu from "./NewExerciseMenu"
 
 type LogMenuProps = {
     onLogSuccess?: (xpParticleMultiplier?: number) => void;
@@ -27,6 +28,8 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
         subReps,
         weight,
         subWeight,
+        inLibrary,
+        exerciseid,
         setReps,
         setSubReps,
         setWeight,
@@ -41,6 +44,8 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
     const [splitMovement, setSplitMovement] = useState(false)
     const [invalidLog, setInvalidLog] = useState(false)
     const [syncedInputs, setSyncedInputs] = useState(false)
+
+    const [creatingExercise, setCreatingExercise] = useState(false);
     
     // Queries/Mutations
     const { data: splitMovements } = useQuery({
@@ -66,6 +71,8 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
                 xpNumber = 500
             onLogSuccess?.(xpNumber / XPPARTICLE_DIVISOR)
 
+            // Not changing these to ids because I don't want to clear everyones autofill
+            // Might change one day if I make a better system for autofilling
             localStorage.setItem(`${movement}weight`, weight.toString())
             localStorage.setItem(`${movement}rep`, reps.toString())
             localStorage.setItem(`${movement}subWeight`, subWeight.toString())
@@ -166,6 +173,10 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
     function handleLogSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
+        if (!inLibrary) {
+            flagInvalidLog();
+            return
+        }
         if (reps <= 0 || weight < 0 || reps > 100 || weight > 1500 || movement === "" || (splitMovement && (subReps <= 0 || subWeight <= 0))) {
             flagInvalidLog();
             return;
@@ -176,11 +187,24 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
             return;
         }
 
-        setMutation.mutate({movement: movement, weight: weight, reps: reps, subweight: subWeight, subreps: subReps, date: historyDate.toDateString()});
+        setMutation.mutate({exerciseid: exerciseid, weight: weight, reps: reps, subweight: subWeight, subreps: subReps, date: historyDate.toDateString()});
     }
 
     return (
         <>
+        <button
+            style={{
+                position: "absolute",
+                top: "0",
+                right: "0"
+            }}
+            onClick={() => setCreatingExercise(true)}
+        >
+            +
+        </button>
+        {
+            creatingExercise && <NewExerciseMenu onCancel={() => setCreatingExercise(false)}/>
+        }
         <form onSubmit={handleLogSubmit} noValidate={true}>
             <div className={`logButtonsContainer ${focused ? "focused" : ""}`}>
                 <MovementPicker 

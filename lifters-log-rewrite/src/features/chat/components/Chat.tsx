@@ -9,6 +9,7 @@ import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import ChatRoomMenu from "./ChatRoomMenu";
 import ChatRoom from "../types/ChatRoom";
 import { socket } from "../../../utils/socket";
+import EnablePushButton from "./EnablePushButton";
 
 type ChatTopperProps = {
     title?: string;
@@ -19,11 +20,20 @@ function ChatTopper({ title, children }: ChatTopperProps) {
     return (
         <>
             <div className="chatTopper">
-                <h3>
-                {
-                    title ? title : "Chat"
-                }
-                </h3>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between"
+                    }}
+                >
+                    <h3>
+                    {
+                        title ? title : "Chat"
+                    }
+                    </h3>
+                    <EnablePushButton />
+                </div>
                 <hr style={{width: "100%", marginBottom: "0"}}/>
                 {children}
             </div>

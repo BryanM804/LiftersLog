@@ -2,7 +2,7 @@ import checkStatus from "../../../utils/api/checkStatus";
 import { SERVER_URL } from "../../../utils/constants";
 
 type NewSet = {
-    movement: string;
+    exerciseid: number;
     weight: number;
     reps: number;
     subreps?: number;

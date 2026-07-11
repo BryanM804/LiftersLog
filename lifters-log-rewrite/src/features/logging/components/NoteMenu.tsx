@@ -22,7 +22,7 @@ function NoteMenu({ onCancel, text, noteid, sticky }: NoteMenuProps) {
     const [stickyNote, setStickyNote] = useState(false);
     
     const queryClient = useQueryClient();
-    const { movement } = useMovement();
+    const { exerciseid, inLibrary } = useMovement();
     const { historyDate } = useDate();
 
     const newNoteMutation = useMutation({
@@ -48,11 +48,11 @@ function NoteMenu({ onCancel, text, noteid, sticky }: NoteMenuProps) {
     function handleSave(e: SyntheticEvent) {
         e.preventDefault();
         
-        if (noteText.length > 0 && movement != "") {
+        if (noteText.length > 0 && exerciseid > 0 && inLibrary) {
             if (noteid) {
                 editNoteMutation.mutate({ noteid: noteid, text: noteText, sticky: stickyNote })
             } else {
-                newNoteMutation.mutate({ movement: movement, text: noteText, sticky: stickyNote, date: historyDate.toDateString()});
+                newNoteMutation.mutate({ exerciseid: exerciseid, text: noteText, sticky: stickyNote, date: historyDate.toDateString()});
             }
             
         }

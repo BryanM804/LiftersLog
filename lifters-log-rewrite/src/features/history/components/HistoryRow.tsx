@@ -11,6 +11,7 @@ import { useMovement } from "../../logging/contexts/MovementContextProvider";
 
 type HistoryRowProps = {
     movement: string;
+    exerciseid: number;
     time: string;
     weight: number;
     reps: number;
@@ -22,14 +23,15 @@ type HistoryRowProps = {
 }
 
 
-function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight, className, timeClassName }: HistoryRowProps) {
+function HistoryRow({ movement, exerciseid, time, weight, reps, setid, subReps, subWeight, className, timeClassName }: HistoryRowProps) {
 
     const {
         setMovement,
         setReps,
         setWeight,
         setSubReps,
-        setSubWeight
+        setSubWeight,
+        setExerciseId
     } = useMovement();
 
     const { isHovering, hoverHandlers } = useHoverTouch();
@@ -53,6 +55,7 @@ function HistoryRow({ movement, time, weight, reps, setid, subReps, subWeight, c
         setReps(reps)
         setSubReps(subReps ? subReps : 0)
         setSubWeight(subWeight ? subWeight : 0)
+        setExerciseId(exerciseid)
     }
 
     function handleDelete() {

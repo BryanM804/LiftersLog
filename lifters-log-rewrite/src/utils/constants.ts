@@ -1,7 +1,9 @@
 export const SERVER_URL = import.meta.env.VITE_API_URL
 export const PLACEHOLDERUSERDATA = {
     username: "",
-    userid: 0
+    userid: 0,
+    email: "",
+    verified: false
 };
 
 export const XPBAR_ANIMATION_TIME = 1
@@ -11,4 +13,6 @@ export const XPCOLOR = "#2dfc5a"
 
 export const WELCOME_DELAY = 1.25
 
-export const VERSION_NUMBER = "0.2.0"
+export const VERSION_NUMBER = "0.3.0"
+
+export const MUSCLE_GROUPS = ["chest", "shoulders", "back", "quads", "hamstrings", "biceps", "triceps", "forearms", "abs", "glutes"]

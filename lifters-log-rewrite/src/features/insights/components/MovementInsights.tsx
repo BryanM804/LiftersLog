@@ -12,11 +12,11 @@ type MovementInsightsProps = {
 
 function MovementInsights({ timeframe }: MovementInsightsProps) {
 
-    const { movement } = useMovement()
+    const { movement, exerciseid } = useMovement()
     const debouncedMovement = useDebounce(movement, 300)
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ["insights", debouncedMovement, timeframe],
+        queryKey: ["insights", exerciseid, timeframe],
         queryFn: getMovementInsights,
     })
 
@@ -31,7 +31,7 @@ function MovementInsights({ timeframe }: MovementInsightsProps) {
             </div>
             {
                 !data ?
-                    <p className="darkFont" style={{width: "95%", alignSelf: "center"}}>Start logging some {movement} to see your stats!</p>
+                    <p className="darkFont" style={{width: "95%", alignSelf: "center"}}>Start logging some {debouncedMovement} to see your stats!</p>
                 :
                 <div className="statSection">
                     {

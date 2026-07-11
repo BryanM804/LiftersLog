@@ -2,6 +2,25 @@
 
 Future Changes will be documented here
 
+## Alpha [0.3.0] - XX/XX/XX
+### General
+- Removed the ability to log a set with anything as a movement  
+  *Note: This is to allow for custom exercise creation and much more refined features using exercises later down the line*
+- Optimized friend activity loading
+- Added E-mail verification to accounts (required to change your username or password)
+- Added the ability to change your username (once every 24 hours)
+- Added the abiltiy to change your password
+- Added banner notifications for reminders at the top of the screen.
+
+### Chat
+- Added a button for enabling push notifications (WIP)
+ *This is hard to test without pushing the update to the live build and likely still does not work*
+
+ ### Logging
+ - Disabled focus mode
+  *Focus mode is unfinished and not very useful right now, it just made it annoying to scroll on the logging screen*
+
+
 ## Alpha [0.2.0] - 11/17/25
 ### General
 - Site can now be installed as a PWA app
