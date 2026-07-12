@@ -6,6 +6,7 @@ import { PLACEHOLDERUSERDATA } from "../../../utils/constants";
 import { motion, useMotionValue } from "framer-motion";
 import { useEffect } from "react";
 import { useReplying } from "../contexts/ChatReplyContext";
+import SharedExercise from "./SharedExercise";
 
 type ChatMessageProps = {
     cid: number;
@@ -15,6 +16,8 @@ type ChatMessageProps = {
     date: string;
     repliesTo?: {author: string, message: string, type: "note" | "lift" | "cardio" | "label" | "message" | undefined};
 }
+
+const regex = /<\|llex[1-9][0-9]*#-#(?:[a-zA-Z]+\s*)+!>/g
 
 function ChatMessage({ cid, msg, author, time, date, repliesTo }: ChatMessageProps) {
 
@@ -61,6 +64,23 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo }: ChatMessagePro
         setOriginalUser(author)
     }
 
+    function renderMessage(msg: string) {
+        const parts = [];
+        let lastIndex = 0;
+
+        for (const match of msg.matchAll(regex)) {
+            parts.push(msg.slice(lastIndex, match.index))
+
+            parts.push(<SharedExercise shareCode={match[0]}/>)
+
+            lastIndex = match.index + match[0].length
+        }
+        
+        parts.push(msg.slice(lastIndex))
+        
+        return parts;
+    }
+
     return (
         <>
         <motion.li 
@@ -90,7 +110,9 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo }: ChatMessagePro
             <div
                 style={{paddingLeft: "0.3rem"}}
             >
-                {msg}
+                {
+                    renderMessage(msg)
+                }
             </div>
             {
                 isHovering &&

@@ -13,8 +13,6 @@ async function getRecentExerciseActivity({ queryKey }: QueryFunctionContext<[str
 
     const responseStatus = await checkStatus(response)
 
-    console.log(responseStatus)
-
     return responseStatus
 }
 
