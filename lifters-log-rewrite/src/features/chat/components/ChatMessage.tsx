@@ -64,19 +64,19 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo }: ChatMessagePro
         setOriginalUser(author)
     }
 
-    function renderMessage(msg: string) {
+    function renderMessage(renderMsg: string) {
         const parts = [];
         let lastIndex = 0;
 
-        for (const match of msg.matchAll(regex)) {
-            parts.push(msg.slice(lastIndex, match.index))
+        for (const match of renderMsg.matchAll(regex)) {
+            parts.push(renderMsg.slice(lastIndex, match.index))
 
             parts.push(<SharedExercise shareCode={match[0]}/>)
 
             lastIndex = match.index + match[0].length
         }
         
-        parts.push(msg.slice(lastIndex))
+        parts.push(renderMsg.slice(lastIndex))
         
         return parts;
     }
@@ -103,7 +103,7 @@ function ChatMessage({ cid, msg, author, time, date, repliesTo }: ChatMessagePro
                             paddingLeft: `${repliesTo.type != "message" ? "1rem" : "0"}`,
                             fontStyle:  `${repliesTo.type != "message" ? "italic" : "normal"}`
                             }}>
-                            {repliesTo.message}
+                            {renderMessage(repliesTo.message)}
                         </div>
                     </div>
             }
