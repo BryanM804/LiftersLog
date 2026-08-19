@@ -9,6 +9,7 @@ import ChatUser from "./ChatUser";
 import ServerError from "../../../components/ServerError";
 import ConfirmationBox from "../../../components/ConfirmationBox";
 import { isMobile } from "react-device-detect";
+import SlideUpMenu from "../../../components/SlideUpMenu";
 
 type ChatRoomMenuProps = {
     type: string;
@@ -81,8 +82,7 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
     }
 
     return (
-        <div className="chatRoomMenu">
-                <button className="floatingButton" onClick={cancelFunction}>Back</button>
+        <SlideUpMenu onCancel={cancelFunction}>
                 <label htmlFor="chatRoomName">Room Name</label>
                 <input id="chatRoomName" type="text" className="smallTextInput" value={roomName} onChange={handleTextChange} />
                 <label htmlFor="chatRoomDescription">Description</label>
@@ -90,6 +90,25 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
                 <div className={ showingError ? "warningText" : "hidden"}>
                     { "Sorry, could not create chat room.\n" + hasError }
                 </div>
+                {
+                    (type === "edit" && isLoading) ? <Loading /> :
+                    (type === "edit" && error) ? <ServerError /> :
+                    (type === "edit" && room) &&
+                    <div className="chatMenuUserListContainer">
+                        { isMobile ? <br /> : <></>}
+                        Users:
+                        <ul className="userList">
+                            {
+                                (data && data.length > 0) ?
+                                data.map((usr: {Account: {username: string}}) => 
+                                    <ChatUser key={usr.Account.username} username={usr.Account.username} room={room} />
+                                )
+                                :
+                                <>Nobody else but you {":("}</>
+                            }
+                        </ul>
+                    </div>
+                }
                 <div>
                     {
                         type === "create" ?
@@ -123,26 +142,7 @@ function ChatRoomMenu({ type, cancelFunction, room }: ChatRoomMenuProps) {
                         cancelFn={() => setIsDeleting(false)} 
                     />
                 }
-            {
-                (type === "edit" && isLoading) ? <Loading /> :
-                (type === "edit" && error) ? <ServerError /> :
-                (type === "edit" && room) &&
-                <div className="chatMenuUserListContainer">
-                    { isMobile ? <br /> : <></>}
-                    Users:
-                    <ul className="userList">
-                        {
-                            (data && data.length > 0) ?
-                            data.map((usr: {Account: {username: string}}) => 
-                                <ChatUser key={usr.Account.username} username={usr.Account.username} room={room} />
-                            )
-                            :
-                            <>Nobody else but you {":("}</>
-                        }
-                    </ul>
-                </div>
-            }
-        </div>
+        </SlideUpMenu>
     )
 }
 

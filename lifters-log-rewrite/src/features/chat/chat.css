@@ -237,7 +237,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        max-height: 10rem;
+        max-height: 30rem;
     }
 
     .userList {

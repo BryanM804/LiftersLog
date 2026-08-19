@@ -6,6 +6,7 @@ import { MUSCLE_GROUPS } from "../../../utils/constants";
 import ToggleSwitch from "../../../components/ToggleSwitch";
 import createNewExercise from "../api/createNewExercise";
 import FadePopup from "../../../components/FadePopup";
+import SlideUpMenu from "../../../components/SlideUpMenu";
 
 type NewExerciseMenuProps = {
     onCancel: () => void;
@@ -75,12 +76,10 @@ function NewExerciseMenu({ onCancel }: NewExerciseMenuProps) {
             text={errorText}
             duration={2.5}
         />
-        <PopupMenu
-            title="Create new exercise"
-            onSubmit={handleSubmission}
+        <SlideUpMenu
             onCancel={onCancel}
-            confirmButtonText="Save"
         >
+            <h3>Create new exercise</h3>
             New exercise name:
             <input 
                 id="exerciseName"
@@ -113,7 +112,7 @@ function NewExerciseMenu({ onCancel }: NewExerciseMenuProps) {
                 initialState={isBodyweight}
                 onChange={() => setIsBodyweight(!isBodyweight)}
             />
-        </PopupMenu>
+        </SlideUpMenu>
         </>
     )
 }

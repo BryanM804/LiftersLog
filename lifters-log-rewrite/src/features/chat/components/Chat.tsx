@@ -89,22 +89,16 @@ function Chat() {
         )
     }
 
-    if (editingChatRoom) {
-        return (
-            <ChatTopper title={activeChatRoom.name}>
-                <div className="chatBox">
-                    <ChatRoomMenu cancelFunction={() => setEditingChatRoom(false)} 
-                        type="edit" 
-                        room={activeChatRoom}
-                        />
-                </div>
-            </ChatTopper>
-        )
-    }
-
     if (inChatRoom) {
         return (
             <ChatTopper title={activeChatRoom.name}>
+                {
+                    editingChatRoom &&
+                    <ChatRoomMenu cancelFunction={() => setEditingChatRoom(false)} 
+                        type="edit" 
+                        room={activeChatRoom}
+                    />
+                }
                 <div className="chatBox">
                     <ChatHeaderButtons type="inRoom" 
                         onBackClick={handleBackClick} 

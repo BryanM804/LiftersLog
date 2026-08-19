@@ -14,6 +14,7 @@ Future Changes will be documented here
 - Added popup cards for each exercise (tap and hold the name on a card from sets you have logged to open)
 - Added the abiltiy to add, remove, delete exercises via the exercise card
 - Added the ability to share a clickable code in chat, from the exericse card, so others can add it to their library
+- Changed most large pop-up menus to a slide up menu for a better UX on mobile
 
 ### Chat
 - Added a button for enabling push notifications (WIP)

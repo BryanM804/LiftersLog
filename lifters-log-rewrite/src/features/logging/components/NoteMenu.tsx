@@ -7,6 +7,7 @@ import { useMovement } from "../contexts/MovementContextProvider";
 import { useDate } from "../../history/contexts/DateContextProvider";
 import addNewNote from "../api/addNewNote";
 import editNote from "../api/editNote";
+import SlideUpMenu from "../../../components/SlideUpMenu";
 
 type NoteMenuProps = {
     onCancel: () => void;
@@ -74,11 +75,10 @@ function NoteMenu({ onCancel, text, noteid, sticky }: NoteMenuProps) {
     }, [noteid])
     
     return (
-        <PopupMenu
-            title="Add Note"
-            onSubmit={handleSave}
+        <SlideUpMenu
             onCancel={closeMenu}
         >
+            <h3>Add Note</h3>
             <form className="addNoteForm">
                 <textarea 
                     className="longTextInput noteTextBox" 
@@ -95,8 +95,14 @@ function NoteMenu({ onCancel, text, noteid, sticky }: NoteMenuProps) {
                     />
                 </div>
                 <Tooltip id="sticky" place="top" content={tooltipText} className="niceTooltip"/>
+                <button
+                    className="floatingButton confirmationButton"
+                    onClick={handleSave}
+                >
+                    Save
+                </button>
             </form>
-        </PopupMenu>
+        </SlideUpMenu>
     )
 }
 
