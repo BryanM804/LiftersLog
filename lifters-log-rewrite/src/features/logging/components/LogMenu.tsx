@@ -12,7 +12,7 @@ import { useDate } from "../../history/contexts/DateContextProvider"
 import getBodyweightMovements from "../api/getBodyweightMovements"
 import SyncButton from "./SyncButton"
 import FocusValueChanger from "./FocusValueChanger"
-import NewExerciseMenu from "./NewExerciseMenu"
+import ExerciseSearchMenu from "./ExerciseSearchMenu"
 
 type LogMenuProps = {
     onLogSuccess?: (xpParticleMultiplier?: number) => void;
@@ -45,7 +45,7 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
     const [invalidLog, setInvalidLog] = useState(false)
     const [syncedInputs, setSyncedInputs] = useState(false)
 
-    const [creatingExercise, setCreatingExercise] = useState(false);
+    const [searchingExercises, setSearchingExercises] = useState(false);
     
     // Queries/Mutations
     const { data: splitMovements } = useQuery({
@@ -198,12 +198,12 @@ function LogMenu({ onLogSuccess, focused }: LogMenuProps) {
                 top: "0",
                 right: "0"
             }}
-            onClick={() => setCreatingExercise(true)}
+            onClick={() => setSearchingExercises(true)}
         >
             +
         </button>
         {
-            creatingExercise && <NewExerciseMenu onCancel={() => setCreatingExercise(false)}/>
+            searchingExercises && <ExerciseSearchMenu onCancel={() => setSearchingExercises(false)}/>
         }
         <form onSubmit={handleLogSubmit} noValidate={true}>
             <div className={`logButtonsContainer ${focused ? "focused" : ""}`}>

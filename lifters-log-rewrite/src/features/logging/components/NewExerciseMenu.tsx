@@ -112,6 +112,12 @@ function NewExerciseMenu({ onCancel }: NewExerciseMenuProps) {
                 initialState={isBodyweight}
                 onChange={() => setIsBodyweight(!isBodyweight)}
             />
+            <button
+                className="floatingButton"
+                onClick={handleSubmission}
+            >
+                Save
+            </button>
         </SlideUpMenu>
         </>
     )

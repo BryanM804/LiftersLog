@@ -24,11 +24,9 @@ function MovementPicker({ onClear, label, className, placeholder }: MovementPick
 
     const { doublePressHandlers } = useDoublePress(clearText)
 
-    // Stale time is infinity because they will refetch on element reload anyway and there will rarely ever be a new movement
     const { data: movements, error, isLoading } = useQuery({
         queryKey: ["movements"],
-        queryFn: getMovements,
-        staleTime: Infinity
+        queryFn: getMovements
     });
 
     function handleMovementChange(e: ChangeEvent<HTMLInputElement>) {
