@@ -134,6 +134,22 @@ input::-webkit-calendar-picker-indicator {
     resize: none;
 }
 
+.searchableMovementItem {
+    padding: 0.25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 6px;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 0.2rem;
+}
+.searchableMovementItem:hover {
+    background-color: #555;
+}
+.searchableMovementItem:active {
+    background-color: #666;
+}
+
 .focusModeContainer {
     position: fixed;
     top: 0;

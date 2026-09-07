@@ -11,6 +11,7 @@ This is a workout tracker web app written in Typescript with a ReactJS frontend 
 - Framer-Motion
 - Recharts
 - React Device Detect
+- Fuse.js
 
 This readme is still WIP
 
